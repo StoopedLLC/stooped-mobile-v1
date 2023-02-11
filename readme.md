@@ -12,6 +12,7 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
 
 
 ## Organization and architecture
+
 ### branch naming convention
 `version#-TYPE-description`
 * version# - the version of the app
@@ -43,10 +44,12 @@ see [package.json](/package.json) for the most updated list of packages
 
 
 ## Developer help
+
 ### deevlopment schedule
 See [notion]()
 
 ### package management
+
 #### installing packages
 ```
 npx expo install <package-name>
