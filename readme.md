@@ -1,8 +1,8 @@
 # React Native Mobile Client
 
 ## Version
-0.2.0 - refactored version with core feature intact  <---- currently in development
-0.1.x - initial alpha release (not on this repo, reference [this](https://github.com/StoopedLLC/React-Native-MobileApp) repo)
+- 0.2.0 - refactored version with core feature intact  <---- currently in development
+- 0.1.x - initial alpha release (not on this repo, reference [this](https://github.com/StoopedLLC/React-Native-MobileApp) repo)
 
 ## Description
 This is a mobile client for the stooped app. It will serve as a mobile client for the stooped app to be used on mobile device. This repo will be the main repo for the mobile client and will be used to deploy to the app stores. 
