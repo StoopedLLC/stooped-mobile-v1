@@ -26,14 +26,19 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
 
 ### file structure
 * [frontend/](/frontend/) - contains all the frontend code
-    - [components/]() - contains all the reusable components
-    - [screens/]() - contains all the screens
-    - [src/]() - contains all utility files (similar to public in node.js apps)
+    - [components/](/frontend/components/) - contains all the reusable components
+    - [screens/](/frontend/screens) - contains all the screens
+    - [src/](/frontend/src/) - contains all utility files (similar to public in node.js apps)
         * [styles/]() - contains all the stylesheets
-        * [img/]() - contains all the images
-    - [maincontainer.js]() - the main index file
-* [api/]() - contains all API connection and app logic
-    - [backend-services/]() - contains all direct connections to APIs (gcp, cloud storage, django gateway, etc)
+        * [img/](/frontend/src/images/) - contains all the images
+    - [MainContainer.js](/frontend/MainContainer.js) - the main navigation file
+* [backend/]() - contains all API connection and app logic
+    - [api/]() - contains all direct connections to APIs (gcp, cloud storage, django gateway, etc)
+* [assets/](/assets/) - WILL BE DELETED - contains all the assets that came in with the expo template
+
+### general file naming convention
+Any file that exports a component should be named in PascalCase. Anything that is not a component should be named in camelCase. For example, if you are exporting a component called `MyComponent`, the file should be named `MyComponent.js`. If you are exporting a function called `myFunction`, the file should be named `myFunction.js`.
+Any screens that is part of the navigation should have the name `Screen` at the end of the file name. For example, if you are exporting a screen called `Home`, the file should be named `HomeScreen.js`. If you are exporting a screen called `MyProfile`, the file should be named `MyProfileScreen.js`. Note that screen files exports a component, so the file name should be in PascalCase.
 
 ### installed packages
 see [package.json](/package.json) for the most updated list of packages
