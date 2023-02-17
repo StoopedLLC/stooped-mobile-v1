@@ -35,6 +35,7 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
 * [backend/]() - contains all API connection and app logic
     - [api/]() - contains all direct connections to APIs (gcp, cloud storage, django gateway, etc)
 * [assets/](/assets/) - WILL BE DELETED - contains all the assets that came in with the expo template
+* [tests/](/tests/) - contains all unit tests
 
 ### general file naming convention
 Any file that exports a component should be named in PascalCase. Anything that is not a component should be named in camelCase. For example, if you are exporting a component called `MyComponent`, the file should be named `MyComponent.js`. If you are exporting a function called `myFunction`, the file should be named `myFunction.js`.
@@ -46,6 +47,10 @@ see [package.json](/package.json) for the most updated list of packages
 * expo-status-bar: ~1.4.2
 * react: 18.1.0
 * react-native: "0.70.5
+* axios: ^1.3.3
+* mocha: ^10.2.0 (dev dependency)
+* chai: ^4.3.7 (dev dependency)
+* firebase: ^9.17.1
 
 
 ## Developer help
