@@ -31,6 +31,7 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
     - [src/](/frontend/src/) - contains all utility files (similar to public in node.js apps)
         * [styles/]() - contains all the stylesheets
         * [img/](/frontend/src/images/) - contains all the images
+        * [fonts/](/frontend/src/fonts/) - contains all the fonts
     - [MainContainer.js](/frontend/MainContainer.js) - the main navigation file
 * [backend/]() - contains all API connection and app logic
     - [api/]() - contains all direct connections to APIs (gcp, cloud storage, django gateway, etc)
@@ -51,6 +52,7 @@ see [package.json](/package.json) for the most updated list of packages
 * mocha: ^10.2.0 (dev dependency)
 * chai: ^4.3.7 (dev dependency)
 * firebase: ^9.17.1
+* expo-font: ~11.0.1
 
 
 ## Developer help
