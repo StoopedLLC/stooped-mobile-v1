@@ -53,6 +53,10 @@ see [package.json](/package.json) for the most updated list of packages
 * chai: ^4.3.7 (dev dependency)
 * firebase: ^9.17.1
 * expo-font: ~11.0.1
+* @expo-google-fonts/inter: ^0.2.3
+* @expo-google-fonts/poppins: ^0.2.3
+* @expo-google-fonts/dm-sans: ^0.2.3
+* expo-splash-screen: ~0.17.5
 
 
 ## Developer help
