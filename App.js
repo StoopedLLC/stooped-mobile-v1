@@ -5,6 +5,8 @@ import { Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700
 import { DMSans_400Regular, DMSans_500Medium, DMSans_700Bold } from '@expo-google-fonts/dm-sans';
 import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect, useCallback, useState } from 'react';
+import STYLE from './frontend/src/styles/styles';
+import MainContainer from './frontend/MainContainer';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -61,11 +63,14 @@ export default function App() {
   }
 
   return (
-    <View 
-      style={styles.container}
-      onLayout={onLayoutRootView}>
-      <Text style={{fontFamily: 'Poppins_400Regular'}}>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    // <View 
+    //   style={styles.container}
+    //   onLayout={onLayoutRootView}>
+    //   <Text style={{fontFamily: 'Poppins_400Regular'}}>Open up App.js to start working on your app!</Text>
+    //   <StatusBar style="auto" />
+    // </View>
+    <View style={styles.container} onLayout={onLayoutRootView}>
+      <MainContainer />
     </View>
   );
 }
@@ -73,7 +78,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: STYLE.color.background,
   },
 });

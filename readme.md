@@ -57,6 +57,12 @@ see [package.json](/package.json) for the most updated list of packages
 * @expo-google-fonts/poppins: ^0.2.3
 * @expo-google-fonts/dm-sans: ^0.2.3
 * expo-splash-screen: ~0.17.5
+* react-native-screens: ~3.18.0
+* react-native-safe-area-context": 4.4.1
+* @react-navigation/native: ^6.1.6
+* @react-navigation/bottom-tabs: ^6.5.7
+* @react-navigation/native-stack: ^6.9.12
+* react-native-vector-icons: ^9.2.0
 
 
 ## Developer help
