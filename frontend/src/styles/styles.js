@@ -36,8 +36,9 @@ const STYLE = {
 
     // Borders
     borders:{
-        lessRound: 5,
-        moreRound: 10,
+        lessRound: Dimensions.get('window').width * 0.01,
+        normalRound: Dimensions.get('window').width * 0.03,
+        moreRound: Dimensions.get('window').width * 0.05,
     },
 
     // Shadows
