@@ -10,7 +10,8 @@ import STYLE from './src/styles/styles.js';
 
 
 // Import screens
-import HomeScreen from './screens/HomeStack/HomeScreen';
+import HomeScreen from './screens/HomeStack/HomeScreen'; // home page
+import DetailScreen from './screens/HomeStack/DetailScreen'; // page diplaying item details
 
 
 // stacks
@@ -18,6 +19,23 @@ const MasterStack = createNativeStackNavigator(); // overall wrapper stack, cont
 const StoopedStack = createBottomTabNavigator(); // stack for stooped screens, for now, this would be the main stack
 const AuthStack = createNativeStackNavigator(); // stack for auth screens
 
+// stacks for stooped app
+const HomeStack = createNativeStackNavigator(); // stack for home screens
+
+
+const HomeContainer = () => {
+    return (
+        <HomeStack.Navigator
+            initialRouteName='Home'
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <HomeStack.Screen name="Home" component={HomeScreen} />
+            <HomeStack.Screen name="Detail" component={DetailScreen} />
+        </HomeStack.Navigator>
+    )
+}
 
 const StoopedContainer = () => {
     return (
@@ -33,7 +51,7 @@ const StoopedContainer = () => {
                 },
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
-                    if (route.name === 'Search') {
+                    if (route.name === 'HomePageGroup') {
                         iconName = focused ? 'search' : 'search-outline';
                     } else if (route.name === 'Profile') {
                         iconName = focused ? 'person' : 'person-outline';
@@ -56,7 +74,7 @@ const StoopedContainer = () => {
                 },
             })}
         >
-            <StoopedStack.Screen name="Search" component={HomeScreen} />
+            <StoopedStack.Screen name="HomePageGroup" component={HomeContainer} />
         </StoopedStack.Navigator>
     )
 }

@@ -1,10 +1,14 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, SafeAreaView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import STYLE from "../../src/styles/styles";
 import ItemFrame from "../../components/ItemFrame";
 
 
 export default function HomeScreen() {
+    const nav = useNavigation();
+
+
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.text}>Hello World</Text>
@@ -15,6 +19,14 @@ export default function HomeScreen() {
                 </View>
             </View>
             {/*  */}
+            <TouchableOpacity 
+                style={{paddingTop: 20}}
+                onPress={()=>{
+                    console.log('pressed');
+                    nav.navigate('Detail', {name: 'name', location:{}, id:'123123123'});
+                }}>
+                <Text style={styles.text}>Go to Detail Screen</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }
@@ -30,5 +42,6 @@ const styles = StyleSheet.create({
     frame:{
         width: STYLE.sizes.screenWidth * 0.9,
         height: STYLE.sizes.screenWidth * 0.9,
-    }
+    },
+
 });
