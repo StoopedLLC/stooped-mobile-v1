@@ -28,6 +28,7 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
 * [frontend/](/frontend/) - contains all the frontend code
     - [components/](/frontend/components/) - contains all the reusable components
     - [screens/](/frontend/screens) - contains all the screens
+        * [HomeStack/](/frontend/screens/HomeStack/) - contains all the screens for the home stack
     - [src/](/frontend/src/) - contains all utility files (similar to public in node.js apps)
         * [styles/]() - contains all the stylesheets
         * [img/](/frontend/src/images/) - contains all the images
@@ -63,6 +64,8 @@ see [package.json](/package.json) for the most updated list of packages
 * @react-navigation/bottom-tabs: ^6.5.7
 * @react-navigation/native-stack: ^6.9.12
 * react-native-vector-icons: ^9.2.0
+* expo-haptics: ~12.0.1
+* react-native-elements: ^3.4.3
 
 
 ## Developer help

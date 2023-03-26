@@ -7,14 +7,26 @@ props:
 */
 
 import React, {useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import STYLE from '../src/styles/styles';
+import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 
 
 export default function ItemFrame(item){
     const navigation = useNavigation();
     const {id, name, location, } = item;
+
+    const [saved, setSaved] = useState(false);
+
+    useEffect(()=>{
+        if(saved){
+            notificationAsync(NotificationFeedbackType.Success);
+        }else{
+            // notificationAsync(NotificationFeedbackType.Warning);
+        }
+    }, [saved]);
+
 
     return(
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Item', {id: id})}>
@@ -24,7 +36,48 @@ export default function ItemFrame(item){
                 style={styles.imageBackground}
                 imageStyle={styles.imageStyle}
             >
-                <Text>ayo wass up</Text>
+                {/* bottom section */}
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginBottom: STYLE.sizes.screenWidth * 0.02,
+                    marginHorizontal: STYLE.sizes.screenWidth * 0.03,
+                }}>
+                    <View style={styles.infoBox}>
+                        <Text style={styles.itemName}>{name || 'Desk'}</Text>
+                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                            <Image source={require('../src/images/map-pin-symbol.png')} 
+                                style={{width: STYLE.sizes.screenWidth * 0.0355, height: STYLE.sizes.screenWidth * 0.05}}/>
+                            <Text style={styles.location}>{location || 'West 4th St'}</Text>
+                        </View>
+                    </View>
+                    <TouchableNativeFeedback 
+                        onPress={()=>{
+                            if(saved){
+                                setSaved(false);
+
+                            }else{
+                                setSaved(true);
+                            }
+                            console.log('save button pressed');
+                        }}
+                    >
+                        <View
+                        style={styles.saveButton}
+                        >
+                        {
+                            saved ?
+                            <Image source={require('../src/images/save-button-full.png')}
+                                style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
+                            :
+                            <Image source={require('../src/images/save-button-empty.png')}
+                                style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
+                        }
+                        </View>
+                    </TouchableNativeFeedback>
+                </View>
+
+
             </ImageBackground>
         </TouchableOpacity>
     );
@@ -39,12 +92,43 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: 'white',
         borderWidth: 3,
+        shadowColor: '#000000',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
     },
     imageBackground: {
         width: '100%',
         height: '100%',
+        justifyContent: 'flex-end',
+        // drop shadow
     },
     imageStyle: {
         borderRadius: STYLE.borders.moreRound,
-    }
+    },
+    infoBox: {
+        paddingHorizontal: STYLE.sizes.screenWidth * 0.03,
+        backgroundColor: 'rgba(255,255,255,0.3)',
+        borderRadius: STYLE.borders.moreRound,
+    },
+    itemName: {
+        color: STYLE.color.font, 
+        fontSize: STYLE.sizes.h2, 
+        fontFamily: STYLE.font.poppinsSemiBold
+    },
+    location:{
+        color: STYLE.color.font, 
+        fontSize: STYLE.sizes.h3, 
+        fontFamily: STYLE.font.dmsansMed,
+        paddingLeft: STYLE.sizes.screenWidth * 0.015,
+    },
+    saveButton: {
+        backgroundColor: STYLE.color.font,
+        borderRadius: STYLE.borders.normalRound,
+        paddingHorizontal: STYLE.sizes.screenWidth * 0.015,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginVertical: STYLE.sizes.screenWidth * 0.015,
+    },
+
 });

@@ -20,13 +20,25 @@ const STYLE = {
 
     // Fonts
     font:{
-         // TODO: poppin and DM Sans
+         // poppin and DM Sans
+        poppins: 'Poppins_400Regular',
+        poppinsMed: 'Poppins_500Medium',
+        poppinsSemiBold: 'Poppins_600SemiBold',
+        PoppinBold: 'Poppins_700Bold',
+        dmsans: 'DMSans_400Regular',
+        dmsansMed: 'DMSans_500Medium',
+        dmsansBold: 'DMSans_700Bold',
     },
 
     // Sizes
     sizes:{
         screenWidth: Dimensions.get('window').width,
         screenHeight: Dimensions.get('window').height,
+        h1: Dimensions.get('window').width * 0.1,
+        h2: Dimensions.get('window').width * 0.08,
+        h3: Dimensions.get('window').width * 0.06,
+        p: Dimensions.get('window').width * 0.04,
+
     },
 
     // Spacing
