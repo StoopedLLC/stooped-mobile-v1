@@ -8,7 +8,6 @@ import { SearchBar } from 'react-native-elements';
 
 export default function HomeScreen() {
     const nav = useNavigation();
-
     const [search, setSearch] = React.useState('');
 
 

@@ -27,6 +27,8 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
 ### file structure
 * [frontend/](/frontend/) - contains all the frontend code
     - [components/](/frontend/components/) - contains all the reusable components
+        * [SaveButton.js](/frontend/components/SaveButton.js) - contains the "flag" shaped save button
+        * [ItemFrame.js](/frontend/components/ItemFrame.js) - contains the frame used in the slider in the home screen
     - [screens/](/frontend/screens) - contains all the screens
         * [HomeStack/](/frontend/screens/HomeStack/) - contains all the screens for the home stack
     - [src/](/frontend/src/) - contains all utility files (similar to public in node.js apps)

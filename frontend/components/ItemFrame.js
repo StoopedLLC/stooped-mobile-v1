@@ -11,21 +11,14 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, Touch
 import { useNavigation } from '@react-navigation/native';
 import STYLE from '../src/styles/styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
+import SaveButton from './SaveButton';
 
 
 export default function ItemFrame(item){
     const navigation = useNavigation();
     const {id, name, location, } = item;
 
-    const [saved, setSaved] = useState(false);
-
-    useEffect(()=>{
-        if(saved){
-            notificationAsync(NotificationFeedbackType.Success);
-        }else{
-            // notificationAsync(NotificationFeedbackType.Warning);
-        }
-    }, [saved]);
+    
 
 
     return(
@@ -51,30 +44,7 @@ export default function ItemFrame(item){
                             <Text style={styles.location}>{location || 'West 4th St'}</Text>
                         </View>
                     </View>
-                    <TouchableNativeFeedback 
-                        onPress={()=>{
-                            if(saved){
-                                setSaved(false);
-
-                            }else{
-                                setSaved(true);
-                            }
-                            console.log('save button pressed');
-                        }}
-                    >
-                        <View
-                        style={styles.saveButton}
-                        >
-                        {
-                            saved ?
-                            <Image source={require('../src/images/save-button-full.png')}
-                                style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
-                            :
-                            <Image source={require('../src/images/save-button-empty.png')}
-                                style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
-                        }
-                        </View>
-                    </TouchableNativeFeedback>
+                    <SaveButton item={item}/>
                 </View>
 
 
@@ -110,6 +80,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: STYLE.sizes.screenWidth * 0.03,
         backgroundColor: 'rgba(255,255,255,0.3)',
         borderRadius: STYLE.borders.moreRound,
+        // paddingVertical: STYLE.sizes.screenWidth * 0.0075,
     },
     itemName: {
         color: STYLE.color.font, 
@@ -121,14 +92,6 @@ const styles = StyleSheet.create({
         fontSize: STYLE.sizes.h3, 
         fontFamily: STYLE.font.dmsansMed,
         paddingLeft: STYLE.sizes.screenWidth * 0.015,
-    },
-    saveButton: {
-        backgroundColor: STYLE.color.font,
-        borderRadius: STYLE.borders.normalRound,
-        paddingHorizontal: STYLE.sizes.screenWidth * 0.015,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginVertical: STYLE.sizes.screenWidth * 0.015,
     },
 
 });
