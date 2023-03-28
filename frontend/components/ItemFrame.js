@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: STYLE.sizes.screenWidth * 0.03,
         backgroundColor: 'rgba(255,255,255,0.3)',
         borderRadius: STYLE.borders.moreRound,
-        // paddingVertical: STYLE.sizes.screenWidth * 0.0075,
+        paddingVertical: STYLE.sizes.screenWidth * 0.0075,
     },
     itemName: {
         color: STYLE.color.font, 

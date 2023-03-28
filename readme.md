@@ -68,6 +68,7 @@ see [package.json](/package.json) for the most updated list of packages
 * react-native-vector-icons: ^9.2.0
 * expo-haptics: ~12.0.1
 * react-native-elements: ^3.4.3
+* react-native-feather: ^1.1.2,
 
 
 ## Developer help

@@ -48,9 +48,9 @@ const STYLE = {
 
     // Borders
     borders:{
-        lessRound: Dimensions.get('window').width * 0.01,
-        normalRound: Dimensions.get('window').width * 0.03,
-        moreRound: Dimensions.get('window').width * 0.05,
+        lessRound: Dimensions.get('window').width * 0.02,
+        normalRound: Dimensions.get('window').width * 0.05,
+        moreRound: Dimensions.get('window').width * 0.08,
     },
 
     // Shadows
