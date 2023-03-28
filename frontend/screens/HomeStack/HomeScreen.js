@@ -5,6 +5,7 @@ import STYLE from "../../src/styles/styles";
 import ItemFrame from "../../components/ItemFrame";
 import { SearchBar } from 'react-native-elements';
 import { List } from 'react-native-feather'
+import CarouselList from "../../components/CarouselList";
 
 
 export default function HomeScreen() {
@@ -50,7 +51,9 @@ export default function HomeScreen() {
                     justifyContent:'space-between', 
                     paddingHorizontal:STYLE.sizes.screenWidth*0.01,
                     marginVertical: STYLE.sizes.screenHeight * 0.02,
-                }}>
+                }}
+                    scrollEnabled={false}
+                >
                     <SearchBar
                         placeholder="Search"
                         onChangeText={val=>setSearch(val)}
@@ -74,13 +77,16 @@ export default function HomeScreen() {
                 </ScrollView>
                 {/* end of search + filter */}
 
-                {/* TODO: move the folloiwng view to new component for slider wrap */}
-                <View style={{justifyContent:'center', alignItems:'center'}}>
-                    <View style={styles.frame}>
-                        <ItemFrame item={{name: 'name', location:{}, id:'123123123'}}/>
-                    </View>
+                {/* component for slider wrap */}
+                <View style={{
+                }}>
+                    <CarouselList data = {[
+                        {name: 'name', location:{}, id:'123123123'},
+                        {name: 'name', location:{}, id:'123123123'},
+                        {name: 'name', location:{}, id:'123123123'},
+                    ]}/>
                 </View>
-                {/*  */}
+                {/* end of component for slider wrap */}
 
 
                 <TouchableOpacity 
@@ -106,10 +112,7 @@ const styles = StyleSheet.create({
         color: STYLE.color.font
     },
     // TODO: move the following to a new component for slider wrap
-    frame:{
-        width: STYLE.sizes.screenWidth * 0.9,
-        height: STYLE.sizes.screenWidth * 0.9,
-    },
+    
     searchBox:{
         backgroundColor: STYLE.color.accent.gray,
         borderRadius: STYLE.borders.normalRound,

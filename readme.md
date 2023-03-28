@@ -69,6 +69,9 @@ see [package.json](/package.json) for the most updated list of packages
 * expo-haptics: ~12.0.1
 * react-native-elements: ^3.4.3
 * react-native-feather: ^1.1.2,
+* react-native-reanimated-carousel: ^3.3.0
+* react-native-gesture-handler: ~2.8.0
+* react-native-reanimated: ~2.12.0
 
 
 ## Developer help
