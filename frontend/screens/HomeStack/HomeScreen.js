@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, Image, TouchableNativeFeedback, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, Image, TouchableNativeFeedback, ScrollView, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import STYLE from "../../src/styles/styles";
 import ItemFrame from "../../components/ItemFrame";
@@ -11,11 +11,30 @@ import CarouselList from "../../components/CarouselList";
 export default function HomeScreen() {
     const nav = useNavigation();
     const [search, setSearch] = React.useState('');
+    const [isRefreshing, setIsRefreshing] = React.useState(false);
+
+    const refreshControl = (
+        <RefreshControl
+            refreshing={isRefreshing}
+            onRefresh={() => {
+                setIsRefreshing(true);
+                setTimeout(() => {
+                    setIsRefreshing(false);
+                }, 1000);
+            }}
+            colors={[STYLE.color.font]}
+            tintColor={STYLE.color.font}
+        />
+    )
 
 
     return (
-        <ScrollView scrollEnabled={false}>
-            <SafeAreaView style={styles.container}>
+        <SafeAreaView>
+            <ScrollView 
+                scrollEnabled={true}
+                refreshControl={refreshControl}
+                contentContainerStyle={styles.container}
+            >
                 <View
                     style={{
                         flexDirection: 'row',
@@ -97,8 +116,8 @@ export default function HomeScreen() {
                     }}>
                     <Text style={styles.text}>Go to Detail Screen</Text>
                 </TouchableOpacity>
-            </SafeAreaView>
-        </ScrollView>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
@@ -106,7 +125,6 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: STYLE.color.background,
         marginHorizontal: STYLE.sizes.screenWidth * 0.05,
-        marginVertical: STYLE.sizes.screenHeight * 0.05,
     },
     text: {
         color: STYLE.color.font
