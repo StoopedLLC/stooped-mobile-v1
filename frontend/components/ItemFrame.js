@@ -37,11 +37,11 @@ export default function ItemFrame(item){
                     marginHorizontal: STYLE.sizes.screenWidth * 0.03,
                 }}>
                     <View style={styles.infoBox}>
-                        <Text style={styles.itemName}>{name || 'Desk'}</Text>
+                        <Text adjustsFontSizeToFit style={styles.itemName}>{name || 'Desk'}</Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Image source={require('../src/images/map-pin-symbol.png')} 
                                 style={{width: STYLE.sizes.screenWidth * 0.0355, height: STYLE.sizes.screenWidth * 0.05}}/>
-                            <Text style={styles.location}>{location || 'West 4th St'}</Text>
+                            <Text adjustsFontSizeToFit style={styles.location}>{location || 'West 4th St'}</Text>
                         </View>
                     </View>
                     <SaveButton item={item}/>

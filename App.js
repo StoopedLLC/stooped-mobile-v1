@@ -53,7 +53,8 @@ export default function App() {
       // loading its initial state and rendering its first pixels. So instead,
       // we hide the splash screen once we know the root view has already
       // performed layout.
-      console.log('hide')
+      console.log('hide splash')
+      console.log('style constants', STYLE)
       await SplashScreen.hideAsync();
     }
   }, [appIsReady, fontLoaded]);
