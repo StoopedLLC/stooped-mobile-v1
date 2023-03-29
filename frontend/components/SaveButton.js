@@ -10,7 +10,7 @@ Props:
 */
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback } from 'react-native';
-import STYLE from '../src/styles/styles';
+import STYLE from '@styles/Styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 
 export default function SaveButton(props){
@@ -54,10 +54,10 @@ export default function SaveButton(props){
             >
             {
                 saved ?
-                <Image source={require('../src/images/save-button-full.png')}
+                <Image source={require('../assets/images/save-button-full.png')}
                     style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
                 :
-                <Image source={require('../src/images/save-button-empty.png')}
+                <Image source={require('../assets/images/save-button-empty.png')}
                     style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
             }
             </View>

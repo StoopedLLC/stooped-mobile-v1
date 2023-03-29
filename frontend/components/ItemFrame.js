@@ -9,7 +9,7 @@ props:
 import React, {useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import STYLE from '../src/styles/styles';
+import STYLE from '@styles/Styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 import SaveButton from './SaveButton';
 
@@ -39,7 +39,7 @@ export default function ItemFrame(item){
                     <View style={styles.infoBox}>
                         <Text adjustsFontSizeToFit style={styles.itemName}>{name || 'Desk'}</Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Image source={require('../src/images/map-pin-symbol.png')} 
+                            <Image source={require('../assets/images/map-pin-symbol.png')} 
                                 style={{width: STYLE.sizes.screenWidth * 0.0355, height: STYLE.sizes.screenWidth * 0.05}}/>
                             <Text adjustsFontSizeToFit style={styles.location}>{location || 'West 4th St'}</Text>
                         </View>

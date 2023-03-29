@@ -15,7 +15,7 @@ props:
 
 
 import React, { useEffect, useCallback, useState } from 'react';
-import STYLE from '../src/styles/styles.js';
+import STYLE from '@styles/Styles.js';
 import Carousel from 'react-native-reanimated-carousel';
 import ItemFrame from './ItemFrame';
 import { View, Text, Dimensions, StyleSheet, Image, TouchableNativeFeedback, SafeAreaView, ScrollView } from 'react-native';

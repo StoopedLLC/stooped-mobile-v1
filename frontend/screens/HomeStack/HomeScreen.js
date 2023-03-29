@@ -1,11 +1,11 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, Image, TouchableNativeFeedback, ScrollView, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import STYLE from "../../src/styles/styles";
-import ItemFrame from "../../components/ItemFrame";
+import STYLE from "@styles/Styles";
+import ItemFrame from "@components/ItemFrame";
 import { SearchBar } from 'react-native-elements';
 import { List } from 'react-native-feather'
-import CarouselList from "../../components/CarouselList";
+import CarouselList from "@components/CarouselList";
 
 
 export default function HomeScreen() {
@@ -53,7 +53,7 @@ export default function HomeScreen() {
                         onPress={() => console.log('user icon pressed')}
                     >
                         <View style={styles.userIconContainer}>
-                            <Image source={require('../../src/images/default-user-icon.png')}
+                            <Image source={require('@images/default-user-icon.png')}
                                 style={{width: STYLE.sizes.screenWidth * 0.1, height: STYLE.sizes.screenWidth * 0.1}}
                             />
                         </View>
@@ -89,7 +89,7 @@ export default function HomeScreen() {
                     <TouchableOpacity
                         style={styles.filterButton}
                     >
-                        <Image source={require('../../src/images/filter-symbol.png')} 
+                        <Image source={require('../../assets/images/filter-symbol.png')} 
                         style={{width: STYLE.sizes.screenWidth * 0.07, height: STYLE.sizes.screenWidth * 0.051}}
                         />
                     </TouchableOpacity>

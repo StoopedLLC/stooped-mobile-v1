@@ -31,7 +31,7 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
         * [ItemFrame.js](/frontend/components/ItemFrame.js) - contains the frame used in the slider in the home screen
     - [screens/](/frontend/screens) - contains all the screens
         * [HomeStack/](/frontend/screens/HomeStack/) - contains all the screens for the home stack
-    - [src/](/frontend/src/) - contains all utility files (similar to public in node.js apps)
+    - [assets/](/frontend/assets/) - contains all utility files (similar to public in node.js apps)
         * [styles/]() - contains all the stylesheets
         * [img/](/frontend/src/images/) - contains all the images
         * [fonts/](/frontend/src/fonts/) - contains all the fonts
@@ -44,6 +44,11 @@ ALL code in this repository belongs to Stooped LLC. The code is not open source 
 ### general file naming convention
 Any file that exports a component should be named in PascalCase. Anything that is not a component should be named in camelCase. For example, if you are exporting a component called `MyComponent`, the file should be named `MyComponent.js`. If you are exporting a function called `myFunction`, the file should be named `myFunction.js`.
 Any screens that is part of the navigation should have the name `Screen` at the end of the file name. For example, if you are exporting a screen called `Home`, the file should be named `HomeScreen.js`. If you are exporting a screen called `MyProfile`, the file should be named `MyProfileScreen.js`. Note that screen files exports a component, so the file name should be in PascalCase.
+
+
+### changes in route naming
+Implemented babel.config.js package - root import, which allows us to change the names of importing from the root. i.e We now use '@styles/Styles' to import the Styles.js file instead of the conventional './frontend/assets/styles/Styles'. This helps with organization.
+
 
 ### installed packages
 see [package.json](/package.json) for the most updated list of packages
@@ -72,6 +77,7 @@ see [package.json](/package.json) for the most updated list of packages
 * react-native-reanimated-carousel: ^3.3.0
 * react-native-gesture-handler: ~2.8.0
 * react-native-reanimated: ~2.12.0
+* npm i babel-plugin-root-import -D
 
 
 ## Developer help

@@ -1,11 +1,24 @@
 import React from "react";
-import { View, Text, StyleSheet, Dimensions, SafeAreaView } from "react-native";
-import STYLE from "../../src/styles/styles";
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, Image } from "react-native";
+import STYLE from "../../assets/styles/Styles";
 
 export default function DetailScreen() {
     return (
         <SafeAreaView style={styles.container}>
-            <Text style={styles.text}>Hello World</Text>
+            <View>
+                <Image />
+            </View>
+
+
+            <View>
+                    
+            </View>
+
+
+            <View>
+                    
+            </View>
+            <Text style={styles.text}>background</Text>
         </SafeAreaView>
     );
 }

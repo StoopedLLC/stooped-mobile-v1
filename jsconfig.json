@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "baseUrl": "app",
+        "paths": {
+            // fronend assets 
+            "@styles/*": ["frontend/assets/styles/*"],
+            "@images/*": ["frontend/assets/images/*"],
+
+            // frontend components
+            "@components/*": ["frontend/components/*"],
+            "@homeStack/*": ["frontend/screens/HomeStack/*"],
+
+            // backend 
+            "@api/*": ["backend/api/*"],
+        }
+    }
+}

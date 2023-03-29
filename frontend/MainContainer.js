@@ -4,7 +4,7 @@ import { getFocusedRouteNameFromRoute, NavigationContainer } from '@react-naviga
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import STYLE from './src/styles/styles.js';
+import STYLE from './assets/styles/Styles.js';
 
 // import * as SecureStore from 'expo-secure-store';
 
