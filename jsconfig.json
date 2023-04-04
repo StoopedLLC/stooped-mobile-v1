@@ -12,6 +12,7 @@
 
             // backend 
             "@api/*": ["backend/api/*"],
+            "@backend/*": ["backend/*"]
         }
     }
 }

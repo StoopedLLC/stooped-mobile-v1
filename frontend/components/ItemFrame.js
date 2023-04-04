@@ -14,9 +14,9 @@ import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 import SaveButton from './SaveButton';
 
 
-export default function ItemFrame(item){
+export default function ItemFrame(props){
     const navigation = useNavigation();
-    const {id, name, location, } = item;
+    const {id, name, location, image} = props.item;
 
     
 
@@ -24,7 +24,7 @@ export default function ItemFrame(item){
     return(
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Item', {id: id})}>
             <ImageBackground 
-                source={{uri:'https://media.cntraveler.com/photos/545d0f5335a91eee7e7967f4/master/pass/new-york-city-sunsets-tout.jpg'}} // TODO: replace with item image
+                source={{uri:image || 'https://media.cntraveler.com/photos/545d0f5335a91eee7e7967f4/master/pass/new-york-city-sunsets-tout.jpg'}} // TODO: replace with item image
                 resizeMode="cover"
                 style={styles.imageBackground}
                 imageStyle={styles.imageStyle}
@@ -41,10 +41,10 @@ export default function ItemFrame(item){
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
                             <Image source={require('../assets/images/map-pin-symbol.png')} 
                                 style={{width: STYLE.sizes.screenWidth * 0.0355, height: STYLE.sizes.screenWidth * 0.05}}/>
-                            <Text adjustsFontSizeToFit style={styles.location}>{location || 'West 4th St'}</Text>
+                            <Text adjustsFontSizeToFit style={styles.location}>{'' || 'West 4th St'}</Text>
                         </View>
                     </View>
-                    <SaveButton item={item}/>
+                    <SaveButton item={props.item}/>
                 </View>
 
 

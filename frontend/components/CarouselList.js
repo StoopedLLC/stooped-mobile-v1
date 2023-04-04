@@ -23,11 +23,17 @@ import { View, Text, Dimensions, StyleSheet, Image, TouchableNativeFeedback, Saf
 
 export default function CarouselList(props){
 
+
     const renderItem = ({item, index}) => {
-        const {name, location, id} = item;
+        // console.log(item);
+        const {name, location, id, image_links} = item;
+        let image = '';
+        if(image_links && image_links.length > 0){
+            image = image_links[0];
+        }
         return (
             <View style={styles.frame} key={index}>
-                <ItemFrame item={{name: 'name', location:{}, id:'123123123'}}/>
+                <ItemFrame item={{name: name || 'name', location:{}, id: id || '123123123', image}}/>
             </View>
         )
     }

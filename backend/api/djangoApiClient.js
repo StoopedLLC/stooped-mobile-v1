@@ -10,9 +10,11 @@
 
 import axios from 'axios';
 
+// const axios = require('axios');
+
 
 const client = axios.create({
-    baseURL: 'https://stooped-beta-2.uc.r.appspot.com/api',
+    baseURL: 'http://stooped-beta-3-382121.uk.r.appspot.com/api',
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
@@ -48,3 +50,4 @@ const DjangoApiClient = {
 }
 
 export default DjangoApiClient;
+// module.exports = DjangoApiClient;

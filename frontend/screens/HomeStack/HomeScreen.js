@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, Image, TouchableNativeFeedback, ScrollView, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import STYLE from "@styles/Styles";
@@ -6,26 +6,53 @@ import ItemFrame from "@components/ItemFrame";
 import { SearchBar } from 'react-native-elements';
 import { List } from 'react-native-feather'
 import CarouselList from "@components/CarouselList";
+import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
 
 
 export default function HomeScreen() {
     const nav = useNavigation();
     const [search, setSearch] = React.useState('');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
+    const [contentFeed, setContentFeed] = useState([]);
 
     const refreshControl = (
         <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={() => {
-                setIsRefreshing(true);
-                setTimeout(() => {
-                    setIsRefreshing(false);
-                }, 1000);
+            onRefresh={async () => {
+                try{
+                    setIsRefreshing(true);
+                    const f = await getFeed({},{});
+                    if(f){
+                        setContentFeed(f);
+                    }else{
+                        alert('fail to load feed') // add further effect on failed load
+                    }
+                }catch(error){
+                    console.log(error);
+                }
+                setIsRefreshing(false);
             }}
             colors={[STYLE.color.font]}
             tintColor={STYLE.color.font}
         />
     )
+
+    // load data
+    useEffect(() => {
+        const dataLoad = async () => {
+            try{
+                const f = await getFeed({},{});
+                if(f){
+                    setContentFeed(f);
+                }else{
+                    alert('fail to load feed') // add further effect on fail load
+                }
+            }catch(error){
+                console.log(error);
+            }
+        }
+        dataLoad();
+    }, [])
 
 
     return (
@@ -99,11 +126,7 @@ export default function HomeScreen() {
                 {/* component for slider wrap */}
                 <View style={{
                 }}>
-                    <CarouselList data = {[
-                        {name: 'name', location:{}, id:'123123123'},
-                        {name: 'name', location:{}, id:'123123123'},
-                        {name: 'name', location:{}, id:'123123123'},
-                    ]}/>
+                    <CarouselList data = {contentFeed}/>
                 </View>
                 {/* end of component for slider wrap */}
 
@@ -129,7 +152,6 @@ const styles = StyleSheet.create({
     text: {
         color: STYLE.color.font
     },
-    // TODO: move the following to a new component for slider wrap
     
     searchBox:{
         backgroundColor: STYLE.color.accent.gray,

@@ -77,7 +77,9 @@ see [package.json](/package.json) for the most updated list of packages
 * react-native-reanimated-carousel: ^3.3.0
 * react-native-gesture-handler: ~2.8.0
 * react-native-reanimated: ~2.12.0
-* npm i babel-plugin-root-import -D
+* babel-plugin-root-import: ^6.6.0 (dev dependency)
+* regenerator-runtime: ^0.13.11 (dev dependency)
+* expo-location: ~15.0.1
 
 
 ## Developer help

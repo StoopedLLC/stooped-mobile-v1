@@ -1,0 +1,16 @@
+POST http://stooped-beta-3-382121.uk.r.appspot.com/api/items/
+Content-Type: application/json
+
+{
+    "condition": 0.5,
+    "description": "a table, fancy pattern jdadbasdasd",
+    "name": "sofa",
+    "owner_id": "771c9e3c4ae246b7926d77acee9dd634",
+    "type": "furniture",
+    "location":{
+        "latitude": 40.7749,
+        "longitude": -122.4194
+    },
+    "is_anonymous": false,
+    "is_available": true
+}

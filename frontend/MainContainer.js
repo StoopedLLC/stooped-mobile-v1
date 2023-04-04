@@ -1,6 +1,7 @@
 import * as React from 'react';
+import {useState, useEffect} from 'react';
 import { View, Text, theme, StyleSheet, Dimensions } from 'react-native';
-import { getFocusedRouteNameFromRoute, NavigationContainer } from '@react-navigation/native';
+import { getFocusedRouteNameFromRoute, NavigationContainer, createNavigationContainerRef } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -21,15 +22,17 @@ const AuthStack = createNativeStackNavigator(); // stack for auth screens
 
 // stacks for stooped app
 const HomeStack = createNativeStackNavigator(); // stack for home screens
+const ref = createNavigationContainerRef();
 
 
-const HomeContainer = () => {
+const HomeContainer = ({route, navigation}) => {
     return (
         <HomeStack.Navigator
             initialRouteName='Home'
             screenOptions={{
                 headerShown: false,
             }}
+            
         >
             <HomeStack.Screen name="Home" component={HomeScreen} />
             <HomeStack.Screen name="Detail" component={DetailScreen} />
@@ -37,7 +40,19 @@ const HomeContainer = () => {
     )
 }
 
-const StoopedContainer = () => {
+const StoopedContainer = ({route}) => {
+
+    const [routeRef, setRouteRef] = useState(route.params.navRef.getCurrentRoute());
+    const HIDDENROUTES = ['Detail']; // routes that should not be displayed in the bottom tab bar
+
+    useEffect(()=>{
+        if(route.params.navRef.getCurrentRoute()){
+            setRouteRef(route.params.navRef.getCurrentRoute().name);
+        }
+    }, [route.params.navRef.getCurrentRoute()]); // fires upon route change
+
+    console.log("params: ", route.params)
+
     return (
         <StoopedStack.Navigator
             initialRouteName="Search"
@@ -61,6 +76,7 @@ const StoopedContainer = () => {
                 },
                 unamountOnBlur: false,
                 tabBarStyle: {
+                    display: HIDDENROUTES.includes(routeRef) ? 'none' : 'flex',
                     backgroundColor: 'white',
                     position: 'absolute',
                     bottom: STYLE.sizes.screenHeight * 0.05,
@@ -81,6 +97,7 @@ const StoopedContainer = () => {
 
 
 export default function MainContainer() {
+
     return (
         <NavigationContainer
             theme={{
@@ -92,6 +109,11 @@ export default function MainContainer() {
                     border: STYLE.color.border,
                 },
             }}
+            ref={ref}
+            onReady={() => {
+            }}
+            onStateChange={async () => {
+            }}
         >
             <MasterStack.Navigator
                 initialRouteName='Stooped'
@@ -99,8 +121,7 @@ export default function MainContainer() {
                     headerShown: false,
                 }}
             >
-                {/* TODO: add any nested stacks here*/}
-                <MasterStack.Screen name="Stooped" component={StoopedContainer} />
+                <MasterStack.Screen name="Stooped" component={StoopedContainer} initialParams={{navRef: ref}}/>
             </MasterStack.Navigator>
         </NavigationContainer>
     )

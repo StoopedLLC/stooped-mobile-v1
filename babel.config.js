@@ -27,9 +27,13 @@ module.exports = function (api) {
               "rootPathPrefix": "@screens/"
             },
             {
+              "rootPathSuffix": "./backend",
+              "rootPathPrefix": "@backend/"
+            },
+            {
               "rootPathSuffix": "./backend/api",
               "rootPathPrefix": "@api/"
-            },
+            }
           ]
         },
       ],

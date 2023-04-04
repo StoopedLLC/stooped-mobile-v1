@@ -4,7 +4,7 @@ import { getStorage } from "firebase/storage";
 
 
 
-// TODO: promote this to a config file, put that config file in .env
+// promote this to a config file, put that config file in .env
 const firebaseConfig = {
     apiKey: "AIzaSyD96BBxkay1u6JPRum4zmRmm4gLuf-GUA0",
     authDomain: "stooped-beta-db.firebaseapp.com",
