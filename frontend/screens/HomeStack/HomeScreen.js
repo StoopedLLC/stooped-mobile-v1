@@ -7,6 +7,7 @@ import { SearchBar } from 'react-native-elements';
 import { List } from 'react-native-feather'
 import CarouselList from "@components/CarouselList";
 import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
+import { getCurrentLocation } from "@backend/location";
 
 
 export default function HomeScreen() {
@@ -37,17 +38,24 @@ export default function HomeScreen() {
         />
     )
 
-    // load data
+    // obtain location and load data
     useEffect(() => {
         const dataLoad = async () => {
             try{
-                const f = await getFeed({},{});
+                // obtain location first
+                const location = await getCurrentLocation();
+                if(!location){
+                    return; // add further effect on failed load
+                }
+
+                const f = await getFeed({},location);
                 if(f){
                     setContentFeed(f);
                 }else{
                     alert('fail to load feed') // add further effect on fail load
                 }
             }catch(error){
+                alert('something went wrong! Please restart the app.')
                 console.log(error);
             }
         }

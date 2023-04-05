@@ -80,6 +80,8 @@ see [package.json](/package.json) for the most updated list of packages
 * babel-plugin-root-import: ^6.6.0 (dev dependency)
 * regenerator-runtime: ^0.13.11 (dev dependency)
 * expo-location: ~15.0.1
+* expo-constants: ~14.0.2
+* expo-intent-launcher: ~10.3.1
 
 
 ## Developer help
