@@ -51,7 +51,6 @@ const StoopedContainer = ({route}) => {
         }
     }, [route.params.navRef.getCurrentRoute()]); // fires upon route change
 
-    console.log("params: ", route.params)
 
     return (
         <StoopedStack.Navigator
