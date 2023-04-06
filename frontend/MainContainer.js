@@ -5,7 +5,7 @@ import { getFocusedRouteNameFromRoute, NavigationContainer, createNavigationCont
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import STYLE from './assets/styles/Styles.js';
+import STYLE from '@styles/Styles.js';
 
 // import * as SecureStore from 'expo-secure-store';
 
@@ -13,6 +13,7 @@ import STYLE from './assets/styles/Styles.js';
 // Import screens
 import HomeScreen from './screens/HomeStack/HomeScreen'; // home page
 import DetailScreen from './screens/HomeStack/DetailScreen'; // page diplaying item details
+import CameraScreen from './screens/CameraStack/Camera.js';
 
 
 // stacks
@@ -23,6 +24,8 @@ const AuthStack = createNativeStackNavigator(); // stack for auth screens
 // stacks for stooped app
 const HomeStack = createNativeStackNavigator(); // stack for home screens
 const ref = createNavigationContainerRef();
+const CameraStack = createNativeStackNavigator();
+
 
 
 const HomeContainer = ({route, navigation}) => {
@@ -35,10 +38,32 @@ const HomeContainer = ({route, navigation}) => {
             
         >
             <HomeStack.Screen name="Home" component={HomeScreen} />
-            <HomeStack.Screen name="Detail" component={DetailScreen} />
+            <HomeStack.Screen name="Detail" component={DetailScreen} 
+            options={{
+                tabBarVisible: false, //like this
+                tabBarButton: (props) => null, //this is additional if you want to hide the tab element from the bottom nav
+            }}
+            />
         </HomeStack.Navigator>
     )
 }
+
+
+
+const CameraContainer = ({route, navigation}) => {
+    return (
+        <CameraStack.Navigator
+            initialRouteName='Camera'
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <CameraStack.Screen name='Camera' component={CameraScreen}/>
+        </CameraStack.Navigator>
+    )
+}
+
+
 
 const StoopedContainer = ({route}) => {
 
@@ -69,7 +94,10 @@ const StoopedContainer = ({route}) => {
                         iconName = focused ? 'search' : 'search-outline';
                     } else if (route.name === 'Profile') {
                         iconName = focused ? 'person' : 'person-outline';
+                    } else if (route.name === 'CameraPageGroup') {
+                        iconName = focused ? 'camera' : 'camera-outline';
                     }
+                    
 
                     return <Ionicons name={iconName} size={STYLE.sizes.screenWidth * 0.08} color={color} />;
                 },
@@ -90,6 +118,7 @@ const StoopedContainer = ({route}) => {
             })}
         >
             <StoopedStack.Screen name="HomePageGroup" component={HomeContainer} />
+            <StoopedStack.Screen name="CameraPageGroup" component={CameraContainer} />
         </StoopedStack.Navigator>
     )
 }
