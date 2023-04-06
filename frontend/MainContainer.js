@@ -68,7 +68,7 @@ const CameraContainer = ({route, navigation}) => {
 const StoopedContainer = ({route}) => {
 
     const [routeRef, setRouteRef] = useState(route.params.navRef.getCurrentRoute());
-    const HIDDENROUTES = ['Detail']; // routes that should not be displayed in the bottom tab bar
+    const HIDDENROUTES = ['Detail',]; // routes that should not be displayed in the bottom tab bar
 
     useEffect(()=>{
         if(route.params.navRef.getCurrentRoute()){
@@ -118,7 +118,10 @@ const StoopedContainer = ({route}) => {
             })}
         >
             <StoopedStack.Screen name="HomePageGroup" component={HomeContainer} />
-            <StoopedStack.Screen name="CameraPageGroup" component={CameraContainer} />
+            <StoopedStack.Screen name="CameraPageGroup" component={CameraContainer} options={{
+                // tabBarButton: (props) => null,
+                tabBarVisible: false,
+            }}/>
         </StoopedStack.Navigator>
     )
 }

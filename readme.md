@@ -86,6 +86,7 @@ see [package.json](/package.json) for the most updated list of packages
 * "expo-status-bar": "~1.4.2",
 * "react-native-ionicons": "^4.6.5",
 * "react-native-reanimated": "~2.12.0",
+* expo-camera: ~13.1.0
 * expo-status-bar: ~1.4.2,
 
 

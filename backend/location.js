@@ -40,6 +40,11 @@ const permissionDeniedHandler = () => {
         'To find the best stoops near you, we need to know roughly where you are! Please enable location services in your settings.',
         [
             { text: 'Go to setting', onPress: () => openAppSettings() },
+            {
+                text: 'No',
+                onPress: () => {},
+                style: 'cancel'
+            }
         ],
         { cancelable: true }
     );
