@@ -71,6 +71,7 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <View style={styles.container} onLayout={onLayoutRootView}>
+      <StatusBar style="light" />
       <MainContainer />
     </View>
   );

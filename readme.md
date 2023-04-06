@@ -80,16 +80,14 @@ see [package.json](/package.json) for the most updated list of packages
 * babel-plugin-root-import: ^6.6.0 (dev dependency)
 * regenerator-runtime: ^0.13.11 (dev dependency)
 * expo-location: ~15.0.1
-<<<<<<< HEAD
 * expo-constants: ~14.0.2
 * expo-intent-launcher: ~10.3.1
-=======
 * "expo-linear-gradient": "~12.0.1",
 * "expo-status-bar": "~1.4.2",
 * "react-native-ionicons": "^4.6.5",
 * "react-native-reanimated": "~2.12.0",
+* expo-status-bar: ~1.4.2,
 
->>>>>>> a3b8076 (Commit for finishing the detail Screen which included the sliding button. Also commiting the start of the Camera Screen. Already set everything up so all the changes should be made purely on the Camera.js file for Camera Screen.)
 
 
 ## Developer help

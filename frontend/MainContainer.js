@@ -129,6 +129,7 @@ export default function MainContainer() {
     return (
         <NavigationContainer
             theme={{
+                dark: true,
                 colors: {
                     background: STYLE.color.background,
                     primary: STYLE.color.primary,
