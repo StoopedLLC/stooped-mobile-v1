@@ -13,7 +13,7 @@ import STYLE from '@styles/Styles.js';
 // Import screens
 import HomeScreen from './screens/HomeStack/HomeScreen'; // home page
 import DetailScreen from './screens/HomeStack/DetailScreen'; // page diplaying item details
-import CameraScreen from './screens/CameraStack/Camera.js';
+import CameraScreen from './screens/CameraStack/CameraScreen.js';
 
 
 // stacks
