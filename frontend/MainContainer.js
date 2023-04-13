@@ -11,9 +11,10 @@ import STYLE from '@styles/Styles.js';
 
 
 // Import screens
-import HomeScreen from './screens/HomeStack/HomeScreen'; // home page
-import DetailScreen from './screens/HomeStack/DetailScreen'; // page diplaying item details
-import CameraScreen from './screens/CameraStack/CameraScreen.js';
+import HomeScreen from '@screens/HomeStack/HomeScreen'; // home page
+import DetailScreen from '@screens/HomeStack/DetailScreen'; // page diplaying item details
+import CameraScreen from '@screens/CameraStack/CameraScreen.js'; // camera page for scanning items
+import PreUploadScreen from '@screens/CameraStack/PreUploadScreen.js'; // page for previewing and uploading items
 
 
 // stacks
@@ -59,6 +60,7 @@ const CameraContainer = ({route, navigation}) => {
             }}
         >
             <CameraStack.Screen name='Camera' component={CameraScreen}/>
+            <CameraStack.Screen name='PreUpload' component={PreUploadScreen}/>
         </CameraStack.Navigator>
     )
 }
@@ -68,7 +70,7 @@ const CameraContainer = ({route, navigation}) => {
 const StoopedContainer = ({route}) => {
 
     const [routeRef, setRouteRef] = useState(route.params.navRef.getCurrentRoute());
-    const HIDDENROUTES = ['Detail',]; // routes that should not be displayed in the bottom tab bar
+    const HIDDENROUTES = ['Detail','PreUpload']; // routes that should not be displayed in the bottom tab bar
 
     useEffect(()=>{
         if(route.params.navRef.getCurrentRoute()){
@@ -92,10 +94,10 @@ const StoopedContainer = ({route}) => {
                     let iconName;
                     if (route.name === 'HomePageGroup') {
                         iconName = focused ? 'search' : 'search-outline';
-                    } else if (route.name === 'Profile') {
+                    } else if (route.name === 'ProfilePageGroup') {
                         iconName = focused ? 'person' : 'person-outline';
                     } else if (route.name === 'CameraPageGroup') {
-                        iconName = focused ? 'camera' : 'camera-outline';
+                        iconName = focused ? '' : 'camera-outline';
                     }
                     
 
@@ -109,19 +111,20 @@ const StoopedContainer = ({route}) => {
                     bottom: STYLE.sizes.screenHeight * 0.05,
                     left: STYLE.sizes.screenWidth * 0.05,
                     right: STYLE.sizes.screenWidth * 0.05,
-                    elevation: 0,
                     borderRadius: STYLE.sizes.screenWidth * 0.1,
                     height: 60,
                     paddingTop: STYLE.sizes.screenHeight * 0.01,
                     paddingBottom: STYLE.sizes.screenHeight * 0.01,
-                },
+                },  
             })}
+            style={{
+                position: 'absolute',
+                zIndex: 0,
+                elevation: 0,
+            }}
         >
             <StoopedStack.Screen name="HomePageGroup" component={HomeContainer} />
-            <StoopedStack.Screen name="CameraPageGroup" component={CameraContainer} options={{
-                // tabBarButton: (props) => null,
-                tabBarVisible: false,
-            }}/>
+            <StoopedStack.Screen name="CameraPageGroup" component={CameraContainer} />
         </StoopedStack.Navigator>
     )
 }

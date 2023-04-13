@@ -8,7 +8,7 @@
 
             // frontend components
             "@components/*": ["frontend/components/*"],
-            "@homeStack/*": ["frontend/screens/HomeStack/*"],
+            "@screens/*": ["frontend/screens/*"],
 
             // backend 
             "@api/*": ["backend/api/*"],

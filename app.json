@@ -35,6 +35,12 @@
         {
           "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera."
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "We need to access your photos so you can share your stoop with the world."
+        }
       ]
     ]
   }

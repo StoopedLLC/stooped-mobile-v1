@@ -79,6 +79,7 @@ see [package.json](/package.json) for the most updated list of packages
 * react-native-reanimated: ~2.12.0
 * babel-plugin-root-import: ^6.6.0 (dev dependency)
 * regenerator-runtime: ^0.13.11 (dev dependency)
+(up to this point, there were 5 critical vulnerabilities)
 * expo-location: ~15.0.1
 * expo-constants: ~14.0.2
 * expo-intent-launcher: ~10.3.1
@@ -88,6 +89,10 @@ see [package.json](/package.json) for the most updated list of packages
 * "react-native-reanimated": "~2.12.0",
 * expo-camera: ~13.1.0
 * expo-status-bar: ~1.4.2,
+* expo-image-picker: ~14.0.2
+(up to this point, there were 15 critical vulnerabilities)
+* react-native-maps: 1.3.2
+* react-native-modalize: ^2.1.1
 
 
 

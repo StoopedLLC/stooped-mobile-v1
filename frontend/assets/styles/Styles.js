@@ -24,7 +24,7 @@ const STYLE = {
         poppins: 'Poppins_400Regular',
         poppinsMed: 'Poppins_500Medium',
         poppinsSemiBold: 'Poppins_600SemiBold',
-        PoppinBold: 'Poppins_700Bold',
+        PoppinsBold: 'Poppins_700Bold',
         dmsans: 'DMSans_400Regular',
         dmsansMed: 'DMSans_500Medium',
         dmsansBold: 'DMSans_700Bold',
@@ -56,6 +56,13 @@ const STYLE = {
     // Shadows
     shadows:{
 
+    },
+
+    // Other
+    mapPin: {
+        width: Dimensions.get('window').height*0.035*0.75, 
+        height: Dimensions.get('window').height*0.035,
+        resizeMode: 'stretch',
     },
 }
 
