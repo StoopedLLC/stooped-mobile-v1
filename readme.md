@@ -93,6 +93,9 @@ see [package.json](/package.json) for the most updated list of packages
 (up to this point, there were 15 critical vulnerabilities)
 * react-native-maps: 1.3.2
 * react-native-modalize: ^2.1.1
+* @aws-sdk/client-s3: ^3.312.0
+* @aws-sdk/client-cognito-identity: ^3.312.0 
+* @aws-sdk/credential-provider-cognito-identity: ^3.312.0
 
 
 

@@ -4,6 +4,7 @@ this file contains all functions that interact with items
 
 import DjangoApiClient from "@api/djangoApiClient.js";
 // const DjangoApiClient = require("./api/djangoApiClient");
+import uploadImage from "@api/uploadImage";
 
 
 const addToSavedItem = async (user, item) => {
@@ -93,6 +94,49 @@ const getFeed = async (user, location) => {
         console.log(error);
         return null;
     }
+}
+
+const uploadItem = async (userId, name, location, deviceUrl) => {
+    /*
+        This function uploads an item to the backend.
+
+        @params:
+            userId: the id of the user
+            name: the name of the item
+            location: the location object, including
+                location.latitude: the latitude of the user
+                location.longitude: the longitude of the user
+            deviceUrl: the url of the image on the user's device
+        
+        @return:
+            true if the operation is successful, false otherwise
+    */
+    try{
+        // upload the image to AWS S3
+        const imageUrl = await uploadImage(deviceUrl, 'ITEM');
+        if(!imageUrl){
+            return false;
+        }
+        
+        // create the item object
+        const item = {
+            name: name,
+            location: location,
+            image: imageUrl,
+            owner: userId,
+        }
+        // send the item object to the backend
+        const url = `/items`;
+        const res = await DjangoApiClient.post(url, item);
+        if(res.status === 201 || res.status === 200){
+            return true;
+        }
+        return false;
+    }catch(error){
+        console.log(error);
+        return false;
+    }
+
 }
 
 
