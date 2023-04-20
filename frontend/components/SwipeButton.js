@@ -81,7 +81,7 @@ export default function SwipeButton(props){
             <View style={{
                 width: STYLE.sizes.screenWidth * .9,
                 height: STYLE.sizes.screenHeight * .09,
-                backgroundColor: "#ECBC8C",
+                backgroundColor: props.exteriorButtonColor,
                 justifyContent: 'center',
                 alignItems: "center",
                 borderRadius: 50,
@@ -90,7 +90,7 @@ export default function SwipeButton(props){
                 <PanGestureHandler onGestureEvent={handleGestureEvent}>
                     <Animated.View style={[{
                     marginLeft: STYLE.sizes.screenWidth * .035,
-                    backgroundColor: "white",
+                    backgroundColor: props.innerButtonColor,
                     height: STYLE.sizes.screenHeight * .06, 
                     width: STYLE.sizes.screenWidth * .2,
                     borderRadius: 50,
@@ -104,7 +104,7 @@ export default function SwipeButton(props){
                 </PanGestureHandler>
 
                 <Animated.Text style={[{color: "black", opacity: 0.3, fontWeight: 'bold'}, AnimatedStyles.swipeText]}>
-                    SWIPE TO PICK UP
+                    {props.message}
                 </Animated.Text>
                 
             </View>

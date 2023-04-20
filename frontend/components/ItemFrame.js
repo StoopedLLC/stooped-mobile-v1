@@ -8,23 +8,31 @@ props:
 
 import React, {useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback } from 'react-native';
+import { LongPressGestureHandler, State } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import STYLE from '@styles/Styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 import SaveButton from './SaveButton';
+import { Button } from 'react-native-elements';
 
 
-export default function ItemFrame(props){
+export default function ItemFrame({item}){
     const navigation = useNavigation();
-    const {id, name, location, image} = props.item;
+    const {id, name, location, } = item;
 
+    const onLongPress = (event) => {
+        console.log(id);
+        console.log(name);
+        console.log(location);
+        navigation.navigate('Detail', {id: id, name: name, location: location});
+        
+    };
     
 
-
     return(
-        <TouchableOpacity style={styles.container} onPress={() => navigation.navigate('Item', {id: id})}>
+        <Button style={styles.container} onPress={onLongPress}> 
             <ImageBackground 
-                source={{uri:image || 'https://media.cntraveler.com/photos/545d0f5335a91eee7e7967f4/master/pass/new-york-city-sunsets-tout.jpg'}} // TODO: replace with item image
+                source={{uri:'https://media.cntraveler.com/photos/545d0f5335a91eee7e7967f4/master/pass/new-york-city-sunsets-tout.jpg'}} // TODO: replace with item image
                 resizeMode="cover"
                 style={styles.imageBackground}
                 imageStyle={styles.imageStyle}
@@ -39,34 +47,33 @@ export default function ItemFrame(props){
                     <View style={styles.infoBox}>
                         <Text adjustsFontSizeToFit style={styles.itemName}>{name || 'Desk'}</Text>
                         <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <Image source={require('../assets/images/map-pin-symbol.png')} 
+                            <Image source={require('../assets/images/map-pin-symbol.png')}
                                 style={{width: STYLE.sizes.screenWidth * 0.0355, height: STYLE.sizes.screenWidth * 0.05}}/>
-                            <Text adjustsFontSizeToFit style={styles.location}>{'' || 'West 4th St'}</Text>
+                            <Text adjustsFontSizeToFit style={styles.location}>{location || 'West 4th St'}</Text>
                         </View>
                     </View>
-                    <SaveButton item={props.item}/>
+                    <SaveButton item={item}/>
                 </View>
 
-
             </ImageBackground>
-        </TouchableOpacity>
+        </Button>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        borderRadius: STYLE.borders.moreRound,
-        backgroundColor: 'white',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderColor: 'white',
-        borderWidth: 3,
-        shadowColor: '#000000',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-    },
+    // container: {
+    //     flex: 1,
+    //     borderRadius: STYLE.borders.moreRound,
+    //     backgroundColor: 'white',
+    //     justifyContent: 'center',
+    //     alignItems: 'center',
+    //     borderColor: 'white',
+    //     borderWidth: 3,
+    //     shadowColor: '#000000',
+    //     shadowOffset: { width: 2, height: 2 },
+    //     shadowOpacity: 1,
+    //     shadowRadius: 5,
+    // },
     imageBackground: {
         width: '100%',
         height: '100%',

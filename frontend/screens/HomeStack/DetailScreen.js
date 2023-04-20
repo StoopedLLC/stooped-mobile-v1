@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, ImageBackground, TouchableOpacity, ScrollView } from "react-native";
 import STYLE from "@styles/Styles";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,12 +10,17 @@ import SwipeButton from "@components/SwipeButton";
 
 
 
-export default function DetailScreen({navigation}) {
+export default function DetailScreen({navigation, route}) {
+    const {id, name, location} = route.params;
+
+    // const [distance, getDistance] = useEffect('0');
+
+    // const {spherical} = google.maps.importLibrary("geometry");
 
 
     let circleInfoDisplay = [];
-    let numberOfCircleInfo = 3;
-    let circleValues = ['Condition', 'Sorted by', 'Listed'];
+    let numberOfCircleInfo = 2;
+    let circleValues = ['Sorted by', 'Listed'];
 
     for (let index = 0; index < numberOfCircleInfo; index++ ) {
         circleInfoDisplay.push (
@@ -82,7 +87,7 @@ export default function DetailScreen({navigation}) {
                     paddingLeft: STYLE.sizes.screenWidth * .1,
                     paddingRight: STYLE.sizes.screenWidth * .1,
                     }}>
-                    <Text style={[styles.text, {fontSize: STYLE.sizes.screenHeight * .025}]}>Desk</Text>
+                    <Text style={[styles.text, {fontSize: STYLE.sizes.screenHeight * .025}]}>{name}</Text>
 
 
                     <View style={{backgroundColor: '#9C7464', padding: 10, borderRadius: 10}}>
@@ -97,8 +102,8 @@ export default function DetailScreen({navigation}) {
                     justifyContent: "space-between", 
                     alignItems: "center", 
                     paddingBottom: STYLE.sizes.screenHeight * .03,
-                    paddingLeft: STYLE.sizes.screenWidth * .1,
-                    paddingRight: STYLE.sizes.screenWidth * .1,
+                    paddingLeft: STYLE.sizes.screenWidth * .2,
+                    paddingRight: STYLE.sizes.screenWidth * .2,
                     paddingTop: STYLE.sizes.screenHeight * .03,
                     }}>
                         {circleInfoDisplay}
@@ -117,7 +122,7 @@ export default function DetailScreen({navigation}) {
             </ScrollView>
 
             <View style={{marginBottom: STYLE.sizes.screenHeight * .07}}>
-                <SwipeButton />
+                <SwipeButton message={"SWIPE TO PICK UP"} exteriorButtonColor={"#ECBC8C"} innerButtonColor={"white"} />
             </View>
         </SafeAreaView>
     );
