@@ -9,9 +9,10 @@ Props:
     item: the item to be saved
 */
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback} from 'react-native';
 import STYLE from '@styles/Styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
+import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
 
 export default function SaveButton(props){
 
@@ -31,7 +32,8 @@ export default function SaveButton(props){
 
 
     return (
-        <TouchableNativeFeedback 
+        // NOTE: has to be TouchableWithoutFeedback because TouchableNativeFeedback doesn't work with parent component
+        <TouchableWithoutFeedback 
             onPress={()=>{
                 if(saved){
                     setSaved(false);
@@ -49,6 +51,7 @@ export default function SaveButton(props){
                 paddingHorizontal: STYLE.sizes.screenWidth * 0.015,
                 alignItems: 'center',
                 justifyContent: 'center',
+                paddingVertical: STYLE.sizes.screenWidth * 0.015,
                 marginVertical: STYLE.sizes.screenWidth * 0.015,
             }}
             >
@@ -61,6 +64,6 @@ export default function SaveButton(props){
                     style={{width: STYLE.sizes.screenWidth * 0.062, height: STYLE.sizes.screenWidth * 0.1}}/>
             }
             </View>
-        </TouchableNativeFeedback>
+        </TouchableWithoutFeedback>
     )
 }

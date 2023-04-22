@@ -138,15 +138,6 @@ export default function HomeScreen() {
                 </View>
                 {/* end of component for slider wrap */}
 
-
-                <TouchableOpacity 
-                    style={{paddingTop: 20}}
-                    onPress={()=>{
-                        console.log('pressed');
-                        nav.navigate('Detail', {name: 'name', location:{}, id:'123123123'});
-                    }}>
-                    <Text style={styles.text}>Go to Detail Screen</Text>
-                </TouchableOpacity>
             </ScrollView>
         </SafeAreaView>
     );

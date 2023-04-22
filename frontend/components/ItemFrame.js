@@ -8,7 +8,7 @@ props:
 
 import React, {useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Image, ImageBackground, TouchableNativeFeedback } from 'react-native';
-import { LongPressGestureHandler, State, TouchableOpacity } from 'react-native-gesture-handler';
+import { LongPressGestureHandler, State, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import STYLE from '@styles/Styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
@@ -44,6 +44,7 @@ export default function ItemFrame({item}){
                     justifyContent: 'space-between',
                     marginBottom: STYLE.sizes.screenWidth * 0.02,
                     marginHorizontal: STYLE.sizes.screenWidth * 0.03,
+                    alignItems: 'center'
                 }}>
                     <View style={styles.infoBox}>
                         <Text adjustsFontSizeToFit style={styles.itemName}>{name || 'Desk'}</Text>
@@ -55,7 +56,6 @@ export default function ItemFrame({item}){
                     </View>
                     <SaveButton item={item}/>
                 </View>
-
             </ImageBackground>
         </TouchableOpacity>
     );
