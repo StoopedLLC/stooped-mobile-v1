@@ -1,5 +1,12 @@
 /*
 This component is similiar to a button but instead you swipe to move on to the next page or to submit a request.
+
+props:
+    exteriorButtonColor: the color of the button
+    innerButtonColor: the color of the button that you swipe
+    message: the message that is displayed on the button
+    TODO: onSwipeComplete: the function that is called when the button is swiped to the end
+
 */
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from 'react';
@@ -19,6 +26,10 @@ export default function SwipeButton(props){
         if (isToggled !== toggle) {
             setToggle(isToggled);
         }
+        if(props.hasOwnProperty('onSwipeComplete')){
+            props.onSwipeComplete();
+        }
+        // X.value = withSpring(0);
     }
 
     const handleGestureEvent = useAnimatedGestureHandler(
@@ -42,13 +53,13 @@ export default function SwipeButton(props){
 
             // TODO: implement where it goes to the next page...
             onEnd: () => {
-                if (X.value < (STYLE.sizes.screenWidth * .2)/2) {
+                if (X.value < (STYLE.sizes.screenWidth * .6)/2) {
                     X.value = withSpring(0);
                 } else {
                     X.value = withSpring(STYLE.sizes.screenWidth * .6);
+                    runOnJS(handleComplete)(true);
                 }
 
-                runOnJS(handleComplete)(true);
             }
         }
     );

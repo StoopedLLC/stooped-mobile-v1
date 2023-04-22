@@ -81,6 +81,11 @@ export default function CameraScreen() {
     // modal ref
     const modalRef = useRef(null);
 
+    // helper to close modal
+    const closeModal = () => {
+        modalRef.current.close();
+    }
+
     // hook to get camera permission, if no permission, ask for permission
     useEffect(() => {
         const getPermission = async () => {
@@ -213,6 +218,8 @@ export default function CameraScreen() {
 
 const ConfirmUpload = (props) => {
 
+    const nav = useNavigation();
+
     const [location, setLocation] = React.useState({}); // keep track of actual location
     const [initialLocation, setInitialLocation] = React.useState({}); // track the initial location of the user
     const [itemName, setItemName] = React.useState(''); // track the name of the item
@@ -268,7 +275,15 @@ const ConfirmUpload = (props) => {
                     <FormField onTextChange={setItemName} placeholder="Item Name" />
                 </View>
                 <View>
-                    <SwipeButton />
+                    <SwipeButton 
+                        exteriorButtonColor={STYLE.color.accent.yellow} 
+                        innerButtonColor={'white'} 
+                        message={"SWIPE TO UPLOAD!"}
+                        onSwipeComplete={() => {
+                            nav.navigate('Home', {image: props.image, location: location, itemName: itemName});
+                            props.onClose();
+                        }}
+                    />
                 </View>
             </View>
         </Modalize>

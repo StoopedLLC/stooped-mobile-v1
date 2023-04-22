@@ -85,7 +85,11 @@ export default function PreUploadScreen ({route, navigation}) {
                     />
 
                 </TouchableOpacity>
-                <SwipeButton />
+                <SwipeButton 
+                    exteriorButtonColor={STYLE.color.accent.yellow} 
+                    innerButtonColor={'white'} 
+                    message={"SWIPE TO UPLOAD!"}
+                />
             </ScrollView>
 
         </SafeAreaView>
