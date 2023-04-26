@@ -96,6 +96,9 @@ see [package.json](/package.json) for the most updated list of packages
 * @aws-sdk/client-s3: ^3.298.0
 * @aws-sdk/client-cognito-identity: ^3.298.0 
 * @aws-sdk/credential-provider-cognito-identity: ^3.298.0
+* expo-file-system: ~15.1.1
+* react-native-url-polyfill: 1.3.0
+* "react-native-get-random-values": "~1.8.0"
 
 
 
