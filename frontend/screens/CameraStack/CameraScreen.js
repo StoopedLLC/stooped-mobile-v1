@@ -14,6 +14,7 @@ import LocationPicker from "@components/LocationPicker";
 import { getCurrentLocation } from "@backend/location";
 import FormField from "@components/FormField";
 import SwipeButton from "@components/SwipeButton";
+import {uploadItem} from "@backend/item";
 
 
 
@@ -280,6 +281,7 @@ const ConfirmUpload = (props) => {
                         innerButtonColor={'white'} 
                         message={"SWIPE TO UPLOAD!"}
                         onSwipeComplete={() => {
+                            uploadItem('222b6705-3734-4779-a925-1be95c9ec1ad', itemName, location, props.image);
                             nav.navigate('Home', {image: props.image, location: location, itemName: itemName});
                             props.onClose();
                         }}

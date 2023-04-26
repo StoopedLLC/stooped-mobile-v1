@@ -6,7 +6,8 @@ import { getCurrentLocation } from "@backend/location";
 import { pickImage } from "@backend/image";
 import LocationPicker from "@components/LocationPicker.js";
 import FormField from "@components/FormField";
-import SwipeButton from "@components/SwipeButton"; // TODO: check in to make sure swipe button is dynamically populated
+import SwipeButton from "@components/SwipeButton";
+import {uploadItem} from "@backend/item";
 
 
 export default function PreUploadScreen ({route, navigation}) {
@@ -89,6 +90,10 @@ export default function PreUploadScreen ({route, navigation}) {
                     exteriorButtonColor={STYLE.color.accent.yellow} 
                     innerButtonColor={'white'} 
                     message={"SWIPE TO UPLOAD!"}
+                    onSwipeComplete={() => {
+                        uploadItem('222b6705-3734-4779-a925-1be95c9ec1ad', itemName, location, image);
+                        navigation.navigate('Home');
+                    }}
                 />
             </ScrollView>
 
