@@ -31,7 +31,7 @@ export default function ItemFrame({item}){
     return(
         <TouchableOpacity containerStyle={styles.container} onPress={onLongPress}> 
             <ImageBackground 
-                source={{uri:'https://media.cntraveler.com/photos/545d0f5335a91eee7e7967f4/master/pass/new-york-city-sunsets-tout.jpg'}} // TODO: replace with item image
+                source={{uri:item.image || 'https://media.cntraveler.com/photos/545d0f5335a91eee7e7967f4/master/pass/new-york-city-sunsets-tout.jpg'}}
                 resizeMode="cover"
                 style={styles.imageBackground}
                 imageStyle={styles.imageStyle}
@@ -83,8 +83,8 @@ const styles = StyleSheet.create({
     },
     infoBox: {
         paddingHorizontal: STYLE.sizes.screenWidth * 0.03,
-        backgroundColor: 'rgba(255,255,255,0.3)',
-        borderRadius: STYLE.borders.moreRound,
+        backgroundColor: 'rgba(0,0,0,0.7)',
+        borderRadius: STYLE.borders.normalRound,
         paddingVertical: STYLE.sizes.screenWidth * 0.0075,
     },
     itemName: {
