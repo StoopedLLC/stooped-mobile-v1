@@ -1,26 +1,43 @@
 import React, { useEffect } from "react";
-import { View, Text, StyleSheet, Dimensions, SafeAreaView, ImageBackground, TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Dimensions, SafeAreaView, ImageBackground, TouchableOpacity, ScrollView, Image } from "react-native";
 import STYLE from "@styles/Styles";
 import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import SaveButton from '@components/SaveButton';
 import { collection } from "firebase/firestore";
-
+import MapView, {Marker} from "react-native-maps";
 import SwipeButton from "@components/SwipeButton";
+import { formatIsoDate, getNumDays, getNumHours } from "@backend/util";
 
 
 
 export default function DetailScreen({navigation, route}) {
-    const {id, name, location} = route.params;
+    const {id, name, location, address, posted_date, saved_count,distance} = route.params.item;
 
     // const [distance, getDistance] = useEffect('0');
 
     // const {spherical} = google.maps.importLibrary("geometry");
 
+    // convert date to displyable format
+    let displayDate = ''
+    const daysSince = getNumDays(posted_date);
+    if(daysSince < 1){
+        if(getNumHours(posted_date) < 1){
+            displayDate = '< 1 hour ago';
+        }else{
+            displayDate = getNumHours(posted_date) + ' hours ago';
+        }
+    }else if(daysSince > 30){
+        displayDate = Math.floor(daysSince/30) + ' months ago';
+    }else{
+        displayDate = daysSince + ' days ago';
+    }
+
 
     let circleInfoDisplay = [];
     let numberOfCircleInfo = 2;
-    let circleValues = ['Sorted by', 'Listed'];
+    const circleLabels = ['Saved by', 'Listed'];
+    const circleValues = [`${saved_count} others`, displayDate || '1/1/2022'];
 
     for (let index = 0; index < numberOfCircleInfo; index++ ) {
         circleInfoDisplay.push (
@@ -30,9 +47,9 @@ export default function DetailScreen({navigation, route}) {
                     </View>
 
 
-                    <View style={[styles.center, {paddingTop: STYLE.sizes.screenHeight * .01}]}>
-                        <Text style={[styles.text, {opacity: .7}]}>{circleValues[index]}</Text>
-                        <Text style={styles.text}>temp</Text>
+                    <View style={[styles.center, {paddingTop: STYLE.sizes.screenHeight * .005}]}>
+                        <Text adjustsFontSizeToFit style={[styles.text, {opacity: .7}]}>{circleLabels[index]}</Text>
+                        <Text adjustFontsSizeToFit style={[styles.text, {fontWeight: 'bold'}]}>{circleValues[index]}</Text>
                     </View>
                 </View>
             </View>
@@ -61,7 +78,6 @@ export default function DetailScreen({navigation, route}) {
                             </TouchableOpacity>
 
 
-                            {/* TODO: Make it so the bookmark works and change the sizing */}
                             <TouchableOpacity style={{
                                 position: 'absolute',
                                 right: 0,
@@ -83,15 +99,23 @@ export default function DetailScreen({navigation, route}) {
                     display: "flex", 
                     flexDirection: "row", 
                     justifyContent: "space-between",
+                    alignItems: "center",
                     paddingTop: STYLE.sizes.screenHeight * .03,
                     paddingLeft: STYLE.sizes.screenWidth * .1,
                     paddingRight: STYLE.sizes.screenWidth * .1,
                     }}>
-                    <Text style={[styles.text, {fontSize: STYLE.sizes.screenHeight * .025}]}>{name}</Text>
-
-
-                    <View style={{backgroundColor: '#9C7464', padding: 10, borderRadius: 10}}>
-                        <Text style={[styles.text, {fontWeight: 'bold'}]}>0.2 miles away</Text>
+                    <Text adjustsFontSizeToFit style={[
+                        styles.text, 
+                        {fontSize: STYLE.sizes.h2, fontFamily: STYLE.font.dmsansBold}
+                    ]}>
+                        {name}
+                    </Text>
+                    <View style={{
+                        backgroundColor: STYLE.color.accent.beige, 
+                        padding: 10, 
+                        borderRadius: 10
+                    }}>
+                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{distance || '0.2 miles'} away</Text>
                     </View>
                 </View>
 
@@ -101,10 +125,10 @@ export default function DetailScreen({navigation, route}) {
                     flexDirection: "row", 
                     justifyContent: "space-between", 
                     alignItems: "center", 
-                    paddingBottom: STYLE.sizes.screenHeight * .03,
+                    paddingBottom: STYLE.sizes.screenHeight * .02,
                     paddingLeft: STYLE.sizes.screenWidth * .2,
                     paddingRight: STYLE.sizes.screenWidth * .2,
-                    paddingTop: STYLE.sizes.screenHeight * .03,
+                    paddingTop: STYLE.sizes.screenHeight * .02,
                     }}>
                         {circleInfoDisplay}
                 </View>
@@ -113,10 +137,35 @@ export default function DetailScreen({navigation, route}) {
                 <View style={{
                     paddingLeft: STYLE.sizes.screenWidth * .05,
                     paddingRight: STYLE.sizes.screenWidth * .05,
-                    }}>
-                    <Text style={[styles.text, {fontSize: STYLE.sizes.screenHeight * .025,flexWrap: 'wrap', lineHeight: 30, letterSpacing: 1.05}]}>
-                        Temporary holder for the value . jsfsdfjhsfkjhfkjdhsjkfsjfhkjsfhjkshfjksh
+                }}>
+                    <Text adjustsFontSizeToFit style={[styles.text, {fontSize: STYLE.sizes.h3, fontFamily: STYLE.font.dmsansMed}]}>
+                        Pick up at
                     </Text>
+                    <Text adjustsFontSizeToFit style={[
+                        styles.text, 
+                        {fontSize: 16,flexWrap: 'wrap', fontFamily: STYLE.font.poppins, lineHeight: 30}]}
+                    >
+                        {address || '25 West 4th Street, New York, NY 10012'}
+                    </Text>
+                </View>
+                <View style={styles.mapContainer}>
+                    <MapView 
+                        style={styles.map} 
+                        initialRegion={{
+                            latitude: location.latitude || 37.78825,
+                            longitude: location.longitude || -122.4324,
+                            latitudeDelta: 0.00301,
+                            longitudeDelta: 0.001805,
+                        }}
+
+                    >
+                        <Marker coordinate={location.latitude? location:{latitude: 37.78825, longitude: -122.4324}}>
+                            <Image 
+                                source={require('@images/map-pin.png')}
+                                style={STYLE.mapPin}
+                            />
+                        </Marker>
+                    </MapView>
                 </View>
 
             </ScrollView>
@@ -152,7 +201,35 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         textAlign: "center",
         alignItems: "center"
-    }
-
+    },
+    mapContainer: {
+        height: STYLE.sizes.screenHeight * .15,
+        width: STYLE.sizes.screenWidth * .9,
+        alignSelf: 'center',
+        borderRadius: STYLE.borders.moreRound,
+        overflow: 'hidden',
+        borderColor: STYLE.color.font,
+        borderWidth: 1,
+        // shadow
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 0,
+        },
+        shadowOpacity: .2,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    map: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: -1,
+        elevation: -1,
+        flex: 1,
+        overflow: 'hidden',
+    },
 
 });

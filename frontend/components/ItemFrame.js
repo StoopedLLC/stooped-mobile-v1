@@ -22,10 +22,8 @@ export default function ItemFrame({item}){
     const {id, name, location, address} = item;
 
     const onLongPress = (event) => {
-        console.log(id);
-        console.log(name);
-        console.log(location);
-        navigation.navigate('Detail', {id: id, name: name, location: location});
+        navigation.navigate('Detail', {item: item});
+        console.log(item)
         
     };
     

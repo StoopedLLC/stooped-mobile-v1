@@ -19,6 +19,7 @@ import STYLE from '@styles/Styles.js';
 import Carousel from 'react-native-reanimated-carousel';
 import ItemFrame from './ItemFrame';
 import { View, Text, Dimensions, StyleSheet, Image, TouchableNativeFeedback, SafeAreaView, ScrollView } from 'react-native';
+import { formatIsoDate } from "@backend/util";
 
 
 export default function CarouselList(props){
@@ -26,14 +27,14 @@ export default function CarouselList(props){
 
     const renderItem = ({item, index}) => {
         // console.log(item);
-        const {name, location, id, image_links} = item;
+        const {name, location, id, image_links, saved_count, posted_date} = item;
         let image = '';
         if(image_links && image_links.length > 0){
             image = image_links[0];
         }
         return (
             <View style={styles.frame} key={index}>
-                <ItemFrame item={{name: name || 'name', location:{}, id: id || '123123123', image}}/>
+                <ItemFrame item={{name: name || 'name', location:location, id: id || '123123123', image, saved_count, posted_date}}/>
             </View>
         )
     }
