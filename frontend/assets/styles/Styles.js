@@ -37,7 +37,7 @@ const STYLE = {
         h1: Dimensions.get('window').width * 0.1,
         h2: Dimensions.get('window').width * 0.08,
         h3: Dimensions.get('window').width * 0.06,
-        p: Dimensions.get('window').width * 0.04,
+        p: Dimensions.get('window').height * .025,
 
     },
 
