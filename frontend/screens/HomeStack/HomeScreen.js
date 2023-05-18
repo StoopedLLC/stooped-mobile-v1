@@ -93,9 +93,6 @@ export default function HomeScreen() {
                             />
                         </View>
                     </TouchableNativeFeedback>
-                    
-
-
                 </View>
 
                 {/* search + filter */}
@@ -137,6 +134,21 @@ export default function HomeScreen() {
                     <CarouselList data = {contentFeed}/>
                 </View>
                 {/* end of component for slider wrap */}
+
+                <TouchableOpacity onPress={()=>{nav.navigate('Pickup', {item: {
+                        id: "1",
+                        name: 'test',
+                        location: {
+                            latitude: 37.78825,
+                            longitude: -122.4324,
+                        },
+                        address: 'test address',
+                        posted_date: 'test date',
+                        saved_count: 0,
+                        distance: 0,
+                    }})}}>
+                        <Text> press to go to pick up</Text>
+                </TouchableOpacity>
 
             </ScrollView>
         </SafeAreaView>

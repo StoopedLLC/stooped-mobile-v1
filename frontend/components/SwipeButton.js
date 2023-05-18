@@ -5,7 +5,7 @@ props:
     exteriorButtonColor: the color of the button
     innerButtonColor: the color of the button that you swipe
     message: the message that is displayed on the button
-    TODO: onSwipeComplete: the function that is called when the button is swiped to the end
+    onSwipeComplete: the function that is called when the button is swiped to the end
 
 */
 import { StatusBar } from "expo-status-bar";

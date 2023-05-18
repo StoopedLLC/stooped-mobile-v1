@@ -13,6 +13,7 @@ import STYLE from '@styles/Styles.js';
 // Import screens
 import HomeScreen from '@screens/HomeStack/HomeScreen'; // home page
 import DetailScreen from '@screens/HomeStack/DetailScreen'; // page diplaying item details
+import PickupScreen from '@screens/HomeStack/PickupScreen.js'; // page for picking up items
 import CameraScreen from '@screens/CameraStack/CameraScreen.js'; // camera page for scanning items
 import PreUploadScreen from '@screens/CameraStack/PreUploadScreen.js'; // page for previewing and uploading items
 
@@ -45,6 +46,7 @@ const HomeContainer = ({route, navigation}) => {
                 tabBarButton: (props) => null, //this is additional if you want to hide the tab element from the bottom nav
             }}
             />
+            <HomeStack.Screen name="Pickup" component={PickupScreen} />
         </HomeStack.Navigator>
     )
 }
@@ -70,7 +72,7 @@ const CameraContainer = ({route, navigation}) => {
 const StoopedContainer = ({route}) => {
 
     const [routeRef, setRouteRef] = useState(route.params.navRef.getCurrentRoute());
-    const HIDDENROUTES = ['Detail','PreUpload']; // routes that should not be displayed in the bottom tab bar
+    const HIDDENROUTES = ['Detail','PreUpload', 'Pickup']; // routes that should not be displayed in the bottom tab bar
 
     useEffect(()=>{
         if(route.params.navRef.getCurrentRoute()){

@@ -171,7 +171,12 @@ export default function DetailScreen({navigation, route}) {
             </ScrollView>
 
             <View style={{marginBottom: STYLE.sizes.screenHeight * .07}}>
-                <SwipeButton message={"SWIPE TO PICK UP"} exteriorButtonColor={"#ECBC8C"} innerButtonColor={"white"} />
+                <SwipeButton 
+                    message={"SWIPE TO PICK UP"} 
+                    exteriorButtonColor={"#ECBC8C"} 
+                    innerButtonColor={"white"} 
+                    onSwipeComplete={() => navigation.navigate('Pickup', {item: route.params.item})}
+                />
             </View>
         </SafeAreaView>
     );

@@ -10,11 +10,29 @@ const STYLE = {
         accent: {
             beige:'#9C7464',
             yellow:'#ECBC8C',
+            darkYellow: '#FFC802',
             green: '#308280',
             blue: '#429CD6',
             gray: '#BCBAC6',
             darkPurple: "#373672",
             lightPurple: "#41419F",
+            darkGray: "#545454",
+        }
+    },
+
+    colors:{
+        background: '#44444B',
+        font: '#FFFFFF',
+        accent: {
+            beige:'#9C7464',
+            yellow:'#ECBC8C',
+            green: '#308280',
+            blue: '#429CD6',
+            gray: '#BCBAC6',
+            darkPurple: "#373672",
+            lightPurple: "#41419F",
+            darkYellow: '#FFC802',
+            darkGray: "#545454",
         }
     },
 
