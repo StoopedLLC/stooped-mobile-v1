@@ -99,6 +99,8 @@ see [package.json](/package.json) for the most updated list of packages
 * expo-file-system: ~15.1.1
 * react-native-url-polyfill: 1.3.0
 * "react-native-get-random-values": "~1.8.0"
+* expo-notifications: ~0.17.0
+(up to this point, there were 16 critical vulnerabilities)
 
 
 

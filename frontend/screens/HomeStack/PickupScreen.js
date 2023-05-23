@@ -7,14 +7,18 @@ import STYLE from "@styles/Styles";
 import NavDisplay from "@components/NavDisplay";
 import GenericButton from "@components/GenericButton.js"
 import { getCurrentLocation } from "@backend/location";
-import { calculateMapZoom } from "@backend/util";
+import { useFocusEffect } from "@react-navigation/native";
+import * as Location from 'expo-location';
+import { getDistanceInMiles } from "@backend/location";
 
 
 export default function PickupScreen({navigation, route}) {
 
-    const {id, name, location, address, posted_date, saved_count,distance} = route.params.item;
+    const {id, name, location: itemLocation, address, posted_date, saved_count,distance} = route.params.item;
     const [startLocation, setstartLocation] = useState();
     const mapRef = React.useRef(null);
+    const [liveLocation, setLiveLocation] = useState();
+    const [canPickup, setCanPickup] = useState(false);
 
     const [navInstructions, setNavInstructions] = useState([
         "Walk 0.2 miles",
@@ -33,13 +37,63 @@ export default function PickupScreen({navigation, route}) {
     // hook to set zoom level of map
     useEffect(() => {
         if(startLocation){
-            mapRef.current.fitToCoordinates([location, startLocation], {
+            mapRef.current.fitToCoordinates([itemLocation, startLocation], {
                 edgePadding: { top: 50, right: 50, bottom: 50, left: 50 },
                 animated: true,
             });
         }
     }, [startLocation]);
 
+    // live update location
+    useFocusEffect(
+        useCallback(()=>{
+            // on focus, "lock in" pick up mode
+            const watchPosition = async () => {
+                console.log('set watcher');
+                return await Location.watchPositionAsync({accuracy: Location.Accuracy.BestForNavigation, distanceInterval: 1}, (loc) => {
+                    setLiveLocation({
+                        latitude: loc.coords.latitude,
+                        longitude: loc.coords.longitude,
+                    });
+                })
+            }
+            let locationWatcher = {};
+            watchPosition().then((res) => {
+                locationWatcher = res;
+            }).catch((err) => {
+                console.log(err);
+            });
+
+
+            return () => {
+                // Do something when the screen is unfocused, like removing the location watcher
+                console.log("unfocused");
+                if(locationWatcher){
+                    console.log("removing location watcher");
+                    locationWatcher.remove();
+                }
+                
+            }
+        },[])
+    );
+
+    // hook to handle location change
+    useEffect(() => {
+        if(liveLocation){
+            // update distance
+            const newDistance = getDistanceInMiles(liveLocation, itemLocation);
+            if(newDistance < .075){
+                setCanPickup(true);
+            }
+        }
+    }, [liveLocation]);
+
+    // on canPickup change
+    useEffect(() => {
+        if(canPickup){
+            console.log("can pickup");
+        }
+    }, [canPickup]);
 
 
     // event handlers
@@ -53,6 +107,12 @@ export default function PickupScreen({navigation, route}) {
 
     const reportMissing = () => {
 
+    }
+
+    const onRefresh = () => {
+        (async () =>{
+        setstartLocation(await getCurrentLocation());
+        })()
     }
 
     return (
@@ -83,12 +143,12 @@ export default function PickupScreen({navigation, route}) {
                     ref={mapRef}
                     style={styles.map}
                     initialRegion={{
-                        latitude: location.latitude,
-                        longitude: location.longitude,
+                        latitude: itemLocation.latitude,
+                        longitude: itemLocation.longitude,
                     }}
                     showsUserLocation={true}
                 >
-                    <Marker coordinate={location.latitude? location:{latitude: 37.78825, longitude: -122.4324}}>
+                    <Marker coordinate={itemLocation.latitude? itemLocation:{latitude: 37.78825, longitude: -122.4324}}>
                         <Image 
                             source={require('@images/map-pin.png')}
                             style={STYLE.mapPin}
@@ -103,7 +163,7 @@ export default function PickupScreen({navigation, route}) {
                     start="Your Location"
                     destination={address || '25 West 4th Street, New York, NY 10012'}
                     instructions={navInstructions}
-                    onRefresh={() => {}}
+                    onRefresh={onRefresh}
                 />
             </View>
 
