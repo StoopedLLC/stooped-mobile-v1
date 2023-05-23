@@ -49,3 +49,29 @@ const permissionDeniedHandler = () => {
         { cancelable: true }
     );
 }
+
+export const getDistanceInMiles = (startLocation, endLocation) => {
+    /*
+        This function calculates the distance between two locations in miles.
+
+        @params:
+            startLocation: the starting location {latitude, longitude}
+            endLocation: the ending location {latitude, longitude}
+
+        @return:
+            the distance in miles between the two locations
+    */
+    const deg2rad = (deg) => {
+        return deg * (Math.PI / 180)
+    }
+    const R = 3958.8; // Radius of the earth in miles
+    const dLat = deg2rad(endLocation.latitude - startLocation.latitude);  // deg2rad below
+    const dLon = deg2rad(endLocation.longitude - startLocation.longitude);
+    const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(deg2rad(startLocation.latitude)) * Math.cos(deg2rad(endLocation.latitude)) *
+        Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        ;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance in miles
+}
