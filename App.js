@@ -7,9 +7,21 @@ import * as SplashScreen from 'expo-splash-screen';
 import React, { useEffect, useCallback, useState } from 'react';
 import STYLE from '@styles/Styles.js';
 import MainContainer from './frontend/MainContainer';
+import * as Notifications from 'expo-notifications';
+
+
 
 
 SplashScreen.preventAutoHideAsync();
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
+
+
 
 export default function App() {
 
@@ -56,6 +68,15 @@ export default function App() {
       console.log('hide splash')
       // console.log('style constants', STYLE)
       await SplashScreen.hideAsync();
+
+      // allow notification permissions
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        console.log('requesting permissions')
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
     }
   }, [appIsReady, fontLoaded]);
 
