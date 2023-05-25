@@ -5,6 +5,8 @@ import { getFocusedRouteNameFromRoute, NavigationContainer, createNavigationCont
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as Linking from 'expo-linking';
+import * as Notifications from 'expo-notifications';
 import STYLE from '@styles/Styles.js';
 
 // import * as SecureStore from 'expo-secure-store';
@@ -30,9 +32,77 @@ const ref = createNavigationContainerRef();
 const CameraStack = createNativeStackNavigator();
 
 
+// linking
+const linking = {
+    prefixes: ['stooped://', 'exp://127.0.0.1:19000/'],
+    config: {
+        screens: {
+            Stooped: {
+                screens: {
+                    Home: {
+                        screens: {
+                            Home: 'home',
+                            Detail: 'detail',
+                            Pickup: 'pickup',
+                            Success: 'success',
+                        },
+                    },
+                    Camera: {
+                        screens: {
+                            Camera: 'camera',
+                            PreUpload: 'preupload',
+                        },
+                    },
+                },
+            },
+            NotFound: '*',
+        }
+    },
+    async getInitialURL() {
+        // First, we want to do the default deep link handling
+        // Check if app was opened from a deep link
+        const url = await Linking.getInitialURL();
+
+        if (url != null) {
+          return url;
+        }
+
+        // Handle URL from expo push notifications
+        const response = await Notifications.getLastNotificationResponseAsync();
+
+        return response?.notification.request.content.data.url;
+    },
+    subscribe(listener) {
+        const onReceiveURL = (url) => {
+            listener(url)
+        };
+        // Listen to incoming links from deep linking
+        const eventListenerSubscription = Linking.addEventListener('url', onReceiveURL);
+
+        // Listen to expo push notifications
+        const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+          const url = response.notification.request.content.data.url;
+
+          // Any custom logic to see whether the URL needs to be handled
+          //...
+
+          // Let React Navigation handle the URL
+          console.log('received url', url)
+          listener(url);
+        });
+
+        return () => {
+          // Clean up the event listeners
+          eventListenerSubscription.remove()
+          subscription.remove();
+        };
+      },
+
+}
+
+
 
 const HomeContainer = ({route, navigation}) => {
-
 
     return (
         <HomeStack.Navigator
@@ -155,6 +225,7 @@ export default function MainContainer() {
             }}
             onStateChange={async () => {
             }}
+            linking={linking}
         >
             <MasterStack.Navigator
                 initialRouteName='Stooped'
