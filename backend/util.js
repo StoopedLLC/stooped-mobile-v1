@@ -2,6 +2,9 @@
 This file contains useful utility functions.
 It contains the following methods:
     - formatIsoDate: format an ISO date string to a readable date string
+    - getNumDays: calculate the number of days between the given date and today
+    - getNumHours: calculate the number of hours between the given date and today
+    - calculateMapZoom: calculate the zoom level of the map based on the distance between the user and the item
 
 */
 
