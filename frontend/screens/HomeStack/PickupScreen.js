@@ -1,5 +1,5 @@
 import React, {useState, useCallback, useEffect, useRef} from "react";
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image, Modal, Alert} from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { Info } from "react-native-feather";
 import MapView, {Marker} from "react-native-maps";
@@ -10,6 +10,9 @@ import { getCurrentLocation } from "@backend/location";
 import { useFocusEffect } from "@react-navigation/native";
 import * as Location from 'expo-location';
 import { getDistanceInMiles } from "@backend/location";
+import { scheduleNotification, cancelNotification } from "@backend/notifications";
+import PickupConfirmation from "../../components/PickupConfirmation";
+import * as Haptics from 'expo-haptics';
 
 
 export default function PickupScreen({navigation, route}) {
@@ -19,6 +22,8 @@ export default function PickupScreen({navigation, route}) {
     const mapRef = React.useRef(null);
     const [liveLocation, setLiveLocation] = useState();
     const [canPickup, setCanPickup] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [checkInNotification, setCheckInNotification] = useState('');
 
     const [navInstructions, setNavInstructions] = useState([
         "Walk 0.2 miles",
@@ -90,10 +95,24 @@ export default function PickupScreen({navigation, route}) {
 
     // on canPickup change
     useEffect(() => {
-        if(canPickup){
-            console.log("can pickup");
+        const onPickupChange = async () => {
+            if(canPickup){
+                await onPickupAllowed();
+            }
         }
+        onPickupChange();
     }, [canPickup]);
+    
+    const onPickupAllowed = async () => {
+        // vibrate
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        // send notification
+        scheduleNotification("Look around you!", "Your item is near! Click here to pick up", {seconds: 1});
+        const notificationId = await scheduleNotification("How did the stoop go?", "Don't forget to confirm your pick up!", {minutes: 5});
+        setCheckInNotification(notificationId);
+        // show pick up modal
+        setModalVisible(true);
+    }
 
 
     // event handlers
@@ -101,12 +120,29 @@ export default function PickupScreen({navigation, route}) {
         navigation.goBack();
     }
 
-    const onPickup = () => {
 
+    const onMissingClicked = () => {
+        Alert.alert(
+            "Oops!",
+            "Double check around the block! Are you sure you don't see it?",
+            [
+                {
+                    text: "Let me check again",
+                },
+                {
+                    text: "Yes, I'm certain",
+                    onPress: () => console.log("Report Pressed"),
+                },
+            ],
+            { cancelable: true }
+        );
     }
 
-    const reportMissing = () => {
 
+    const confirmPickup = () => {
+        if(checkInNotification){
+            cancelNotification(checkInNotification);
+        }
     }
 
     const onRefresh = () => {
@@ -131,7 +167,7 @@ export default function PickupScreen({navigation, route}) {
                     fontSize: STYLE.sizes.h2,
                     color: STYLE.colors.font,
                     fontFamily: STYLE.font.dmsansBold,
-                }}>Pick Up</Text>
+                }}>Let's Stoop it!</Text>
                 <TouchableOpacity style={styles.infoButton}>
                     <Info stroke={STYLE.colors.font} width={STYLE.sizes.screenHeight * .035} height={STYLE.sizes.screenHeight * .035}/>
                 </TouchableOpacity>
@@ -171,29 +207,40 @@ export default function PickupScreen({navigation, route}) {
             <View style={styles.navKeys}>
 
             </View>
-            {/* two buttons */}
+            {/* button and bottom text */}
             <View style={{
                 alignItems: 'center',
+                marginVertical: STYLE.sizes.screenHeight * .02,
+
             }}>
+            {
+                canPickup?
+                (
                 <GenericButton
-                    label="Stoop this!"
-                    onPress={() => {onPickup()}}
+                    label="Click to Pick Up"
+                    onPress={() => {setModalVisible(true)}}
                     style={{
                         marginVertical: STYLE.sizes.screenHeight * .005,
                     }}
-                />
-                <GenericButton
-                    label="I don't see it!"
-                    onPress={() => {
-                        reportMissing()
-                    }}
-                    style={{
-                        backgroundColor: STYLE.colors.accent.gray,
-                        marginVertical: STYLE.sizes.screenHeight * .005,
-                    }}
-                    labelStyle= {{ color: 'black'}}
-                />
+                />):
+                (
+                <Text style={{
+                    fontSize: STYLE.sizes.h3,
+                    color: STYLE.colors.font,
+                    fontFamily: STYLE.font.dmsansMed,
+                    textAlign: 'center',
+                }}>Follow the instructions to get to the item! We will let you know when you are close! </Text>
+                )
+            }
             </View>
+            <PickupConfirmation
+                visible={modalVisible}
+                onConfirm={confirmPickup}
+                onCancel={() => {setModalVisible(false)}}
+                onNotFound={() => {onMissingClicked()}}
+                setVisible={(newVis)=>{setModalVisible(newVis)}}
+                item={route.params.item}
+            />
 
 
         </SafeAreaView>
@@ -213,7 +260,7 @@ const styles = StyleSheet.create({
     },
     mapView:{
         marginVertical: STYLE.sizes.screenHeight * .02,
-        height: STYLE.sizes.screenHeight * .25,
+        height: STYLE.sizes.screenHeight * .275,
         width: STYLE.sizes.screenWidth * .95,
         alignSelf: 'center',
         borderRadius: STYLE.borders.moreRound,
@@ -237,7 +284,7 @@ const styles = StyleSheet.create({
         borderRadius: STYLE.borders.moreRound,
     },
     navContainer:{
-        height: STYLE.sizes.screenHeight * .25,
+        height: STYLE.sizes.screenHeight * .275,
         width: STYLE.sizes.screenWidth * .95,
         alignSelf: 'center',
         borderRadius: STYLE.borders.lessRound,

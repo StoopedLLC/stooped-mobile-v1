@@ -101,6 +101,7 @@ see [package.json](/package.json) for the most updated list of packages
 * "react-native-get-random-values": "~1.8.0"
 * expo-notifications: ~0.17.0
 (up to this point, there were 16 critical vulnerabilities)
+* react-native-modal: ^13.0.1
 
 
 

@@ -24,6 +24,7 @@ const STYLE = {
         background: '#44444B',
         font: '#FFFFFF',
         accent: {
+            red: '#FF91A4',
             beige:'#9C7464',
             yellow:'#ECBC8C',
             green: '#308280',
