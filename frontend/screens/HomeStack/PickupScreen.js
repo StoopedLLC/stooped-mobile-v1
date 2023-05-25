@@ -7,15 +7,17 @@ import STYLE from "@styles/Styles";
 import NavDisplay from "@components/NavDisplay";
 import GenericButton from "@components/GenericButton.js"
 import { getCurrentLocation } from "@backend/location";
-import { useFocusEffect } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import * as Location from 'expo-location';
 import { getDistanceInMiles } from "@backend/location";
 import { scheduleNotification, cancelNotification } from "@backend/notifications";
-import PickupConfirmation from "../../components/PickupConfirmation";
+import PickupConfirmation from "@components/PickupConfirmation";
 import * as Haptics from 'expo-haptics';
 
 
 export default function PickupScreen({navigation, route}) {
+
+    const nav = useNavigation();
 
     const {id, name, location: itemLocation, address, posted_date, saved_count,distance} = route.params.item;
     const [startLocation, setstartLocation] = useState();
@@ -140,9 +142,11 @@ export default function PickupScreen({navigation, route}) {
 
 
     const confirmPickup = () => {
+        setModalVisible(false);
         if(checkInNotification){
             cancelNotification(checkInNotification);
         }
+        nav.navigate("Success", {item: route.params.item});
     }
 
     const onRefresh = () => {
