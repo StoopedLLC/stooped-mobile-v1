@@ -14,7 +14,8 @@ import axios from 'axios';
 
 
 const client = axios.create({
-    baseURL: 'http://stooped-beta-3-382121.uk.r.appspot.com/api',
+    // baseURL: 'http://stooped-beta-3-382121.uk.r.appspot.com/api',
+    baseURL: "http://django-api-env.eba-fys6emgc.us-east-1.elasticbeanstalk.com/api",
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
