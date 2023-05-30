@@ -48,7 +48,9 @@ export default function HomeScreen() {
                     return; // add further effect on failed load
                 }
 
-                const f = await getFeed({},location);
+                const f = await getFeed({id:'123123123'},location, {
+                    radius: 1600,
+                });
                 if(f){
                     setContentFeed(f);
                 }else{
