@@ -28,6 +28,10 @@ export const scheduleNotification = async (title, body, time, link) => {
         content: {
             title: title,
             body: body,
+            data:
+            {
+                url: link
+            }
         },
         trigger: time,
     });

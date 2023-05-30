@@ -7,6 +7,8 @@ import {
 import { CognitoIdentityClient } from "@aws-sdk/client-cognito-identity";
 import { fromCognitoIdentityPool } from "@aws-sdk/credential-provider-cognito-identity";
 import client from './s3Client';
+import * as FileSystem from 'expo-file-system';
+import { Buffer } from 'buffer';
 
 
 /*
@@ -30,12 +32,22 @@ const uploadImage = async (imageUrl, purpose = 'OTHER') => {
     const imageName = imageUrl.split('/').pop();
 
     try{
+        // FIXME: not working
         // get the file in blob format from the url
-        const response = await fetch(imageUrl);
+        const response = await fetch("https://cdn-images.article.com/products/SKU416/2890x1500/image88321.jpg");
         const blob = await response.blob();
         // const file = new File([blob], imageName);
-        const arrBuffer = await blob.arrayBuffer();
-        // console.log(blob)
+        const arrBuffer = await blob.arrayBuffer()
+
+        // const base64Str = await FileSystem.readAsStringAsync(imageUrl, { encoding: 'base64' });
+        // const binaryString = Buffer.from(base64Str, 'base64').toString('binary');
+        // const length = binaryString.length;
+        // const bytes = new Uint8Array(length);
+        // for (let i = 0; i < length; i++) {
+        //     bytes[i] = binaryString.charCodeAt(i);
+        // }
+        // const arrBuffer = bytes.buffer;
+
 
         // create new AWS S3 upload command
         const uploadCommand = new PutObjectCommand({
@@ -44,14 +56,12 @@ const uploadImage = async (imageUrl, purpose = 'OTHER') => {
             Body: arrBuffer,
             ContentType: blob.type,
             ContentLength: blob.size,
+
         });
 
         // send the upload command to AWS S3
-        try {
-            const response = await client.send(uploadCommand);
-        } catch (err) {
-            console.error(err);
-        }
+        const uploadResponse = await client.send(uploadCommand);
+        console.log('uploadResponse',uploadResponse)
 
         // generate the url of the uploaded file
         const region = await client.config.region();
