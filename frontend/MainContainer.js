@@ -20,6 +20,9 @@ import CameraScreen from '@screens/CameraStack/CameraScreen.js'; // camera page 
 import PreUploadScreen from '@screens/CameraStack/PreUploadScreen.js'; // page for previewing and uploading items
 import SuccessScreen from '@screens/HomeStack/SuccessScreen.js'; // page for successful pickup
 
+import LandingScreen from '@screens/AuthStack/LandingScreen.js'; // landing page
+import RegisterScreen from '@screens/AuthStack/RegisterScreen'; // page for signing up
+
 
 // stacks
 const MasterStack = createNativeStackNavigator(); // overall wrapper stack, contains all other substacks (e.g. auth, main, etc.)
@@ -206,6 +209,24 @@ const StoopedContainer = ({route}) => {
 }
 
 
+const AuthContainer = ({route}) => {
+    return (
+        <AuthStack.Navigator
+            initialRouteName="Login"
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <AuthStack.Screen name="Landing" component={LandingScreen} />
+            <AuthStack.Screen name="Register" component={RegisterScreen} />
+            {/* <AuthStack.Screen name="EmailConfirmation" component={ConfirmEmailScreen} /> */}
+            {/* <AuthStack.Screen name="SignupSuccess" component={SignupSuccessScreen} /> */}
+        </AuthStack.Navigator>
+    )
+}
+
+
+
 export default function MainContainer() {
 
     return (
@@ -228,11 +249,12 @@ export default function MainContainer() {
             linking={linking}
         >
             <MasterStack.Navigator
-                initialRouteName='Stooped'
+                initialRouteName='Auth'
                 screenOptions={{
                     headerShown: false,
                 }}
             >
+                <MasterStack.Screen name="Auth" component={AuthContainer} initialParams={{navRef: ref}}/>
                 <MasterStack.Screen name="Stooped" component={StoopedContainer} initialParams={{navRef: ref}}/>
             </MasterStack.Navigator>
         </NavigationContainer>

@@ -8,12 +8,14 @@
             - the callback function should take in a string as its parameter
         - label: label for the text input field
         - numericOnly: boolean value indicating whether the text input field should only accept numeric input
+        - password: boolean value indicating whether the text input field should be a password field
+        - passwordRules: string containing the password rules to be displayed below the text input field
+        - containerStyle: style for the container of the text input field
 */
 
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback, SafeAreaView, TextInput } from 'react-native';
 import STYLE from '@styles/Styles';
-import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 
 // TODO: chatgpt generated code, modification needed
 export default function FormField(props){
@@ -29,12 +31,14 @@ export default function FormField(props){
         <View style={props.containerStyle}>
             <Text style={styles.label}>{props.label}</Text>
             <TextInput 
-                style={styles.input}
+                style={[styles.input, props.inputStyle]}
                 onChangeText={handleTextChange}
                 value={text}
                 placeholder={props.placeholder}
                 placeholderTextColor={STYLE.color.accent.gray}
                 keyboardType={props.numericOnly ? 'numeric' : 'default'}
+                secureTextEntry={props.password}
+                passwordRules={props.passwordRules}
             />
         </View>
     )
@@ -51,7 +55,7 @@ const styles = StyleSheet.create({
         height: 40,
         borderBottomWidth: 2,
         borderRadius: 5,
-        padding: 5,
+        paddingHorizontal: 3,
         fontSize: 16,
         fontFamily: STYLE.font.poppins,
         borderBottomColor: STYLE.color.font,
