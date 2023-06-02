@@ -104,6 +104,8 @@ see [package.json](/package.json) for the most updated list of packages
 * react-native-modal: ^13.0.1
 * expo-linking: ~3.3.1
 (up to this point, there were 17 critical vulnerabilities)
+* @emailjs/browser: ^3.11.0
+* emailjs: ^4.0.2
 
 
 
