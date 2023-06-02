@@ -22,6 +22,8 @@ import SuccessScreen from '@screens/HomeStack/SuccessScreen.js'; // page for suc
 
 import LandingScreen from '@screens/AuthStack/LandingScreen.js'; // landing page
 import RegisterScreen from '@screens/AuthStack/RegisterScreen'; // page for signing up
+import ConfirmEmailScreen from '@screens/AuthStack/ConfirmEmailScreen'; // page for confirming email
+import SignupSuccessScreen from '@screens/AuthStack/SignupSuccessScreen'; // page for successful signup
 
 
 // stacks
@@ -219,8 +221,8 @@ const AuthContainer = ({route}) => {
         >
             <AuthStack.Screen name="Landing" component={LandingScreen} />
             <AuthStack.Screen name="Register" component={RegisterScreen} />
-            {/* <AuthStack.Screen name="EmailConfirmation" component={ConfirmEmailScreen} /> */}
-            {/* <AuthStack.Screen name="SignupSuccess" component={SignupSuccessScreen} /> */}
+            <AuthStack.Screen name="EmailConfirmation" component={ConfirmEmailScreen} />
+            <AuthStack.Screen name="SignupSuccess" component={SignupSuccessScreen} />
         </AuthStack.Navigator>
     )
 }

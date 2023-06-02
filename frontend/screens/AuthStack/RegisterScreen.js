@@ -8,6 +8,7 @@ import { Feather, MaterialCommunityIcons, FontAwesome5, MaterialIcons } from '@e
 
 
 export default function RegisterScreen({navigation, route}){
+    const nav = useNavigation();
 
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -16,7 +17,11 @@ export default function RegisterScreen({navigation, route}){
     const [confirmPassword, setConfirmPassword] = useState('');
 
     const submitForm = () => {
-        // validation check: password requirements, confirm password match
+        // validation check: all fields completed, password requirements, confirm password match
+        if(!username || !email || !name || !password || !confirmPassword){
+            alert('Please complete all required fields');
+            return;
+        }
         if(password !== confirmPassword){
             alert('Passwords do not match');
             return;
@@ -36,10 +41,13 @@ export default function RegisterScreen({navigation, route}){
         const data = {
             username,
             email,
-            firstName: name.split(' ')[0],
-            lastName: name.split(' ')[1],
+            firstName: name.indexOf(' ')===-1?name.split(' ')[0]:name,
+            lastName: name.split(' ')[1] || '',
             password,
         }
+
+        // navigate to new screen
+        nav.navigate('EmailConfirmation', {data});
 
     }
 
