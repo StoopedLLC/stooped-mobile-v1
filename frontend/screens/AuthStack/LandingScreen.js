@@ -5,6 +5,15 @@ import GenericButton from '@components/GenericButton';
 import STYLE from '@styles/Styles';
 
 export default function LandingScreen({navigation, route}){
+
+    const nav = useNavigation()
+
+    const onSigninPressed = () =>{
+        nav.navigate('Login')
+    }
+
+
+
     return (
         <View style={{flex: 1}}>
             <ImageBackground 
@@ -34,11 +43,11 @@ export default function LandingScreen({navigation, route}){
                         <View style={styles.hr} />
                         <View style={{flexDirection: 'row'}}>
                             <Text adjustsFontSizeToFit style={[styles.subtitle, {fontSize: 16}]}>Already have an account? </Text>
-                            <TouchableOpacity onPress={() => navigation.navigate('Stooped')}>
+                            <TouchableOpacity onPress={onSigninPressed}>
                                 <Text adjustsFontSizeToFit style={[styles.subtitle, {
                                     fontSize: 16,
                                     color: STYLE.colors.accent.blue
-                                }]}>Log In</Text>
+                                }]}>Sign In</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
