@@ -8,6 +8,7 @@ import { List } from 'react-native-feather'
 import CarouselList from "@components/CarouselList";
 import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
 import { getCurrentLocation } from "@backend/location";
+import MapView, {Marker} from "react-native-maps";
 
 
 export default function HomeScreen() {
@@ -15,6 +16,14 @@ export default function HomeScreen() {
     const [search, setSearch] = React.useState('');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [contentFeed, setContentFeed] = useState([]);
+    const [toggle, setToggle] = useState(false);
+
+
+    const toggleView = () => {
+        setToggle(!toggle);
+        console.log("toggle view");
+    }
+
 
     const refreshControl = (
         <RefreshControl
@@ -37,6 +46,7 @@ export default function HomeScreen() {
             tintColor={STYLE.color.font}
         />
     )
+
 
     // obtain location and load data
     useEffect(() => {
@@ -78,14 +88,15 @@ export default function HomeScreen() {
                         justifyContent: 'space-between',
                         alignItems: 'center',
                         paddingHorizontal:STYLE.sizes.screenWidth*0.01,
-                        marginVertical: STYLE.sizes.screenHeight * 0.02,
+                        marginVertical: STYLE.sizes.screenHeight * 0.01,
                     }}
                 >
-                    <TouchableNativeFeedback
-                        onPress={() => console.log('list toggle pressed')}
+                    <TouchableOpacity
+                        onPress={toggleView}
                     >
                         <List width={STYLE.sizes.screenWidth * 0.1} height={STYLE.sizes.screenWidth * 0.1} stroke={STYLE.color.font}/>
-                    </TouchableNativeFeedback>
+                    </TouchableOpacity>
+
                     <TouchableNativeFeedback
                         onPress={() => console.log('user icon pressed')}
                     >
@@ -129,28 +140,54 @@ export default function HomeScreen() {
                     </TouchableOpacity>
                 </ScrollView>
                 {/* end of search + filter */}
+                
+                {
+                    !toggle ? (
+                        <View>
+                            {/* component for slider wrap  */}
+                            <View style={{
+                            }}>
+                                <CarouselList data = {contentFeed}/>
+                            </View>
+                            {/* end of component for slider wrap  */}
 
-                {/* component for slider wrap */}
-                <View style={{
-                }}>
-                    <CarouselList data = {contentFeed}/>
-                </View>
-                {/* end of component for slider wrap */}
-
-                <TouchableOpacity onPress={()=>{nav.navigate('Pickup', {item: {
-                        id: "1",
-                        name: 'test',
-                        location: {
-                            latitude: 37.78825,
-                            longitude: -122.4324,
-                        },
-                        address: 'test address',
-                        posted_date: 'test date',
-                        saved_count: 0,
-                        distance: 0,
-                    }})}}>
-                        <Text> press to go to pick up</Text>
-                </TouchableOpacity>
+                            <TouchableOpacity onPress={()=>{nav.navigate('Pickup', {item: {
+                                    id: "1",
+                                    name: 'test',
+                                    location: {
+                                        latitude: 37.78825,
+                                        longitude: -122.4324,
+                                    },
+                                    address: 'test address',
+                                    posted_date: 'test date',
+                                    saved_count: 0,
+                                    distance: 0,
+                                }})}}>
+                                    <Text> press to go to pick up</Text>
+                            </TouchableOpacity>
+                        </View>
+                        
+                    ): (
+                        <View style={styles.mapView}>
+                            <MapView
+                                // ref={mapRef}
+                                style={styles.map}
+                                // initialRegion={{
+                                //     latitude: itemLocation.latitude,
+                                //     longitude: itemLocation.longitude,
+                                // }}
+                                showsUserLocation={true}
+                            >
+                                {/* <Marker coordinate={itemLocation.latitude? itemLocation:{latitude: 37.78825, longitude: -122.4324}}>
+                                    <Image 
+                                        source={require('@images/map-pin.png')}
+                                        style={STYLE.mapPin}
+                                    />
+                                </Marker> */}
+                            </MapView>
+                        </View>
+                    )
+                }
 
             </ScrollView>
         </SafeAreaView>
@@ -183,5 +220,29 @@ const styles = StyleSheet.create({
         backgroundColor: STYLE.color.font,
         padding: STYLE.sizes.screenWidth * 0.01,
         borderRadius: 0.055 * STYLE.sizes.screenWidth,
+    },
+    mapView:{
+        height: STYLE.sizes.screenHeight * .6,
+        width: STYLE.sizes.screenWidth * .95,
+        alignSelf: 'center',
+        borderRadius: STYLE.borders.moreRound,
+        // shadow on the bottom right
+        shadowColor: '#000000',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        elevation: 5,
+    },
+    map:{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex:-1,
+        elevation: -1,
+        flex: 1,
+        overflow: 'hidden',
+        borderRadius: STYLE.borders.normalRound,
     },
 });

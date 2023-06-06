@@ -25,6 +25,8 @@ import RegisterScreen from '@screens/AuthStack/RegisterScreen'; // page for sign
 import ConfirmEmailScreen from '@screens/AuthStack/ConfirmEmailScreen'; // page for confirming email
 import SignupSuccessScreen from '@screens/AuthStack/SignupSuccessScreen'; // page for successful signup
 
+import ProfileScreen from '@screens/ProfileStack/ProfileScreen';
+
 
 // stacks
 const MasterStack = createNativeStackNavigator(); // overall wrapper stack, contains all other substacks (e.g. auth, main, etc.)
@@ -35,6 +37,7 @@ const AuthStack = createNativeStackNavigator(); // stack for auth screens
 const HomeStack = createNativeStackNavigator(); // stack for home screens
 const ref = createNavigationContainerRef();
 const CameraStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 
 // linking
@@ -146,6 +149,19 @@ const CameraContainer = ({route, navigation}) => {
     )
 }
 
+const ProfileContainer = ({route, navigation}) => {
+    return (
+        <ProfileStack.Navigator
+            initialRouteName='Profile'
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <ProfileStack.Screen name='Profile' component={ProfileScreen}/>
+        </ProfileStack.Navigator>
+    )
+}
+
 
 
 const StoopedContainer = ({route}) => {
@@ -206,6 +222,7 @@ const StoopedContainer = ({route}) => {
         >
             <StoopedStack.Screen name="HomePageGroup" component={HomeContainer} />
             <StoopedStack.Screen name="CameraPageGroup" component={CameraContainer} />
+            <StoopedStack.Screen name="ProfilePageGroup" component={ProfileContainer} />
         </StoopedStack.Navigator>
     )
 }
