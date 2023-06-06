@@ -18,3 +18,7 @@ function autoEmailSend(name, email, id) {
         console.log('FAILED...', error);
      });
 }
+
+export {
+    autoEmailSend
+}
