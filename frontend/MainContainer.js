@@ -24,6 +24,7 @@ import LandingScreen from '@screens/AuthStack/LandingScreen.js'; // landing page
 import RegisterScreen from '@screens/AuthStack/RegisterScreen'; // page for signing up
 import ConfirmEmailScreen from '@screens/AuthStack/ConfirmEmailScreen'; // page for confirming email
 import SignupSuccessScreen from '@screens/AuthStack/SignupSuccessScreen'; // page for successful signup
+import LoginScreen from '@screens/AuthStack/LoginScreen'; // sign in page
 
 import ProfileScreen from '@screens/ProfileStack/ProfileScreen';
 
@@ -231,15 +232,16 @@ const StoopedContainer = ({route}) => {
 const AuthContainer = ({route}) => {
     return (
         <AuthStack.Navigator
-            initialRouteName="Login"
+            initialRouteName="Landing"
             screenOptions={{
                 headerShown: false,
             }}
         >
             <AuthStack.Screen name="Landing" component={LandingScreen} />
+            <AuthStack.Screen name="Login" component={LoginScreen} options={{animation: 'fade'}} />
             <AuthStack.Screen name="Register" component={RegisterScreen} />
             <AuthStack.Screen name="EmailConfirmation" component={ConfirmEmailScreen} />
-            <AuthStack.Screen name="SignupSuccess" component={SignupSuccessScreen} />
+            <AuthStack.Screen name="SignupSuccess" component={SignupSuccessScreen} options={{gestureEnabled: false}} />
         </AuthStack.Navigator>
     )
 }
