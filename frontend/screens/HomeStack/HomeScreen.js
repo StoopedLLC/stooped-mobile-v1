@@ -87,14 +87,14 @@ export default function HomeScreen() {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                         alignItems: 'center',
-                        paddingHorizontal:STYLE.sizes.screenWidth*0.01,
+                        paddingHorizontal:STYLE.sizes.screenWidth*0.02,
                         marginVertical: STYLE.sizes.screenHeight * 0.01,
                     }}
                 >
                     <TouchableOpacity
                         onPress={toggleView}
                     >
-                        <List width={STYLE.sizes.screenWidth * 0.1} height={STYLE.sizes.screenWidth * 0.1} stroke={STYLE.color.font}/>
+                        <List width={STYLE.sizes.screenWidth * 0.1} height={STYLE.sizes.screenWidth * 0.09} stroke={STYLE.color.font}/>
                     </TouchableOpacity>
 
                     <TouchableNativeFeedback
@@ -102,7 +102,7 @@ export default function HomeScreen() {
                     >
                         <View style={styles.userIconContainer}>
                             <Image source={require('@images/default-user-icon.png')}
-                                style={{width: STYLE.sizes.screenWidth * 0.1, height: STYLE.sizes.screenWidth * 0.1}}
+                                style={{width: STYLE.sizes.screenWidth * 0.09, height: STYLE.sizes.screenWidth * 0.09}}
                             />
                         </View>
                     </TouchableNativeFeedback>
@@ -114,7 +114,7 @@ export default function HomeScreen() {
                     alignItems: 'center', 
                     justifyContent:'space-between', 
                     paddingHorizontal:STYLE.sizes.screenWidth*0.01,
-                    marginVertical: STYLE.sizes.screenHeight * 0.02,
+                    marginVertical: STYLE.sizes.screenHeight * 0.015,
                 }}
                     scrollEnabled={false}
                 >
