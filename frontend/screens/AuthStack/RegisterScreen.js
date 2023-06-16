@@ -5,6 +5,7 @@ import GenericButton from '@components/GenericButton';
 import IconFormField from '@components/IconFormField';
 import STYLE from '@styles/Styles';
 import { Feather, MaterialCommunityIcons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
+import { sendVerificationEmail } from '@backend/auth';  
 
 
 export default function RegisterScreen({navigation, route}){
@@ -15,8 +16,9 @@ export default function RegisterScreen({navigation, route}){
     const [name, setName] = useState(''); // need to split on space
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [btnDisabled, setBtnDisabled] = useState(false);
 
-    const submitForm = () => {
+    const submitForm = async () => {
         // validation check: all fields completed, password requirements, confirm password match
         if(!username || !email || !name || !password || !confirmPassword){
             alert('Please complete all required fields');
@@ -35,18 +37,27 @@ export default function RegisterScreen({navigation, route}){
             return;
         }
 
-        // TODO: username validation
 
         // complie data
         const data = {
             username,
             email,
-            firstName: name.indexOf(' ')===-1?name.split(' ')[0]:name,
+            firstName: name.trim().indexOf(' ')===-1?name.split(' ')[0]:name,
             lastName: name.split(' ')[1] || '',
             password,
         }
 
+        // send verification email
+        const status = await sendVerificationEmail(email, name);
+        if(status !== 'success'){
+            alert('Sign up failed: '+ status);
+            setBtnDisabled(false);
+            // return;
+        }
+
+
         // navigate to new screen
+        setBtnDisabled(false);
         nav.navigate('EmailConfirmation', {data});
 
     }
@@ -99,8 +110,9 @@ export default function RegisterScreen({navigation, route}){
                 </Text>
                 <GenericButton
                     label='Create Account'
-                    onPress={submitForm}
+                    onPress={()=>{submitForm()}}
                     style={{width: STYLE.sizes.screenWidth * 0.6}}
+                    disabled={btnDisabled}
                 />
             </View>
 

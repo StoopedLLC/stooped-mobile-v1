@@ -9,20 +9,32 @@ import {Feather, MaterialIcons} from '@expo/vector-icons'
 
 export default function LoginScreen({navigation, route}){
 
+    const nav = useNavigation()
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const onSubmit = () => {
+    const onSubmit = async () => {
         // begin loading animation
 
         // authenticate user
-        const success = authenticateUser(username, password)
-
+        const token = await authenticateUser(username, password)
+        console.log(token)
+        
+        if(!token){
+            alert('An error occured. Please try again.')
+            return
+        }else if(token === 'INVALID_CREDENTIALS'){
+            alert('Invalid username or password.')
+            return
+        }
+        
         // cache user session
         
 
         // navigate to next screen
-        navigation.navigate('Stooped')
+        console.log('welcome!')
+        nav.navigate('Stooped')
 
     }
 
@@ -68,7 +80,7 @@ export default function LoginScreen({navigation, route}){
                         </View>
                         <GenericButton
                             label='Login'
-                            onPress={onSubmit}
+                            onPress={()=>{onSubmit()}}
                             style={styles.buttonStyle}
                         />
                     </View>

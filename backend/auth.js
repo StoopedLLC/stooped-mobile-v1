@@ -2,7 +2,7 @@
 This file contains all methods related to login
 */
 import DjangoApiClient from "@api/djangoApiClient"
-import autoEmailSend from '@backend/autoEmail'
+import {autoEmailSend} from '@backend/autoEmail'
 
 
 
@@ -16,31 +16,74 @@ const authenticateUser = async (username, password) => {
         password: the password entered by the user,
 
     @returns:
-        whether login is successful or not
+        the token of the user if successful, or else an empty string
     */
 
-    const url = `URL GOES HERE`
+    const url = `/login/`
     try{
-        let res = await DjangoApiClient.post(url, {
+        let res = await DjangoApiClient.patch(url, {
             username,
             password
         })
         if(res.status!==200 || res.status!==201){
-            res = await DjangoApiClient.post(url, {
-                email: username,
+            res = await DjangoApiClient.patch(url, {
+                username,
                 password
             })
         }
-        return res.status===200 || res.status===201
+
+        if(res.status===200 || res.status===201){
+            return res.data.token
+        }else{
+            return 'INVALID_CREDENTIALS'
+        }
     }catch(err){
-        console.log(error);
-        return false
+        if(err.response){
+            if(err.response.status===400){
+                return 'INVALID_CREDENTIALS' 
+            }
+        }
+        console.log(err); // FIXME: user does not exist should NOT prompt 500 error
+        return ''
     }
     
 }
 
-const completeSignUp = (code, newUserData)=>{
+const completeSignUp = async (code, newUserData)=>{
+    /*
+    this method attempts to complete the sign up process
+    if successful, it returns true, or else it returns false
 
+    @params:
+        code: the verification code sent to the user
+        newUserData: the data of the user that is being created
+
+    @returns:
+        whether sign up is successful or not
+    */
+        const url = '/verify/'
+        try{
+            const res = await DjangoApiClient.post(url, {
+                username: newUserData.username,
+                email: newUserData.email,
+                password: newUserData.password,
+                firstName: newUserData.firstName,
+                lastName: newUserData.lastName,
+                code: code
+            })
+            if(res.status===201 && res.data.success === true){
+                return 201 // FIXME: should probably return the token
+            }
+            return false
+        }catch(err){
+            if(err.response){
+                // console.log(err.response)
+                return err.response.status
+            }else{
+                return 500
+            }
+        }
+    
 }
 
 const sendVerificationEmail = async (email, name) => {
@@ -52,19 +95,30 @@ const sendVerificationEmail = async (email, name) => {
         email: user email
         name: name of the user
     
+    @returns:
+        whether the email is sent successfully or not ('success' or 'email-exists')
     */
 
-    const url = '/verification'
+    const url = '/verification/'
     try{
         const res = await DjangoApiClient.post(url, {
             email
         })
         const code = res.data.code
-        autoEmailSend(email, name, code)
+        if(autoEmailSend(email, name, code)){
+            return 'success'
+        }else{
+            return 'fail to send email'
+        }
     }catch(err){
         console.log(err)
+        console.log(err.response.data)
+        if(err.response){
+            return err.response.data.error
+        }
     }
 }
+
 
 
 export {

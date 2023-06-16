@@ -6,6 +6,7 @@ Props:
     - onPress: the function to call when the button is pressed
     - style: additional styles to apply to the button container (optional)
     - labelStyle: additional styles to apply to the button label (optional)
+    - disabled: whether the button is disabled or not (optional)
 */
 
 
@@ -21,7 +22,7 @@ export default function GenericButton(props){
 
 
     return (
-        <TouchableOpacity onPress={props.onPress}>
+        <TouchableOpacity onPress={props.onPress} disabled={props.disabled || false}>
             <View style={[styles.button, style]}>
                 <Text adjustsFontSizeToFit style={[styles.buttonText, labelStyle]}>{props.label}</Text>
             </View>

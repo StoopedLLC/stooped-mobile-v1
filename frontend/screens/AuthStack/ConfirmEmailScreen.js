@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import FormField from '@components/FormField';
 import STYLE from '@styles/Styles';
 import { Ionicons } from '@expo/vector-icons';
+import { completeSignUp } from '@backend/auth';
 
 export default function ConfirmEmailScreen({navigation, route}){
 
@@ -12,13 +13,25 @@ export default function ConfirmEmailScreen({navigation, route}){
     const [code, setCode] = useState('');
 
     useEffect(() => {
-        console.log(route.params.data)
-        if(code.length === 6){
-            // check if code is correct
+        const _completeSignUp = async () => {
+            if(code.length === 7){
+                // check if code is correct
 
-            // if correct, navigate to welcome screen
-            nav.navigate('SignupSuccess', {data: route.params.data});
+                const status = await completeSignUp(code, route.params.data);
+
+
+                // if correct, navigate to welcome screen
+                if(status===201){
+                    nav.navigate('SignupSuccess', {data: route.params.data}); 
+                }else{
+                    // if incorrect, show error message
+                    if(status===500){ // FIXME: API status should be changed to separate 400 and 500
+                        alert("Incorrect code! Please try again.");
+                    }
+                }
+            }
         }
+        _completeSignUp();
     }, [code]);
 
     return (

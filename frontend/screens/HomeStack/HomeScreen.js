@@ -31,7 +31,9 @@ export default function HomeScreen() {
             onRefresh={async () => {
                 try{
                     setIsRefreshing(true);
-                    const f = await getFeed({},{});
+                    const f = await getFeed({id:'123123123'},location, {
+                        radius: 1600,
+                    });
                     if(f){
                         setContentFeed(f);
                     }else{
