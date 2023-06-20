@@ -27,14 +27,14 @@ export default function CarouselList(props){
 
     const renderItem = ({item, index}) => {
         // console.log(item);
-        const {name, location, id, image_links, saved_count, posted_date} = item;
+        const {name, location, id, image_links, saved_count, posted_date, distance, address} = item;
         let image = '';
         if(image_links && image_links.length > 0){
             image = image_links[0];
         }
         return (
             <View style={styles.frame} key={index}>
-                <ItemFrame item={{name: name || 'name', location:location, id: id || '123123123', image, saved_count, posted_date}}/>
+                <ItemFrame item={{name: name, location:location, id: id, image, saved_count, posted_date, distance, address}}/>
             </View>
         )
     }

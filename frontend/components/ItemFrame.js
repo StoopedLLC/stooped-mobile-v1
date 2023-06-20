@@ -23,8 +23,6 @@ export default function ItemFrame({item}){
 
     const onLongPress = (event) => {
         navigation.navigate('Detail', {item: item});
-        console.log(item)
-        
     };
     
 
@@ -97,6 +95,7 @@ const styles = StyleSheet.create({
         fontSize: STYLE.sizes.h3, 
         fontFamily: STYLE.font.dmsansMed,
         paddingLeft: STYLE.sizes.screenWidth * 0.015,
+        width: STYLE.sizes.screenWidth * 0.5,
     },
 
 });

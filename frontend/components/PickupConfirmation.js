@@ -30,7 +30,9 @@ export default function PickupConfirmation({ item, onConfirm, onCancel, onNotFou
 
             <View style={styles.modalContentContainer}>
                 <TouchableOpacity onPress={onCancel} style={styles.cancelButton}>
-                    <Ionicons name="close" size={STYLE.sizes.p} color={STYLE.colors.font} />
+                    <View style={{flex: 1}}>
+                        <Ionicons name="close" size={STYLE.sizes.p} color={STYLE.colors.font} />
+                    </View>
                 </TouchableOpacity>
                 <Text style={styles.title}>Confirm your pickup</Text>
                 <Image source={{ uri: item.image || 'https://cdn-images.article.com/products/SKU416/2890x1500/image88321.jpg' }} style={styles.image} />

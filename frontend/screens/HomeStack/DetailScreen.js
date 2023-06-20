@@ -12,7 +12,7 @@ import { formatIsoDate, getNumDays, getNumHours } from "@backend/util";
 
 
 export default function DetailScreen({navigation, route}) {
-    const {id, name, location, address, posted_date, saved_count,distance} = route.params.item;
+    const {id, name, location, address, posted_date, saved_count,distance, image} = route.params.item;
 
     // const [distance, getDistance] = useEffect('0');
 
@@ -68,7 +68,7 @@ export default function DetailScreen({navigation, route}) {
         <SafeAreaView style={styles.container}>
             <ScrollView style={{height: STYLE.sizes.screenHeight, flex: 1}}>
                 <View style={{height: STYLE.sizes.screenHeight * .35 }}>
-                    <ImageBackground style={styles.image}  resizeMode='stretch' source={require('@images/temp__image.png')}>
+                    <ImageBackground style={styles.image}  resizeMode='stretch' source={{uri: image}}>
 
                         <View style={{display: "flex", flexDirection: "row"}}>
 
@@ -115,7 +115,7 @@ export default function DetailScreen({navigation, route}) {
                         padding: 10, 
                         borderRadius: 10
                     }}>
-                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{distance || '0.2 miles'} away</Text>
+                        <Text style={[styles.text, {fontWeight: 'bold'}]}>{`${distance.toFixed(1)} miles`} away</Text>
                     </View>
                 </View>
 

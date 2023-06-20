@@ -47,6 +47,9 @@ const DjangoApiClient = {
     },
     patch: (url, data) => {
         return client.patch(url, data);
+    },
+    delete: (url) => {
+        return client.delete(url);
     }
 }
 

@@ -51,69 +51,71 @@ export default function LoginScreen({navigation, route}){
                 }}
             >
                 <View style={styles.overlay}>
-                    <View style={styles.form} >
-                        <Text adjustsFontSizeToFit style={styles.title}>Welcome Back</Text>
-                        <View style={styles.fieldContainer}>
-                            <View style={{flex: 0.12, alignItems:'center'}}>
-                                <Feather name="user" size={STYLE.sizes.screenHeight * 0.03} color={STYLE.colors.font} />
+                    <ScrollView contentContainerStyle={styles.contentWrap} scrollEnabled={false}>
+                        <View style={styles.form} >
+                            <Text adjustsFontSizeToFit style={styles.title}>Welcome Back</Text>
+                            <View style={styles.fieldContainer}>
+                                <View style={{flex: 0.12, alignItems:'center'}}>
+                                    <Feather name="user" size={STYLE.sizes.screenHeight * 0.03} color={STYLE.colors.font} />
+                                </View>
+                                <TextInput 
+                                    style={styles.input}
+                                    onChangeText={setUsername}
+                                    value={username}
+                                    placeholder={'username or email'}
+                                    placeholderTextColor={STYLE.color.accent.gray}
+                                />
                             </View>
-                            <TextInput 
-                                style={styles.input}
-                                onChangeText={setUsername}
-                                value={username}
-                                placeholder={'username or email'}
-                                placeholderTextColor={STYLE.color.accent.gray}
+                            <View style={styles.fieldContainer}>
+                                <View style={{flex: 0.12, alignItems:'center'}}>
+                                    <MaterialIcons name="lock-outline" size={STYLE.sizes.screenHeight * 0.03} color={STYLE.colors.font} />
+                                </View>
+                                <TextInput 
+                                    style={styles.input}
+                                    onChangeText={setPassword}
+                                    value={password}
+                                    placeholder={'password'}
+                                    placeholderTextColor={STYLE.color.accent.gray}
+                                    secureTextEntry={true}
+                                />
+                            </View>
+                            <GenericButton
+                                label='Login'
+                                onPress={()=>{onSubmit()}}
+                                style={styles.buttonStyle}
                             />
                         </View>
-                        <View style={styles.fieldContainer}>
-                            <View style={{flex: 0.12, alignItems:'center'}}>
-                                <MaterialIcons name="lock-outline" size={STYLE.sizes.screenHeight * 0.03} color={STYLE.colors.font} />
-                            </View>
-                            <TextInput 
-                                style={styles.input}
-                                onChangeText={setPassword}
-                                value={password}
-                                placeholder={'password'}
-                                placeholderTextColor={STYLE.color.accent.gray}
-                                secureTextEntry={true}
-                            />
-                        </View>
-                        <GenericButton
-                            label='Login'
-                            onPress={()=>{onSubmit()}}
-                            style={styles.buttonStyle}
-                        />
-                    </View>
-                    <View style={styles.optionPan}>
-                        <TouchableOpacity onPress={()=>{navigation.navigate('')}}>
-                            <Text adjustsFontSizeToFit style={styles.optionText}>Forgot Password?</Text>
-                        </TouchableOpacity>
-                        <View style={styles.hrText}>
-                            <View style={{
-                                height: 1,
-                                width: '42%',
-                                backgroundColor: STYLE.colors.font,
-                                marginVertical: STYLE.sizes.screenHeight * 0.02,
-                                marginRight: 2,
-                            }}></View>
-                            <Text adjustsFontSizeToFit style={[styles.optionText, ]}>or</Text>
-                            <View style={{
-                                height: 1,
-                                width: '48%',
-                                backgroundColor: STYLE.colors.font,
-                                marginVertical: STYLE.sizes.screenHeight * 0.02,
-                                marginLeft: 2,
-                            }}></View>
-                        </View>
-                        <View style={{flexDirection: 'row'}}>
-                            <Text adjustsFontSizeToFit style={styles.optionText}>New here? </Text>
-                            <TouchableOpacity onPress={()=>{navigation.navigate('Register')}}>
-                                <Text adjustsFontSizeToFit style={[styles.optionText, {
-                                    color: STYLE.colors.accent.blue
-                                }]}>Create Account</Text>
+                        <View style={styles.optionPan}>
+                            <TouchableOpacity onPress={()=>{navigation.navigate('')}}>
+                                <Text adjustsFontSizeToFit style={styles.optionText}>Forgot Password?</Text>
                             </TouchableOpacity>
+                            <View style={styles.hrText}>
+                                <View style={{
+                                    height: 1,
+                                    width: '42%',
+                                    backgroundColor: STYLE.colors.font,
+                                    marginVertical: STYLE.sizes.screenHeight * 0.02,
+                                    marginRight: 2,
+                                }}></View>
+                                <Text adjustsFontSizeToFit style={[styles.optionText, ]}>or</Text>
+                                <View style={{
+                                    height: 1,
+                                    width: '48%',
+                                    backgroundColor: STYLE.colors.font,
+                                    marginVertical: STYLE.sizes.screenHeight * 0.02,
+                                    marginLeft: 2,
+                                }}></View>
+                            </View>
+                            <View style={{flexDirection: 'row'}}>
+                                <Text adjustsFontSizeToFit style={styles.optionText}>New here? </Text>
+                                <TouchableOpacity onPress={()=>{navigation.navigate('Register')}}>
+                                    <Text adjustsFontSizeToFit style={[styles.optionText, {
+                                        color: STYLE.colors.accent.blue
+                                    }]}>Create Account</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
+                    </ScrollView>
                 </View>
             </ImageBackground>
         </View>
@@ -136,6 +138,9 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingHorizontal: STYLE.sizes.screenWidth * 0.05,
         paddingVertical: STYLE.sizes.screenHeight * 0.05,
+    },
+    contentWrap:{
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },

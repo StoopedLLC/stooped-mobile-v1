@@ -106,6 +106,8 @@ see [package.json](/package.json) for the most updated list of packages
 (up to this point, there were 17 critical vulnerabilities)
 * @emailjs/browser: ^3.11.0
 * emailjs: ^4.0.2
+...
+* @react-native-community/slider: 4.2.4
 
 
 

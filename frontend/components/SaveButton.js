@@ -13,6 +13,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, Touch
 import STYLE from '@styles/Styles';
 import { notificationAsync, NotificationFeedbackType } from "expo-haptics";
 import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import { addToSavedItem, removeFromSavedItem } from '@backend/item';
 
 export default function SaveButton(props){
 
@@ -22,9 +23,11 @@ export default function SaveButton(props){
     useEffect(()=>{
         if(saved){
             notificationAsync(NotificationFeedbackType.Success);
-            // TODO: add item to user's saved items list
+            const success = addToSavedItem({id: 'b92c36a8-b55b-431b-b14a-1c237ef0e0b9'}, props.item);
+            // add item to user's saved items list
         }else{
             // notificationAsync(NotificationFeedbackType.Warning);
+            const success = removeFromSavedItem({id: 'b92c36a8-b55b-431b-b14a-1c237ef0e0b9'}, props.item);
             // TODO: remove item from user's saved items list
         }
     }, [saved]);

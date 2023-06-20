@@ -22,12 +22,12 @@ const authenticateUser = async (username, password) => {
     const url = `/login/`
     try{
         let res = await DjangoApiClient.patch(url, {
-            username,
+            "username_or_email": username,
             password
         })
         if(res.status!==200 || res.status!==201){
             res = await DjangoApiClient.patch(url, {
-                username,
+                "username_or_email": username,
                 password
             })
         }

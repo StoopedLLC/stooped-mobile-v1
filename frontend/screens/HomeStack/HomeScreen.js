@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, Image, TouchableNativeFeedback, ScrollView, RefreshControl } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import STYLE from "@styles/Styles";
-import ItemFrame from "@components/ItemFrame";
 import { SearchBar } from 'react-native-elements';
 import { List } from 'react-native-feather'
 import CarouselList from "@components/CarouselList";
+import StoopMap from "@components/StoopMap";
 import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
-import { getCurrentLocation } from "@backend/location";
-import MapView, {Marker} from "react-native-maps";
+import { getCurrentLocation, getDistanceInMiles } from "@backend/location";
+import FilterModal from "@components/FilterModal";
 
 
 export default function HomeScreen() {
@@ -16,7 +16,19 @@ export default function HomeScreen() {
     const [search, setSearch] = React.useState('');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
     const [contentFeed, setContentFeed] = useState([]);
-    const [toggle, setToggle] = useState(false);
+    const [toggle, setToggle] = useState(false); // toggle between list and map view
+    const [showFilter, setShowFilter] = useState(false);
+
+    const [radius, setRadius] = useState(1600);
+    const [time_posted, setTimePosted] = useState(24);
+    const [sortBy, setSortBy] = useState('distance');
+    const [filterReady, setFilterReady] = useState(false);
+    const [filter, setFilter] = useState({
+        radius: 1600,
+        time_posted: 24,
+        sortBy: 'distance',
+    })
+
 
 
     const toggleView = () => {
@@ -24,57 +36,97 @@ export default function HomeScreen() {
         console.log("toggle view");
     }
 
+    const activateFilter = (filters) => {
+        let changed = false;
+        if(filters.radius!==radius){
+            changed = true;
+        }
+        if(filters.time_posted!==time_posted){
+            changed = true;
+        }
+        if(filters.sortBy!==sortBy){
+            // TODO: figure out sorting
+            setSortBy(filters.sortBy);
+        }
+        if(changed){
+            setRadius(filters.radius);
+            setTimePosted(filters.time_posted);
+            setFilter({
+                radius: filters.radius,
+                time_posted: filters.time_posted,
+                ...filters
+            })
+        }
+    }
+
+        
+
+
 
     const refreshControl = (
         <RefreshControl
             refreshing={isRefreshing}
-            onRefresh={async () => {
-                try{
+            onRefresh={
+                async () => {
                     setIsRefreshing(true);
-                    const f = await getFeed({id:'123123123'},location, {
-                        radius: 1600,
-                    });
-                    if(f){
-                        setContentFeed(f);
-                    }else{
-                        alert('fail to load feed') // add further effect on failed load
-                    }
-                }catch(error){
-                    console.log(error);
+                    await dataLoad();
+                    setIsRefreshing(false);
                 }
-                setIsRefreshing(false);
-            }}
+            }
             colors={[STYLE.color.font]}
             tintColor={STYLE.color.font}
         />
     )
 
 
+    const dataLoad = async () => {
+        try{
+            // obtain location first
+            const location = await getCurrentLocation();
+            if(!location){
+                return; // add further effect on failed load
+            }
+
+            const f = await getFeed({id:'123123123'},location, { //TODO: change id to user id
+                radius: radius,
+                time_units: 'hours',
+                time_posted: time_posted,
+            });
+            if(f){
+                for(let i = 0; i < f.length; i++){
+                    f[i].distance = getDistanceInMiles({
+                        latitude: location.latitude, 
+                        longitude: location.longitude
+                    }, {
+                        latitude: f[i].location.latitude, 
+                        longitude: f[i].location.longitude
+                    })
+                }
+            }
+            // console.log('feed', f)
+
+            if(f){
+                setContentFeed(f);
+            }else{
+                alert('fail to load feed') // add further effect on fail load
+            }
+        }catch(error){
+            alert('something went wrong! Please restart the app.')
+            console.log(error);
+        }
+    }
+
     // obtain location and load data
     useEffect(() => {
-        const dataLoad = async () => {
-            try{
-                // obtain location first
-                const location = await getCurrentLocation();
-                if(!location){
-                    return; // add further effect on failed load
-                }
-
-                const f = await getFeed({id:'123123123'},location, {
-                    radius: 1600,
-                });
-                if(f){
-                    setContentFeed(f);
-                }else{
-                    alert('fail to load feed') // add further effect on fail load
-                }
-            }catch(error){
-                alert('something went wrong! Please restart the app.')
-                console.log(error);
-            }
+        if(radius && time_posted && sortBy){
+            dataLoad();
         }
-        dataLoad();
     }, [])
+
+    useEffect(() => {
+        console.log('filter', filter)
+        dataLoad();
+    }, [filter])
 
 
     return (
@@ -135,8 +187,9 @@ export default function HomeScreen() {
                     />
                     <TouchableOpacity
                         style={styles.filterButton}
+                        onPress={()=>{setShowFilter(!showFilter)}}
                     >
-                        <Image source={require('../../assets/images/filter-symbol.png')} 
+                        <Image source={require('@images/filter-symbol.png')} 
                         style={{width: STYLE.sizes.screenWidth * 0.07, height: STYLE.sizes.screenWidth * 0.051}}
                         />
                     </TouchableOpacity>
@@ -153,7 +206,7 @@ export default function HomeScreen() {
                             </View>
                             {/* end of component for slider wrap  */}
 
-                            <TouchableOpacity onPress={()=>{nav.navigate('Pickup', {item: {
+                            {/* <TouchableOpacity onPress={()=>{nav.navigate('Pickup', {item: {
                                     id: "1",
                                     name: 'test',
                                     location: {
@@ -166,32 +219,20 @@ export default function HomeScreen() {
                                     distance: 0,
                                 }})}}>
                                     <Text> press to go to pick up</Text>
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                         </View>
                         
                     ): (
-                        <View style={styles.mapView}>
-                            <MapView
-                                // ref={mapRef}
-                                style={styles.map}
-                                // initialRegion={{
-                                //     latitude: itemLocation.latitude,
-                                //     longitude: itemLocation.longitude,
-                                // }}
-                                showsUserLocation={true}
-                            >
-                                {/* <Marker coordinate={itemLocation.latitude? itemLocation:{latitude: 37.78825, longitude: -122.4324}}>
-                                    <Image 
-                                        source={require('@images/map-pin.png')}
-                                        style={STYLE.mapPin}
-                                    />
-                                </Marker> */}
-                            </MapView>
-                        </View>
+                        <StoopMap data={contentFeed}/>
                     )
                 }
-
             </ScrollView>
+            <FilterModal 
+                onConfirm={activateFilter} 
+                isVisible={showFilter} 
+                setIsVisible={(v)=> setShowFilter(v)} 
+                initialValues={{distance: radius, postedWithin: time_posted, sortBy: sortBy}} 
+            />
         </SafeAreaView>
     );
 }
@@ -222,29 +263,5 @@ const styles = StyleSheet.create({
         backgroundColor: STYLE.color.font,
         padding: STYLE.sizes.screenWidth * 0.01,
         borderRadius: 0.055 * STYLE.sizes.screenWidth,
-    },
-    mapView:{
-        height: STYLE.sizes.screenHeight * .6,
-        width: STYLE.sizes.screenWidth * .95,
-        alignSelf: 'center',
-        borderRadius: STYLE.borders.moreRound,
-        // shadow on the bottom right
-        shadowColor: '#000000',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 1,
-        shadowRadius: 5,
-        elevation: 5,
-    },
-    map:{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex:-1,
-        elevation: -1,
-        flex: 1,
-        overflow: 'hidden',
-        borderRadius: STYLE.borders.normalRound,
     },
 });

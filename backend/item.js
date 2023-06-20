@@ -19,20 +19,20 @@ const addToSavedItem = async (user, item) => {
         @return:
             true if the operation is successful, false otherwise
     */
-    const url = `/saved-items`;
+    const url = `/saved-items/`;
     const data = {
         user_id: user.id,
         item_id: item.id
     }
-
+    console.log('saved item', data)
     try{
         const res = await DjangoApiClient.post(url, data);
-        if(res.status === 200){
+        if(res.status === 200 || res.status === 201){
             return true;
         }
         return false;
     }catch(error){
-        console.log(error);
+        console.log(error.response.data);
         return false;
     }
 }
@@ -49,7 +49,7 @@ const removeFromSavedItem = async (user, item) => {
         @return:
             true if the operation is successful, false otherwise
     */
-    const url = `/saved-items/${item.id}`;
+    const url = `/saved-items/${item.id}/?user_id=${user.id}`;
     const data = {
         user_id: user.id,
     }
@@ -88,6 +88,7 @@ const getFeed = async (user, location, filter) => {
     const url = `/feed`;
 
     try{
+        // console.log('attempt to get feed with filter', filter)
         const res = await DjangoApiClient.post(url, {
             user_id: user.id,
             latitude: location.latitude,
