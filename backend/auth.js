@@ -33,14 +33,16 @@ const authenticateUser = async (username, password) => {
         }
 
         if(res.status===200 || res.status===201){
-            return res.data.token
+            return res.data
         }else{
-            return 'INVALID_CREDENTIALS'
+            return ''
         }
     }catch(err){
         if(err.response){
             if(err.response.status===400){
-                return 'INVALID_CREDENTIALS' 
+                return err.response.data
+            }else{
+                return err.response.data
             }
         }
         console.log(err); // FIXME: user does not exist should NOT prompt 500 error
@@ -67,8 +69,8 @@ const completeSignUp = async (code, newUserData)=>{
                 username: newUserData.username,
                 email: newUserData.email,
                 password: newUserData.password,
-                firstName: newUserData.firstName,
-                lastName: newUserData.lastName,
+                first_name: newUserData.firstName,
+                last_name: newUserData.lastName,
                 code: code
             })
             if(res.status===201 && res.data.success === true){
@@ -77,7 +79,6 @@ const completeSignUp = async (code, newUserData)=>{
             return false
         }catch(err){
             if(err.response){
-                // console.log(err.response)
                 return err.response.status
             }else{
                 return 500

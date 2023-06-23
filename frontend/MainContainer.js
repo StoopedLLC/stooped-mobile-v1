@@ -273,6 +273,7 @@ export default function MainContainer() {
                 initialRouteName='Auth'
                 screenOptions={{
                     headerShown: false,
+                    gesuterEnabled: false,
                 }}
             >
                 <MasterStack.Screen name="Auth" component={AuthContainer} initialParams={{navRef: ref}}/>

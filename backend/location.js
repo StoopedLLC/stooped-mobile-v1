@@ -2,10 +2,12 @@
 this file contains all services that interact with locations.
 It contains the following method:
     - getCurrentLocation: get the current coordinate of the device
+    - getNavigation: get the navigation instructions from the user's current location to the item's location
 */
 import * as Location from 'expo-location';
 import { Platform, Alert } from 'react-native';
 import { openAppSettings } from './linking';
+import DjangoApiClient from '@api/djangoApiClient';
 
 
 export const getCurrentLocation = async () => {
@@ -74,4 +76,42 @@ export const getDistanceInMiles = (startLocation, endLocation) => {
         ;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c; // Distance in miles
+}
+
+
+export const getNavigation = async (currLocation, itemId, mode = 'walking') => {
+    /*
+        This function gets the navigation instructions from the user's current location to the item's location.
+
+        @params:
+            currLocation: the current location of the user {latitude, longitude}
+            itemId: the id of the item
+            mode: the mode of transportation (walking, driving, transit, bicycling)
+
+        @return:
+            the navigation instructions from the user's current location to the item's location, in array
+    */
+
+    try{
+        console.log('id', itemId)
+        const res = await DjangoApiClient.get(`/directions`, { // FIXME: should be get endpoint
+            mode: mode,
+            user_lat: currLocation.latitude,
+            user_long: currLocation.longitude,
+            item_id: itemId
+        }, true)
+
+        // parse the response, TODO: check if it works on all modes
+        console.log(res.data)
+        const steps = res.data[0].legs[0].steps
+        const instructions = steps.map(step => step.html_instructions.replace(/<[^>]*>?/gm, ''))
+        return instructions
+    }catch(error){
+        if(error.response){
+            console.log(error.response.data)
+            // console.log(error.response.status)
+        }
+        return []
+    }
+
 }

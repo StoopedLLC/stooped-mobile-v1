@@ -101,7 +101,7 @@ const getFeed = async (user, location, filter) => {
         
     }catch(error){
         console.log(error);
-        return null;
+        return false;
     }
 }
 
@@ -187,12 +187,43 @@ const pickupItem = async (userId, itemId) => {
             true if the operation is successful, false otherwise
     */
     try{
-        const url = `/picked-up/`;
+        const url = `/picked-up`;
         const data = {
             user_id: userId,
             item_id: itemId
         }
-        const res = await DjangoApiClient.post(url, data);
+        const res = await DjangoApiClient.patch(url, data);
+        if(res.status === 201 || res.status === 200){
+            return true;
+        }
+        return false;
+    }catch(error){
+        if(error.response){
+            console.log(error.response.data);
+        }else{
+            console.log(error);
+        }
+        return false;
+    }
+}
+
+const reportMissingItem = async (itemId) => {
+    /*
+        This function allows user to report an item as missing.
+
+        @params:
+            itemId: the id of the item
+
+        @return:
+            true if the operation is successful, false otherwise
+
+    */
+    try{
+        const url = `/is-missing`;
+        const data = {
+            item_id: itemId
+        }
+        const res = await DjangoApiClient.patch(url, data);
         if(res.status === 201 || res.status === 200){
             return true;
         }
@@ -212,5 +243,6 @@ export {
     removeFromSavedItem,
     getFeed,
     uploadItem,
-    pickupItem
+    pickupItem,
+    reportMissingItem
 }

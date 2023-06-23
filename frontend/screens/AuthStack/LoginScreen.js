@@ -18,14 +18,13 @@ export default function LoginScreen({navigation, route}){
         // begin loading animation
 
         // authenticate user
-        const token = await authenticateUser(username, password)
-        console.log(token)
+        const res = await authenticateUser(username, password)
         
-        if(!token){
+        if(!res){
             alert('An error occured. Please try again.')
             return
-        }else if(token === 'INVALID_CREDENTIALS'){
-            alert('Invalid username or password.')
+        }else if(res.success === false){
+            alert(res.error)
             return
         }
         

@@ -25,7 +25,7 @@ export default function ConfirmEmailScreen({navigation, route}){
                     nav.navigate('SignupSuccess', {data: route.params.data}); 
                 }else{
                     // if incorrect, show error message
-                    if(status===500){ // FIXME: API status should be changed to separate 400 and 500
+                    if(status===400){
                         alert("Incorrect code! Please try again.");
                     }
                 }

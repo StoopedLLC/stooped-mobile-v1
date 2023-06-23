@@ -36,7 +36,7 @@ const DjangoApiClient = {
         @return:
             a promise, which resolves to the response from the server
     */
-    get: (url, params) => {
+    get: (url, params, body = false) => {
         return client.get(url, params);
     },
     post: (url, data) => {

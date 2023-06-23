@@ -85,7 +85,7 @@ export default function DetailScreen({navigation, route}) {
                                 marginRight: STYLE.sizes.screenWidth * .05,
                                 marginTop: STYLE.sizes.screenHeight * 0.02,
                             }}>
-                                <SaveButton />
+                                <SaveButton item={route.params.item} />
                             </TouchableOpacity>
                         </View>
                         

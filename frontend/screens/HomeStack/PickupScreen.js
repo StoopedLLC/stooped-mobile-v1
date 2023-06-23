@@ -13,6 +13,8 @@ import { getDistanceInMiles } from "@backend/location";
 import { scheduleNotification, cancelNotification } from "@backend/notifications";
 import PickupConfirmation from "@components/PickupConfirmation";
 import * as Haptics from 'expo-haptics';
+import { pickupItem, reportMissingItem } from "@backend/item";
+import { getNavigation } from "@backend/location";
 
 
 export default function PickupScreen({navigation, route}) {
@@ -36,7 +38,16 @@ export default function PickupScreen({navigation, route}) {
     // TODO: load navigation related data
     useEffect(() => {
         const dataLoad = async () => {
-            setstartLocation(await getCurrentLocation());
+            const currentLocation = await getCurrentLocation();
+            setstartLocation(currentLocation);
+
+            // populate navigation
+            const newNavInstructions = [];
+            const nav = await getNavigation(currentLocation, id);
+            nav.forEach((step) => {
+                newNavInstructions.push(step.instructions);
+            });
+            setNavInstructions(newNavInstructions);
         }
         dataLoad();
     }, []);
@@ -123,6 +134,29 @@ export default function PickupScreen({navigation, route}) {
     }
 
 
+    const reportMissing = () => {
+        const _missing = async () => {
+            const success = await reportMissingItem(id);
+            if(success){
+                Alert.alert(
+                    ":(",
+                    "We're very sorry that you couldn't find the item. We'll do better next time!",
+                    [
+                        {
+                            text: "OK",
+                        },
+                    ],
+                    { cancelable: true }
+                );
+                nav.navigate("Home", {refresh: true});
+            }else{
+                Alert.alert('Oops!', 'Something went wrong. Please try again.');
+            }
+        }
+        _missing();
+    }
+
+
     const onMissingClicked = () => {
         Alert.alert(
             "Oops!",
@@ -133,7 +167,7 @@ export default function PickupScreen({navigation, route}) {
                 },
                 {
                     text: "Yes, I'm certain",
-                    onPress: () => console.log("Report Pressed"),
+                    onPress: () => reportMissing(),
                 },
             ],
             { cancelable: true }
@@ -141,12 +175,26 @@ export default function PickupScreen({navigation, route}) {
     }
 
 
-    const confirmPickup = () => {
+    const confirmPickup = async () => {
         setModalVisible(false);
         if(checkInNotification){
             cancelNotification(checkInNotification);
         }
-        nav.navigate("Success", {item: route.params.item});
+        const success = await pickupItem('35325253-c96c-41b9-9384-3c129a69833f', id) // FIXME: replace with user id
+        if(success){
+            nav.navigate("Success", {item: route.params.item});
+        }else{
+            Alert.alert(
+                "Oops!",
+                "Something went wrong with the pickup. Please try again.",
+                [
+                    {
+                        text: "OK",
+                    },
+                ],
+                { cancelable: true }
+            );
+        }
     }
 
     const onRefresh = () => {

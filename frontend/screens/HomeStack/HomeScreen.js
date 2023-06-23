@@ -11,7 +11,7 @@ import { getCurrentLocation, getDistanceInMiles } from "@backend/location";
 import FilterModal from "@components/FilterModal";
 
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation, route}) {
     const nav = useNavigation();
     const [search, setSearch] = React.useState('');
     const [isRefreshing, setIsRefreshing] = React.useState(false);
@@ -20,15 +20,14 @@ export default function HomeScreen() {
     const [showFilter, setShowFilter] = useState(false);
 
     const [radius, setRadius] = useState(1600);
-    const [time_posted, setTimePosted] = useState(24);
+    const [time_posted, setTimePosted] = useState(72);
     const [sortBy, setSortBy] = useState('distance');
     const [filterReady, setFilterReady] = useState(false);
     const [filter, setFilter] = useState({
         radius: 1600,
-        time_posted: 24,
+        time_posted: 72,
         sortBy: 'distance',
     })
-
 
 
     const toggleView = () => {
@@ -87,7 +86,7 @@ export default function HomeScreen() {
                 return; // add further effect on failed load
             }
 
-            const f = await getFeed({id:'123123123'},location, { //TODO: change id to user id
+            const f = await getFeed({id:'35325253-c96c-41b9-9384-3c129a69833f'},location, { //TODO: change id to user id
                 radius: radius,
                 time_units: 'hours',
                 time_posted: time_posted,
@@ -127,6 +126,12 @@ export default function HomeScreen() {
         console.log('filter', filter)
         dataLoad();
     }, [filter])
+
+    // rerender if refresh is in param
+    if(route.params && route.params.refresh){
+        route.params.refresh = false;
+        dataLoad();
+    }
 
 
     return (
