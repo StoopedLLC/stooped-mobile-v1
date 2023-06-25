@@ -9,6 +9,7 @@
 
 
 import axios from 'axios';
+import {DJANGO_API_TOKEN} from "@env";
 
 // const axios = require('axios');
 
@@ -18,7 +19,8 @@ const client = axios.create({
     baseURL: "http://django-api-env.eba-fys6emgc.us-east-1.elasticbeanstalk.com/api/",
     headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${DJANGO_API_TOKEN}`
     }
 });
 
@@ -36,8 +38,8 @@ const DjangoApiClient = {
         @return:
             a promise, which resolves to the response from the server
     */
-    get: (url, params, body = false) => {
-        return client.get(url, params);
+    get: (url, params) => {
+        return client.get(url, {params});
     },
     post: (url, data) => {
         return client.post(url, data);
