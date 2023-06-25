@@ -45,7 +45,7 @@ const authenticateUser = async (username, password) => {
                 return err.response.data
             }
         }
-        console.log(err); // FIXME: user does not exist should NOT prompt 500 error
+        console.log(err);
         return ''
     }
     

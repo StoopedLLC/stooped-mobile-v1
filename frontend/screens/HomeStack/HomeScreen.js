@@ -116,11 +116,11 @@ export default function HomeScreen({navigation, route}) {
     }
 
     // obtain location and load data
-    useEffect(() => {
-        if(radius && time_posted && sortBy){
-            dataLoad();
-        }
-    }, [])
+    // useEffect(() => {
+    //     if(radius && time_posted && sortBy){
+    //         dataLoad();
+    //     }
+    // }, [])
 
     useEffect(() => {
         console.log('filter', filter)

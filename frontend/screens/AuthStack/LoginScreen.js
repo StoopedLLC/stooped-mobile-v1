@@ -26,6 +26,9 @@ export default function LoginScreen({navigation, route}){
         }else if(res.success === false){
             alert(res.error)
             return
+        }else if(!res.success){
+            alert('An error occured. Please try again.')
+            return
         }
         
         // cache user session

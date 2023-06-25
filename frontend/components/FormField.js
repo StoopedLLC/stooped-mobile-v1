@@ -17,7 +17,6 @@ import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, TouchableNativeFeedback, SafeAreaView, TextInput } from 'react-native';
 import STYLE from '@styles/Styles';
 
-// TODO: chatgpt generated code, modification needed
 export default function FormField(props){
     
     const [text, setText] = React.useState('');
