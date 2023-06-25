@@ -66,6 +66,31 @@ const removeFromSavedItem = async (user, item) => {
     }
 }
 
+const getSavedItems = async (userId) => {
+    /*
+        This function gets the user's saved items.
+        
+        @params:
+            user: the user id
+
+        @return:
+            a list of items that the user has saved
+    */
+    const url = `/saved-items/?user_id=${userId}`;
+    try{
+        const res = await DjangoApiClient.get(url);
+        if(res.status === 200){
+            return res.data.saved_items;
+        }
+        return [];
+    }catch(error){
+        console.log(error);
+        return [];
+    }
+}
+
+
+
 
 const getFeed = async (user, location, filter) => {
     /*
@@ -85,7 +110,7 @@ const getFeed = async (user, location, filter) => {
             a list of items that are within the user's location
     */
                 
-    const url = `/feed`;
+    const url = `/feed/`;
 
     try{
         // console.log('attempt to get feed with filter', filter)
@@ -244,5 +269,6 @@ export {
     getFeed,
     uploadItem,
     pickupItem,
-    reportMissingItem
+    reportMissingItem,
+    getSavedItems
 }

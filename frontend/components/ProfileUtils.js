@@ -8,6 +8,7 @@ export const ProfileBody = ({
   name,
   accountName,
   profileImage,
+  pickedUp,
   post,
   followers,
   following,
@@ -93,7 +94,7 @@ export const ProfileBody = ({
               <Text style={{color: "white"}}>Posts</Text>
               </View>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{post}</Text>
+              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{pickedUp}</Text>
               <Text style={{color: "white"}}>Picked Up</Text>
               </View>
           </View>

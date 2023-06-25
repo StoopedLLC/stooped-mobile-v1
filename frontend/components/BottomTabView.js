@@ -1,36 +1,47 @@
 import React from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Image} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Ionic from 'react-native-vector-icons/Ionicons';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import STYLE from '../assets/styles/Styles';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
-const BottomTabView = () => {
+const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
   const Tab = createMaterialTopTabNavigator();
 
-  let squares = [];
-  let numberOfSquare = 7;
-
-  for (let index = 0; index < numberOfSquare; index++) {
-    squares.push(
-      <View key={index}>
-        <View
-          style={{
-            width: 130,
-            height: 150,
-            marginVertical: 0.5,
-            backgroundColor: 'black',
-            opacity: 0.1,
-            shadowColor: 'white',
-            shadowOffset: { width: 0, height: -1 },
-            shadowOpacity: 0.8,
-            shadowRadius: 20,  
-            elevation: -5
-          }}></View>
-      </View>,
-    );
+  const SquareFeed = (data, count) => {
+    let squares = [];
+    for (let index = 0; index < count; index++) {
+      squares.push(
+        <TouchableOpacity key={index} onPress={()=>{onItemPressed(data[index])}}>
+          <View
+            style={{
+              width: STYLE.sizes.screenWidth * 0.33,
+              height: STYLE.sizes.screenWidth * 0.33,
+              marginVertical: 0.5,
+              backgroundColor: 'black',
+              shadowColor: 'white',
+              shadowOffset: { width: 0, height: -1 },
+              shadowOpacity: 0.8,
+              shadowRadius: 5,  
+            }}>
+              <Image
+                source={{uri: 'https://cdn.shopify.com/s/files/1/0522/6912/1736/products/wyc8ptqiqkjjvj9wjsom.jpg?v=1614635808'}}
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  resizeMode: 'cover',
+                }}
+              />
+            </View>
+        </TouchableOpacity>,
+      );
+    }
+    return squares;
   }
 
-  const Posts = () => {
+  const PostGrid = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -44,15 +55,15 @@ const BottomTabView = () => {
             height: '100%',
             flexWrap: 'wrap',
             flexDirection: 'row',
-            paddingVertical: 5,
+            paddingVertical: STYLE.sizes.screenHeight * 0.005,
             justifyContent: 'space-between',
           }}>
-          {squares}
+          {SquareFeed(posts, posts.length)}
         </View>
       </ScrollView>
     );
   };
-  const Claimed = () => {
+  const ClaimedGrid = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -66,15 +77,15 @@ const BottomTabView = () => {
             height: '100%',
             flexWrap: 'wrap',
             flexDirection: 'row',
-            paddingVertical: 5,
+            paddingVertical: STYLE.sizes.screenHeight * 0.005,
             justifyContent: 'space-between',
           }}>
-          {squares}
+          {SquareFeed(claimed, claimed.length)}
         </View>
       </ScrollView>
     );
   };
-  const Tags = () => {
+  const SavedGrid = () => {
     return (
       <ScrollView
         showsVerticalScrollIndicator={false}
@@ -88,11 +99,11 @@ const BottomTabView = () => {
             height: '100%',
             flexWrap: 'wrap',
             flexDirection: 'row',
-            paddingVertical: 5,
+            paddingVertical: STYLE.sizes.screenHeight * 0.005,
             justifyContent: 'space-between',
 
           }}>
-          {squares}
+          {SquareFeed(saved, saved.length)}
         </View>
       </ScrollView>
     );
@@ -109,22 +120,23 @@ const BottomTabView = () => {
         tabBarIcon: ({focused, colour}) => {
           let iconName;
           if (route.name === 'Posts') {
-            iconName = focused ? 'ios-apps-sharp' : 'ios-apps-sharp';
+            iconName = focused ? 'envelope' : 'envelope-o';
             colour = focused ? 'lightblue' : 'gray';
           } else if (route.name === 'Claimed') {
-            iconName = focused ? 'ios-play-circle' : 'ios-play-circle-outline';
+            iconName = focused ? 'ios-trophy' : 'ios-trophy-outline';
             colour = focused ? 'lightblue' : 'gray';
-          } else if (route.name === 'Tags') {
-            iconName = focused ? 'ios-person' : 'ios-person-outline';
+          } else if (route.name === 'Saved') {
+            iconName = focused ? 'heart' : 'heart-outline';
             colour = focused ? 'lightblue' : 'gray';
           }
 
-          return <Ionic name={iconName} color={colour} size={22} />;
+          return iconName.includes('envelope')? 
+          <FontAwesome name={iconName} color={colour} size={22} />:<Ionic name={iconName} color={colour} size={22} />;
         },
       })}>
-      <Tab.Screen name="Posts" component={Posts} />
-      <Tab.Screen name="Claimed" component={Claimed} />
-      <Tab.Screen name="Tags" component={Tags} />
+      <Tab.Screen name="Claimed" component={ClaimedGrid} />
+      <Tab.Screen name="Posts" component={PostGrid} />
+      <Tab.Screen name="Saved" component={SavedGrid} />
     </Tab.Navigator>
   );
 };
