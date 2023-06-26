@@ -1,11 +1,8 @@
 import React, {useEffect, useRef} from "react";
 import { View, Text, StyleSheet, Dimensions, SafeAreaView, ImageBackground, TouchableOpacity, ScrollView, Image } from "react-native";
 import STYLE from "@styles/Styles";
-import { LinearGradient } from 'expo-linear-gradient';
 import Ionicons from '@expo/vector-icons/Ionicons';
-import SaveButton from '@components/SaveButton';
-import { collection } from "firebase/firestore";
-import { Camera, CameraType, FlashMode , permission} from 'expo-camera';
+import { Camera, CameraType, FlashMode } from 'expo-camera';
 import { getCameraPermission, pickImage } from '@backend/image';
 import { PlusSquare } from "react-native-feather";
 import { useNavigation } from "@react-navigation/native";
@@ -15,6 +12,7 @@ import { getCurrentLocation } from "@backend/location";
 import FormField from "@components/FormField";
 import SwipeButton from "@components/SwipeButton";
 import {uploadItem} from "@backend/item";
+import Loading from "@components/Loading";
 
 
 
@@ -225,6 +223,8 @@ const ConfirmUpload = (props) => {
     const [initialLocation, setInitialLocation] = React.useState({}); // track the initial location of the user
     const [itemName, setItemName] = React.useState(''); // track the name of the item
 
+    const [loading, setLoading] = React.useState(false); // track if the item is being uploaded
+
     const mapContainerStyle = {
         width: '100%',
         height: STYLE.sizes.screenHeight * 0.2,
@@ -261,6 +261,7 @@ const ConfirmUpload = (props) => {
             <View
                 style={styles.modalContainer}
             >
+                <Loading />
                 <View style={{
                     paddingBottom: STYLE.sizes.screenHeight * 0.01,
                 }}>
@@ -280,9 +281,13 @@ const ConfirmUpload = (props) => {
                         exteriorButtonColor={STYLE.color.accent.yellow} 
                         innerButtonColor={'white'} 
                         message={"SWIPE TO UPLOAD!"}
-                        onSwipeComplete={() => {
-                            uploadItem('222b6705-3734-4779-a925-1be95c9ec1ad', itemName, location, props.image);
-                            nav.navigate('Home', {image: props.image, location: location, itemName: itemName});
+                        onSwipeComplete={async () => {
+                            setLoading(true);
+                            const item = await uploadItem('35325253-c96c-41b9-9384-3c129a69833f', itemName, location, props.image);
+                            if(item){
+                                nav.navigate('Home', {image: props.image, location: location, itemName: itemName});
+                            }
+                            setLoading(false);
                             props.onClose();
                         }}
                     />

@@ -9,6 +9,7 @@ import StoopMap from "@components/StoopMap";
 import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
 import { getCurrentLocation, getDistanceInMiles } from "@backend/location";
 import FilterModal from "@components/FilterModal";
+import Loading from "../../components/Loading";
 
 
 export default function HomeScreen({navigation, route}) {

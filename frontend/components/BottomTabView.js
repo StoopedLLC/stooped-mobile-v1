@@ -24,7 +24,8 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
               shadowColor: 'white',
               shadowOffset: { width: 0, height: -1 },
               shadowOpacity: 0.8,
-              shadowRadius: 5,  
+              shadowRadius: 5,
+              marginHorizontal: STYLE.sizes.screenWidth * 0.0015,  
             }}>
               <Image
                 source={{uri: 'https://cdn.shopify.com/s/files/1/0522/6912/1736/products/wyc8ptqiqkjjvj9wjsom.jpg?v=1614635808'}}
@@ -56,7 +57,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
             flexWrap: 'wrap',
             flexDirection: 'row',
             paddingVertical: STYLE.sizes.screenHeight * 0.005,
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
           }}>
           {SquareFeed(posts, posts.length)}
         </View>
@@ -78,7 +79,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
             flexWrap: 'wrap',
             flexDirection: 'row',
             paddingVertical: STYLE.sizes.screenHeight * 0.005,
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
           }}>
           {SquareFeed(claimed, claimed.length)}
         </View>
@@ -100,7 +101,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
             flexWrap: 'wrap',
             flexDirection: 'row',
             paddingVertical: STYLE.sizes.screenHeight * 0.005,
-            justifyContent: 'space-between',
+            justifyContent: 'flex-start',
 
           }}>
           {SquareFeed(saved, saved.length)}

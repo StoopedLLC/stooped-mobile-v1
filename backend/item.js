@@ -147,10 +147,10 @@ const uploadItem = async (userId, name, location, deviceUrl) => {
     */
     try{
         // upload the image to AWS S3
-        // const imageUrl = await uploadImage(deviceUrl, 'ITEM');
-        // if(!imageUrl){
-        //     return false;
-        // }
+        const imageUrl = await uploadImage(deviceUrl, 'ITEM');
+        if(!imageUrl){
+            return false;
+        }
         
         // create the item object
         // 222b6705-3734-4779-a925-1be95c9ec1ad
@@ -159,7 +159,7 @@ const uploadItem = async (userId, name, location, deviceUrl) => {
             location: location,
             image_links: [
                 {
-                    image_url: "https://cdn-images.article.com/products/SKU416/2890x1500/image88321.jpg",
+                    image_url: imageUrl,
                     is_primary: true
                 }
             ],
@@ -168,7 +168,7 @@ const uploadItem = async (userId, name, location, deviceUrl) => {
 
             //XXX: these should not be included, change API to accomeodate
             condition: 0.5,
-            description: "This is a test item",
+            description: "Uploaded from mobile client",
             type: "Miscellaneous",
             is_anonymous: true,
 
@@ -177,8 +177,11 @@ const uploadItem = async (userId, name, location, deviceUrl) => {
         const url = `/items/`;
         const res = await DjangoApiClient.post(url, item);
         if(res.status === 201 || res.status === 200){
-            console.log(res.data || 'success')
-            return true;
+            if(res.data.success){
+                return res.data.item;
+            }
+        }else{
+            return {}
         }
         return false;
     }catch(error){
@@ -187,7 +190,7 @@ const uploadItem = async (userId, name, location, deviceUrl) => {
         }else{
             console.log(error);
         }
-        return false;
+        return {};
     }
 
 }

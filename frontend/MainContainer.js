@@ -27,6 +27,7 @@ import SignupSuccessScreen from '@screens/AuthStack/SignupSuccessScreen'; // pag
 import LoginScreen from '@screens/AuthStack/LoginScreen'; // sign in page
 
 import ProfileScreen from '@screens/ProfileStack/ProfileScreen';
+import ConfirmUploadScreen from '@screens/CameraStack/ConfirmUploadScreen';
 
 
 // stacks
@@ -146,6 +147,7 @@ const CameraContainer = ({route, navigation}) => {
         >
             <CameraStack.Screen name='Camera' component={CameraScreen}/>
             <CameraStack.Screen name='PreUpload' component={PreUploadScreen}/>
+            <CameraStack.Screen name='ConfirmUpload' component={ConfirmUploadScreen}/>
         </CameraStack.Navigator>
     )
 }
@@ -168,7 +170,7 @@ const ProfileContainer = ({route, navigation}) => {
 const StoopedContainer = ({route}) => {
 
     const [routeRef, setRouteRef] = useState(route.params.navRef.getCurrentRoute());
-    const HIDDENROUTES = ['Detail','PreUpload', 'Pickup', 'Success']; // routes that should not be displayed in the bottom tab bar
+    const HIDDENROUTES = ['Detail','PreUpload', 'Pickup', 'Success', 'ConfirmUpload']; // routes that should not be displayed in the bottom tab bar
 
     useEffect(()=>{
         if(route.params.navRef.getCurrentRoute()){

@@ -8,6 +8,7 @@ import LocationPicker from "@components/LocationPicker.js";
 import FormField from "@components/FormField";
 import SwipeButton from "@components/SwipeButton";
 import {uploadItem} from "@backend/item";
+import Loading from "@components/Loading";
 
 
 export default function PreUploadScreen ({route, navigation}) {
@@ -16,6 +17,7 @@ export default function PreUploadScreen ({route, navigation}) {
     const [initialLocation, setInitialLocation] = React.useState({}); // track the initial location of the user
     const [itemName, setItemName] = React.useState(''); // track the name of the item
     const [image, setImage] = React.useState(route.params.image); // track the image of the item
+    const [loading, setLoading] = React.useState(false); // track if the item is being uploaded
 
     //style for map container, being passed into subcomponent
     const mapContainerStyle = {
@@ -57,6 +59,9 @@ export default function PreUploadScreen ({route, navigation}) {
 
     return (
         <SafeAreaView style={styles.container}>
+            {
+                loading && <Loading />
+            }
             <ScrollView
                 scrollEnabled={false}
                 contentContainerStyle={{marginVertical: STYLE.sizes.screenHeight * 0.03}}
@@ -90,9 +95,15 @@ export default function PreUploadScreen ({route, navigation}) {
                     exteriorButtonColor={STYLE.color.accent.yellow} 
                     innerButtonColor={'white'} 
                     message={"SWIPE TO UPLOAD!"}
-                    onSwipeComplete={() => {
-                        uploadItem('222b6705-3734-4779-a925-1be95c9ec1ad', itemName, location, image);
-                        navigation.navigate('Home');
+                    onSwipeComplete={async () => {
+                        setLoading(true);
+                        const item = await uploadItem('35325253-c96c-41b9-9384-3c129a69833f', itemName, location, image); //FIXME: change user id
+                        if(item) {
+                            navigation.navigate('ConfirmUpload');
+                        }else{
+                            alert('Something went wrong with the upload. Please try again.');
+                        }
+                        setLoading(false);
                     }}
                 />
             </ScrollView>
@@ -127,7 +138,7 @@ const styles = StyleSheet.create({
         height: STYLE.sizes.screenHeight * 0.3,
         borderRadius: STYLE.borders.normalRound,
         borderColor: 'black',
-        marginVertical: STYLE.sizes.screenHeight * 0.06,
+        marginVertical: STYLE.sizes.screenHeight * 0.04,
         overflow: 'hidden',
     }
 })
