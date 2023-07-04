@@ -161,7 +161,9 @@ export default function CameraScreen() {
                             }}
                             onPress={async () => {
                                 const image = await pickImage();
-                                nav.navigate('PreUpload', {image: image});
+                                if(image){
+                                    nav.navigate('PreUpload', {image: image});
+                                }
                             }}
                         >
                             <PlusSquare width={STYLE.sizes.screenHeight * 0.04} height={STYLE.sizes.screenHeight * 0.04} color="white" />

@@ -5,6 +5,7 @@ as well as functions that updates user's information, such as their profile pict
 */
 
 import DjangoApiClient from "@api/djangoApiClient"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 
 const getUserData = async (userId) => {
@@ -17,11 +18,12 @@ const getUserData = async (userId) => {
     @returns:
         an object containing the user's data
     */
-    const url = '/users/' + userId + '/'
+    const url = '/users/' + userId 
     try{
         const response = await DjangoApiClient.get(url)
         return response.data
     }catch(error){
+        console.log(error.response.data);
         console.log(error)
     }
 }
@@ -121,7 +123,8 @@ const getUserId = async () => {
         the user's id, or empty string if the user is not logged in
     */
     try {
-        const user = await AsyncStorage.getItem('user');
+        let user = await AsyncStorage.getItem('user');
+        user = user.replace(/['"]+/g, '')
         if (user !== null) {
             return user
         }

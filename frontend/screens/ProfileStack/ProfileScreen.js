@@ -14,6 +14,7 @@ import BottomTabView from '@components/BottomTabView';
 import ItemDetailModal from "@components/ItemDetailModal";
 import { getPastUserPickups, getPastUserPosts, getUserData } from "@backend/user";
 import { getSavedItems } from "@backend/item";
+import { getUserId } from "@backend/user";
 
 
 
@@ -31,22 +32,24 @@ export default function ProfileScreen() {
     
     const dataLoad = async () => {
         // TODO get user data from backend
-        const user = await getUserData('35325253-c96c-41b9-9384-3c129a69833f');
+        const userId = await getUserId();
+        console.log(userId);
+        const user = await getUserData(userId);
         if(user){
             setUser(user);
         }
 
         // TODO get user posts from backend
-        const posts = await getPastUserPosts('35325253-c96c-41b9-9384-3c129a69833f');
+        const posts = await getPastUserPosts(userId);
         if(posts){
             setPosts(posts);
         }
         
-        const claimed = await getPastUserPickups('35325253-c96c-41b9-9384-3c129a69833f');
+        const claimed = await getPastUserPickups(userId);
         if(claimed){
             setClaimed(claimed);
         }
-        const saved = await getSavedItems('35325253-c96c-41b9-9384-3c129a69833f');
+        const saved = await getSavedItems(userId);
         if(saved){
             setSaved(saved);
         }
@@ -73,6 +76,7 @@ export default function ProfileScreen() {
                 following="35"
                 post={posts.length}
                 pickedUp={claimed.length}
+                moneySaved={claimed.length * 5}
                 />
                 <ProfileButtons
                 id={0}

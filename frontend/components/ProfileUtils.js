@@ -12,6 +12,7 @@ export const ProfileBody = ({
   post,
   followers,
   following,
+  moneySaved,
 }) => {
   return (
     <View>
@@ -110,7 +111,7 @@ export const ProfileBody = ({
               <Text style={{color: "white"}}>Followers</Text>
               </View>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>${following}</Text>
+              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>${moneySaved}</Text>
               <Text style={{color: "white"}}>Money Saved</Text>
               </View>
               <View style={{alignItems: 'center'}}>
