@@ -110,9 +110,32 @@ const fetchPastRecords = async (userId, type) => {
 
 }
 
+const getUserId = async () => {
+    /*
+    this method attempts to retrieve the user's id from the local storage
+
+    @params:
+        none
+
+    @returns:
+        the user's id, or empty string if the user is not logged in
+    */
+    try {
+        const user = await AsyncStorage.getItem('user');
+        if (user !== null) {
+            return user
+        }
+        return ''
+    } catch (e) {
+        console.log('error while getting user: ', e)
+        return ''
+    }
+}
+
 export {
     getPastUserPosts,
     getPastUserThankYouLetters,
     getPastUserPickups,
-    getUserData
+    getUserData,
+    getUserId
 }

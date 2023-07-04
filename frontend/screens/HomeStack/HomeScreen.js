@@ -9,7 +9,8 @@ import StoopMap from "@components/StoopMap";
 import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
 import { getCurrentLocation, getDistanceInMiles } from "@backend/location";
 import FilterModal from "@components/FilterModal";
-import Loading from "../../components/Loading";
+import Loading from "@components/Loading";
+import { getUserId } from "@backend/user";
 
 
 export default function HomeScreen({navigation, route}) {
@@ -87,7 +88,9 @@ export default function HomeScreen({navigation, route}) {
                 return; // add further effect on failed load
             }
 
-            const f = await getFeed({id:'35325253-c96c-41b9-9384-3c129a69833f'},location, { //TODO: change id to user id
+            const userId = await getUserId();
+
+            const f = await getFeed({id:userId},location, { 
                 radius: radius,
                 time_units: 'hours',
                 time_posted: time_posted,

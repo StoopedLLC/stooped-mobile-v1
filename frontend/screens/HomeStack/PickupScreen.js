@@ -15,6 +15,7 @@ import PickupConfirmation from "@components/PickupConfirmation";
 import * as Haptics from 'expo-haptics';
 import { pickupItem, reportMissingItem } from "@backend/item";
 import { getNavigation } from "@backend/location";
+import { getUserId } from "@backend/user";
 
 
 export default function PickupScreen({navigation, route}) {
@@ -180,7 +181,8 @@ export default function PickupScreen({navigation, route}) {
         if(checkInNotification){
             cancelNotification(checkInNotification);
         }
-        const success = await pickupItem('35325253-c96c-41b9-9384-3c129a69833f', id) // FIXME: replace with user id
+        const userId = await getUserId();
+        const success = await pickupItem(userId, id)
         if(success){
             nav.navigate("Success", {item: route.params.item});
         }else{

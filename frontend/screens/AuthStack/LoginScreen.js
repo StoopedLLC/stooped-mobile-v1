@@ -4,8 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import GenericButton from '@components/GenericButton';
 import IconFormField from '@components/IconFormField'
 import { authenticateUser } from '@backend/auth';
+import { getUserId } from '@backend/user';
 import STYLE from '@styles/Styles';
 import {Feather, MaterialIcons} from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function LoginScreen({navigation, route}){
 
@@ -32,6 +34,7 @@ export default function LoginScreen({navigation, route}){
         }
         
         // cache user session
+        await AsyncStorage.setItem('user', JSON.stringify(res.user_id))
         
 
         // navigate to next screen

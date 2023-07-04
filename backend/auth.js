@@ -16,7 +16,7 @@ const authenticateUser = async (username, password) => {
         password: the password entered by the user,
 
     @returns:
-        the token of the user if successful, or else an empty string
+        json object representing the result of authentication call
     */
 
     const url = `/login/`
@@ -33,7 +33,7 @@ const authenticateUser = async (username, password) => {
         }
 
         if(res.status===200 || res.status===201){
-            return res.data
+            return res.data // FIXME: it should also return token along with data
         }else{
             return ''
         }

@@ -108,6 +108,7 @@ see [package.json](/package.json) for the most updated list of packages
 * emailjs: ^4.0.2
 ...
 * @react-native-community/slider: 4.2.4
+* @react-native-async-storage/async-storage: ~1.17.3
 
 
 
