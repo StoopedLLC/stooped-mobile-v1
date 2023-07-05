@@ -9,7 +9,7 @@ import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
 
 
-export const scheduleNotification = async (title, body, time, link) => {
+export const scheduleNotification = async (title, body, time, data) => {
     /*
         This function schedules a notification.
 
@@ -28,10 +28,7 @@ export const scheduleNotification = async (title, body, time, link) => {
         content: {
             title: title,
             body: body,
-            data:
-            {
-                url: link
-            }
+            data: data,
         },
         trigger: time,
     });

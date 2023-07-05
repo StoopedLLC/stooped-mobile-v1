@@ -42,6 +42,10 @@ const CameraStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
 
+
+
+
+
 // linking
 const linking = {
     prefixes: ['stooped://', 'exp://127.0.0.1:19000/'],
@@ -251,6 +255,23 @@ const AuthContainer = ({route}) => {
 
 
 export default function MainContainer() {
+    // notification handle
+    const responseListener = React.useRef();
+    useEffect(() => { // handles notifications
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+        // event handles
+        const event = response.notification.request.content.data.event;
+            if(event && event==='RETURN_TO_PICKUP'){
+                const item = response.notification.request.content.data.item;
+                ref.navigate('Pickup',{showModal:true, item});
+            }
+        });
+
+        return () => {
+        Notifications.removeNotificationSubscription(notificationListener.current);
+        Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
 
     return (
         <NavigationContainer

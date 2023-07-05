@@ -80,10 +80,11 @@ const getSavedItems = async (userId) => {
     try{
         const res = await DjangoApiClient.get(url);
         if(res.status === 200){
-            return res.data.saved_items;
+            return res.data.results;
         }
         return [];
     }catch(error){
+        console.log('error loading saved items')
         console.log(error);
         return [];
     }
@@ -121,7 +122,7 @@ const getFeed = async (user, location, filter) => {
             ...filter
         });
         if(res.status === 200){
-            return res.data.results;
+            return res.data.results; //FIXME: enable google billing
         }
         
     }catch(error){

@@ -15,9 +15,11 @@ import Slider from '@react-native-community/slider';
 import TabSelect from './TabSelect';
 import GenericButton from './GenericButton';
 import { formatIsoDate } from '@backend/util';
+import { useNavigation } from '@react-navigation/native';
+import { getDistanceInMiles, getCurrentLocation } from '@backend/location';
 
 export default function ItemDetailModal({isVisible, setIsVisible, item}) {
-
+    const nav = useNavigation();
 
     return (
         <Modal
@@ -47,6 +49,20 @@ export default function ItemDetailModal({isVisible, setIsVisible, item}) {
                         <Text style={styles.text}>{item && (item.name || 'undefined')}</Text>
                         <Text style={[styles.text,{fontSize: 16, fontFamily: STYLE.font.poppins}]}>{formatIsoDate(item.picked_up_date)}</Text>
                     </View>
+                    {
+                        item.type ==='saved' &&
+                        <GenericButton
+                            label='Go to detatil'
+                            onPress={async () => {
+                                console.log(item)
+                                const currLocation = await getCurrentLocation();
+                                item.distance = getDistanceInMiles(currLocation, item.location );
+                                nav.navigate('Detail', {item: item, isSaved: true}) // FIXME: we need a /item endpoint with all data, particuarly address
+                                setIsVisible(false)
+                            }}
+                            style={{marginTop: STYLE.sizes.screenHeight * 0.01}}
+                        />
+                    }
                 </View>
             </View>
         </Modal>

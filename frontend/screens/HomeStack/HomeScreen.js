@@ -232,7 +232,7 @@ export default function HomeScreen({navigation, route}) {
                         </View>
                         
                     ): (
-                        <StoopMap data={contentFeed}/>
+                        <StoopMap data={contentFeed} onSearchTriggered={dataLoad}/>
                     )
                 }
             </ScrollView>

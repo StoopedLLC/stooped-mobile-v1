@@ -10,11 +10,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
   const Tab = createMaterialTopTabNavigator();
 
-  const SquareFeed = (data, count) => {
+  const SquareFeed = (data, count, type) => {
     let squares = [];
     for (let index = 0; index < count; index++) {
       squares.push(
-        <TouchableOpacity key={index} onPress={()=>{onItemPressed(data[index])}}>
+        <TouchableOpacity key={index} onPress={()=>{onItemPressed(type, data[index])}}>
           <View
             style={{
               width: STYLE.sizes.screenWidth * 0.33,
@@ -59,7 +59,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
             paddingVertical: STYLE.sizes.screenHeight * 0.005,
             justifyContent: 'flex-start',
           }}>
-          {SquareFeed(posts, posts.length)}
+          {SquareFeed(posts, posts.length, 'post')}
         </View>
       </ScrollView>
     );
@@ -81,7 +81,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
             paddingVertical: STYLE.sizes.screenHeight * 0.005,
             justifyContent: 'flex-start',
           }}>
-          {SquareFeed(claimed, claimed.length)}
+          {SquareFeed(claimed, claimed.length,'claimed')}
         </View>
       </ScrollView>
     );
@@ -104,7 +104,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
             justifyContent: 'flex-start',
 
           }}>
-          {SquareFeed(saved, saved.length)}
+          {SquareFeed(saved, saved.length,'saved')}
         </View>
       </ScrollView>
     );

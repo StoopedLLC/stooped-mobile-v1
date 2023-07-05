@@ -4,7 +4,7 @@ import { useFonts } from 'expo-font';
 import { Poppins_400Regular, Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold } from '@expo-google-fonts/poppins';
 import { DMSans_400Regular, DMSans_500Medium, DMSans_700Bold } from '@expo-google-fonts/dm-sans';
 import * as SplashScreen from 'expo-splash-screen';
-import React, { useEffect, useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState, useRef } from 'react';
 import STYLE from '@styles/Styles.js';
 import MainContainer from './frontend/MainContainer';
 import * as Notifications from 'expo-notifications';
@@ -36,6 +36,7 @@ export default function App() {
     DMSans_700Bold,
   });
   const [appIsReady, setAppIsReady] = useState(false);
+  
 
 
   

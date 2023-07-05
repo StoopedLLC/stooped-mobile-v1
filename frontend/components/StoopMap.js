@@ -6,16 +6,18 @@ props:
     - currLocation: current location of the user
 
 */
-import React, {useEffect, useRef} from "react"
+import React, {useEffect, useRef, useState} from "react"
 import { View, Text, Image, StyleSheet } from "react-native"
 import MapView, { Marker } from "react-native-maps"
 import STYLE from "@styles/Styles"
+import GenericButton from "./GenericButton"
 
 
 
-export default function StoopMap({ data }) {
+export default function StoopMap({ data, onSearchTriggered }) {
 
     const mapRef = useRef(null)
+    const [searchButtonVisible, setSearchButtonVisible] = useState(false)
 
     useEffect(() => {
         if (mapRef.current) {
@@ -36,7 +38,30 @@ export default function StoopMap({ data }) {
                 //     longitude: itemLocation.longitude,
                 // }}
                 showsUserLocation={true}
+                onRegionChangeComplete={(region) => {
+                    if (region.latitudeDelta > 0.001 && region.longitudeDelta > 0.001) {
+                        setSearchButtonVisible(true)
+                        // wait for 10 seconds then hide the search button
+                        setTimeout(() => {
+                            setSearchButtonVisible(false)
+                        }, 10000)
+                    }
+                }}
             >
+                {
+                    searchButtonVisible && 
+                    <GenericButton
+                        label="Search in this Area"
+                        onPress={() => {
+                            // TODO: redo search in this area
+                            console.log('search in this area')
+                            onSearchTriggered();
+                        }}
+                        labelStyle={{ position: 'absolute', top: 10, right: 10, color: STYLE.color.font, fontSize: 10 }}
+                        style={{ position: 'absolute', top: 10, right: 10, zIndex: 1, width: STYLE.sizes.screenWidth * .2 }}
+                    />
+
+                }
                 {data.map((item, index) => {
                     return (
                         <Marker key={`marker-${item.id}`} coordinate={item.location} identifier={`marker-${item.id}`}>

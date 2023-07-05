@@ -3,6 +3,7 @@ This file contains all methods related to login
 */
 import DjangoApiClient from "@api/djangoApiClient"
 import {autoEmailSend} from '@backend/autoEmail'
+import {sendEmail} from '@api/emailjsClient'
 
 
 
@@ -106,7 +107,7 @@ const sendVerificationEmail = async (email, name) => {
             email
         })
         const code = res.data.code
-        if(autoEmailSend(email, name, code)){
+        if(sendEmail(email, name, code)){
             return 'success'
         }else{
             return 'fail to send email'

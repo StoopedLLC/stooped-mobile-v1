@@ -122,7 +122,10 @@ export default function PickupScreen({navigation, route}) {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         // send notification
         scheduleNotification("Look around you!", "Your item is near! Click here to pick up", {seconds: 1});
-        const notificationId = await scheduleNotification("How did the stoop go?", "Don't forget to confirm your pick up!", {minutes: 5});
+        const notificationId = await scheduleNotification("How did the stoop go?", "Don't forget to confirm your pick up!", {minutes: 5}, {
+            event: 'RETURN_TO_PICKUP',
+            item: route.params.item,
+        });
         setCheckInNotification(notificationId);
         // show pick up modal
         setModalVisible(true);

@@ -90,7 +90,8 @@ export default function ProfileScreen() {
                 posts={posts}
                 claimed={claimed}
                 saved={saved}
-                onItemPressed={(itemData)=>{
+                onItemPressed={(type, itemData)=>{
+                    itemData.type = type;
                     setItemData(itemData);
                     setItemModalVisible(true);
                 }} 

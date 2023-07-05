@@ -17,7 +17,7 @@ import { Button } from 'react-native-elements';
 // import { TouchableOpacity } from 'react-native';
 
 
-export default function ItemFrame({item}){
+export default function ItemFrame({item, isSaved=false}){
     const navigation = useNavigation();
     const {id, name, location, address} = item;
 
@@ -50,7 +50,7 @@ export default function ItemFrame({item}){
                             <Text adjustsFontSizeToFit style={styles.location}>{address || 'West 4th St'}</Text>
                         </View>
                     </View>
-                    <SaveButton item={item}/>
+                    <SaveButton item={item} isSaved={isSaved}/>
                 </View>
             </ImageBackground>
         </TouchableOpacity>

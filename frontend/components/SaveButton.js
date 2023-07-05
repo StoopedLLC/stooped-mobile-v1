@@ -18,7 +18,7 @@ import { addToSavedItem, removeFromSavedItem } from '@backend/item';
 export default function SaveButton(props){
 
 
-    const [saved, setSaved] = useState(false);
+    const [saved, setSaved] = useState(props.isSaved || false);
 
     useEffect(()=>{
         if(saved){
