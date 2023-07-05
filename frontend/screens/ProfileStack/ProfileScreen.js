@@ -54,7 +54,7 @@ export default function ProfileScreen() {
     return (
         <SafeAreaView 
         style={{
-            height: STYLE.sizes.screenHeight * .87,
+            height: STYLE.sizes.screenHeight,
         }}>
             <View style={{width: '100%', height: '100%'}}>
             <View style={{width: '100%', padding: 10}}>

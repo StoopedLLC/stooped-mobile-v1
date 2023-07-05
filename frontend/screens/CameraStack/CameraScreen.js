@@ -159,7 +159,7 @@ export default function CameraScreen() {
                                 paddingHorizontal: STYLE.sizes.screenWidth * 0.02,
                                 paddingVertical: STYLE.sizes.screenHeight * 0.01,
                                 borderRadius: STYLE.borders.lessRound,
-                                backgroundColor: STYLE.color.accent.gray,
+                                backgroundColor: 'rgba(255, 255, 255, 0.1)',
                             }}
                             onPress={async () => {
                                 const image = await pickImage();
@@ -275,7 +275,9 @@ const ConfirmUpload = (props) => {
                 <View style={{flex: 0.5}}>
                     <FormField onTextChange={setItemName} placeholder="Item Name" />
                 </View>
-                <View>
+                <View style={{
+                    marginTop: 20
+                }}>
                     <SwipeButton 
                         exteriorButtonColor={STYLE.color.accent.yellow} 
                         innerButtonColor={'white'} 
@@ -310,7 +312,7 @@ const styles = StyleSheet.create({
     },
     buttonPanel:{
         position: 'absolute',
-        backgroundColor: STYLE.color.accent.gray,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
         top: STYLE.sizes.screenHeight * 0.02,
         left: STYLE.sizes.screenWidth * 0.05,
         paddingHorizontal: STYLE.sizes.screenWidth * 0.02,
@@ -339,6 +341,7 @@ const styles = StyleSheet.create({
         height: STYLE.sizes.screenHeight * 0.6,
         paddingHorizontal: STYLE.sizes.screenWidth * 0.05,
         paddingTop: STYLE.sizes.screenHeight * 0.02,
+        position: 'intial'
     },
     titleText:{
         fontSize: STYLE.sizes.h3,

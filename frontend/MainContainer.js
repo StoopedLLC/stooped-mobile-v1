@@ -27,6 +27,7 @@ import SignupSuccessScreen from '@screens/AuthStack/SignupSuccessScreen'; // pag
 import LoginScreen from '@screens/AuthStack/LoginScreen'; // sign in page
 
 import ProfileScreen from '@screens/ProfileStack/ProfileScreen';
+import EditProfileScreen from './screens/ProfileStack/EditProfile';
 
 
 // stacks
@@ -159,6 +160,7 @@ const ProfileContainer = ({route, navigation}) => {
             }}
         >
             <ProfileStack.Screen name='Profile' component={ProfileScreen}/>
+            <ProfileStack.Screen name='EditProfile' component={EditProfileScreen}/>
         </ProfileStack.Navigator>
     )
 }
@@ -199,12 +201,12 @@ const StoopedContainer = ({route}) => {
                     }
                     
 
-                    return <Ionicons name={iconName} size={STYLE.sizes.screenWidth * 0.08} color={color} />;
+                    return <Ionicons name={iconName} size={STYLE.sizes.screenWidth * 0.08} color={'white'} />;
                 },
                 unamountOnBlur: false,
                 tabBarStyle: {
                     display: HIDDENROUTES.includes(routeRef) ? 'none' : 'flex',
-                    backgroundColor: 'white',
+                    backgroundColor: 'rgba(128, 128, 128, 0.3)',
                     position: 'absolute',
                     bottom: STYLE.sizes.screenHeight * 0.05,
                     left: STYLE.sizes.screenWidth * 0.05,
@@ -213,10 +215,10 @@ const StoopedContainer = ({route}) => {
                     height: 60,
                     paddingTop: STYLE.sizes.screenHeight * 0.01,
                     paddingBottom: STYLE.sizes.screenHeight * 0.01,
+                    borderTopColor: 'transparent',
                 },  
             })}
             style={{
-                position: 'absolute',
                 zIndex: 0,
                 elevation: 0,
             }}
