@@ -67,7 +67,7 @@ const STYLE = {
 
     // Borders
     borders:{
-        lessRound: Dimensions.get('window').width * 0.02,
+        lessRound: Dimensions.get('window').width * 0.03,
         normalRound: Dimensions.get('window').width * 0.05,
         moreRound: Dimensions.get('window').width * 0.08,
     },

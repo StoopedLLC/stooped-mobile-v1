@@ -66,8 +66,12 @@ export default function RegisterScreen({navigation, route}){
     return (
         <SafeAreaView style={{
             flex: 1, 
-            marginHorizontal: STYLE.sizes.screenWidth * 0.05, 
+            marginHorizontal: STYLE.sizes.screenWidth * 0.1,
+            marginVertical: STYLE.sizes.screenWidth * 0.25, 
             alignItems: 'center', 
+            backgroundColor: "rgba(255, 255, 255, 0.1)",
+            borderRadius: STYLE.borders.moreRound,
+            filter: "blur(10)",
         }}>
             <ScrollView style={{flex: 0.6}} contentContainerStyle={styles.form} scrollEnabled={false}>
                 <Text style={styles.titleText}>Create an Account</Text>
@@ -115,7 +119,6 @@ export default function RegisterScreen({navigation, route}){
                     disabled={btnDisabled}
                 />
             </View>
-
         </SafeAreaView>
     )
 }

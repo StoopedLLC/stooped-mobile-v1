@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import Slider from '@react-native-community/slider';
 import TabSelect from './TabSelect';
 import GenericButton from './GenericButton';
+import { BlurView } from 'expo-blur';
 
 export default function FilterModal(props) {
 
@@ -47,7 +48,7 @@ export default function FilterModal(props) {
             onBackButtonPress={() => props.setIsVisible(false)}
             style={styles.modal}
             // coverScreen={false}
-            backdropOpacity={0.5}
+            backdropOpacity={0.4}
         >
             <View style={styles.modalContentContainer}>
                 <View style={{flex: 1, justifyContent:'space-between'}}>
@@ -119,13 +120,24 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: STYLE.sizes.screenWidth * .9,
         marginVertical: STYLE.sizes.screenHeight * .3, // used to adjust height of modal
-        backgroundColor: STYLE.colors.background,
+        backgroundColor: 'rgba(180, 180, 180, 0.3)',
         borderRadius: STYLE.borders.moreRound,
+        shadowColor: 'black',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
     },
     modalContentContainer: {
         flex: 1,
         paddingHorizontal: STYLE.sizes.screenWidth * .05,
         paddingVertical: STYLE.sizes.screenHeight * .02,
+        borderRadius: STYLE.borders.moreRound,
+        // shadowColor: 'black',
+        // shadowOffset: { width: 5, height: 5 },
+        // shadowOpacity: 1,
+        // shadowRadius: 5,
+        // borderRadius: STYLE.borders.moreRound,
+        
     },
     modalContainer: {
     },

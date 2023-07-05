@@ -80,7 +80,7 @@ export default function StoopMap({ data, onSearchTriggered }) {
 
 const styles = StyleSheet.create({
     mapView:{
-        height: STYLE.sizes.screenHeight * .6,
+        height: STYLE.sizes.screenHeight * .72,
         width: STYLE.sizes.screenWidth * .95,
         alignSelf: 'center',
         borderRadius: STYLE.borders.moreRound,

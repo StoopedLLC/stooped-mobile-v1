@@ -11,6 +11,8 @@ import { getCurrentLocation, getDistanceInMiles } from "@backend/location";
 import FilterModal from "@components/FilterModal";
 import Loading from "@components/Loading";
 import { getUserId } from "@backend/user";
+import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
 
 export default function HomeScreen({navigation, route}) {
@@ -164,9 +166,10 @@ export default function HomeScreen({navigation, route}) {
                         onPress={() => console.log('user icon pressed')}
                     >
                         <View style={styles.userIconContainer}>
-                            <Image source={require('@images/default-user-icon.png')}
+                            {/* <Image source={require('@images/default-user-icon.png')}
                                 style={{width: STYLE.sizes.screenWidth * 0.09, height: STYLE.sizes.screenWidth * 0.09}}
-                            />
+                            /> */}
+                            <Ionicons name="person" size={28} color="white" />                       
                         </View>
                     </TouchableNativeFeedback>
                 </View>
@@ -182,15 +185,18 @@ export default function HomeScreen({navigation, route}) {
                     scrollEnabled={false}
                 >
                     <SearchBar
-                        placeholder="Search"
+                        placeholder="Search Stooped"
                         onChangeText={val=>setSearch(val)}
                         value={search}
+                        inputStyle={{color:'#fff'}}
+                        placeholderTextColor='rgba(255, 255, 255, 0.5)'
                         containerStyle={{
                             backgroundColor: STYLE.color.background, 
                             width: STYLE.sizes.screenWidth * 0.75, 
                             borderBottomColor: 'transparent',
                             borderTopColor: 'transparent',
                             paddingLeft: 0,
+                            color: 'white'
                         }}
                         inputContainerStyle={styles.searchBox}
                     />
@@ -198,9 +204,7 @@ export default function HomeScreen({navigation, route}) {
                         style={styles.filterButton}
                         onPress={()=>{setShowFilter(!showFilter)}}
                     >
-                        <Image source={require('@images/filter-symbol.png')} 
-                        style={{width: STYLE.sizes.screenWidth * 0.07, height: STYLE.sizes.screenWidth * 0.051}}
-                        />
+                        <Ionicons name="filter-outline" size={30} color="white" />
                     </TouchableOpacity>
                 </ScrollView>
                 {/* end of search + filter */}
@@ -256,21 +260,34 @@ const styles = StyleSheet.create({
     },
     
     searchBox:{
-        backgroundColor: STYLE.color.accent.gray,
-        borderRadius: STYLE.borders.normalRound,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        shadowColor: 'black',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
+        borderRadius: STYLE.borders.lessRound,
+
     },
     filterButton:{
-        backgroundColor: STYLE.color.accent.gray,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
         alignItems: 'center',
         justifyContent: 'center',
         // marginVertical: STYLE.sizes.screenHeight * 0.015,
-        borderRadius: STYLE.borders.normalRound,
+        borderRadius: STYLE.borders.lessRound,
         paddingHorizontal: STYLE.sizes.screenWidth * 0.022,
-        paddingVertical: STYLE.sizes.screenHeight * 0.018,
+        paddingVertical: STYLE.sizes.screenHeight * 0.01,
+        shadowColor: 'black',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
     },
     userIconContainer:{
-        backgroundColor: STYLE.color.font,
-        padding: STYLE.sizes.screenWidth * 0.01,
-        borderRadius: 0.055 * STYLE.sizes.screenWidth,
+        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+        padding: STYLE.sizes.screenWidth * 0.02,
+        borderRadius: STYLE.sizes.screenWidth,
+        shadowColor: 'black',
+        shadowOffset: { width: 5, height: 5 },
+        shadowOpacity: 1,
+        shadowRadius: 5,
     },
 });
