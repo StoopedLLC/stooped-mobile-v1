@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
     userIconContainer:{
         backgroundColor: 'rgba(255, 255, 255, 0.1)',
         padding: STYLE.sizes.screenWidth * 0.02,
-        borderRadius: STYLE.sizes.screenWidth,
+        borderRadius: STYLE.borders.lessRound,
         shadowColor: 'black',
         shadowOffset: { width: 5, height: 5 },
         shadowOpacity: 1,

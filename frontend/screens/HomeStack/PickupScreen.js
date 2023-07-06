@@ -218,7 +218,7 @@ export default function PickupScreen({navigation, route}) {
                 marginTop: STYLE.sizes.screenHeight * .02,
             }}>
                 <TouchableOpacity onPress={backNavigation} style={styles.backButton}>
-                    <Ionicons name="arrow-back" size={STYLE.sizes.screenHeight * .035} color="black"/>
+                    <Ionicons name="arrow-back" size={STYLE.sizes.screenHeight * .035} color="white"/>
                 </TouchableOpacity>
                 <Text style={{
                     fontSize: STYLE.sizes.h2,
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
         marginHorizontal: STYLE.sizes.screenWidth * .05,
     },
     backButton:{
-        backgroundColor: 'white', 
+        backgroundColor: 'rgba(128, 128, 128, 0.6', 
         width: STYLE.sizes.screenWidth * .09, 
         borderRadius: 10, 
 

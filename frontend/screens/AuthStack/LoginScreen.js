@@ -29,7 +29,8 @@ export default function LoginScreen({navigation, route}){
             alert(res.error)
             return
         }else if(!res.success){
-            alert('An error occured. Please try again.')
+            console.log(res);
+            alert('An error occured dick.')
             return
         }
         

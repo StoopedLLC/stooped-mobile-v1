@@ -61,11 +61,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         borderRadius: STYLE.borders.moreRound,
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(128, 128, 128, 0.3)',
         justifyContent: 'center',
-        borderColor: 'white',
+        borderColor: 'rgba(180, 180, 180, 0.3)',
         borderWidth: 3,
-        shadowColor: '#000000',
+        shadowColor: 'rgba(255, 255, 255, 0.3)',
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 1,
         shadowRadius: 5,
@@ -74,6 +74,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         justifyContent: 'flex-end',
+        opacity: '0.9'
         // drop shadow
     },
     imageStyle: {

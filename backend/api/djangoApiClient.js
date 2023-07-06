@@ -20,7 +20,7 @@ const client = axios.create({
     headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization': `Bearer ${DJANGO_API_TOKEN}`
+        'Authorization': `Bearer ${"f4bd0b0c7d6c965789fdf147c75ee0ad926f1e40"}`
     }
 });
 

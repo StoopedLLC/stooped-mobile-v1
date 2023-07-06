@@ -73,15 +73,15 @@ export default function DetailScreen({navigation, route}) {
                         <View style={{display: "flex", flexDirection: "row"}}>
 
                             {/* TODO: make it so that the syles are scalable */}
-                            <TouchableOpacity onPress={backNavigation} style={{backgroundColor: 'white', width: STYLE.sizes.screenWidth * .09, borderRadius: 10, marginLeft: STYLE.sizes.screenWidth * .05, marginTop: STYLE.sizes.screenHeight * 0.03, padding: 2}}>
-                                <Ionicons name="arrow-back" size={STYLE.sizes.screenHeight * .035} color="black"/>
+                            <TouchableOpacity onPress={backNavigation} style={{backgroundColor: 'rgba(128, 128, 128, 0.6)', width: STYLE.sizes.screenWidth * .09, borderRadius: 10, marginLeft: STYLE.sizes.screenWidth * .05, marginTop: STYLE.sizes.screenHeight * 0.03, padding: 2, }}>
+                                <Ionicons name="arrow-back" size={STYLE.sizes.screenHeight * .035} color="white"/>
                             </TouchableOpacity>
 
 
                             <TouchableOpacity style={{
                                 position: 'absolute',
                                 right: 0,
-                                width: STYLE.sizes.screenWidth * .12,
+                                width: STYLE.sizes.screenWidth * .1,
                                 marginRight: STYLE.sizes.screenWidth * .05,
                                 marginTop: STYLE.sizes.screenHeight * 0.02,
                             }}>

@@ -66,8 +66,12 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         width: STYLE.sizes.screenWidth * .9,
         marginVertical: STYLE.sizes.screenHeight * .2,
-        backgroundColor: STYLE.colors.background,
+        backgroundColor: 'rgba(100, 100, 100, 0.5)',
         borderRadius: STYLE.borders.moreRound,
+        shadowColor: 'black',
+        shadowOffset: { width: 0, height: -1 },
+        shadowOpacity: 0.7,
+        shadowRadius: 5,
     },
     modalContentContainer: {
         flex: 1,
