@@ -216,7 +216,7 @@ const pickupItem = async (userId, itemId) => {
             true if the operation is successful, false otherwise
     */
     try{
-        const url = `/picked-up`;
+        const url = `/picked-up/`;
         const data = {
             user_id: userId,
             item_id: itemId
