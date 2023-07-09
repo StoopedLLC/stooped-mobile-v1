@@ -94,17 +94,18 @@ export const getNavigation = async (currLocation, itemId, mode = 'walking') => {
 
     try{
         console.log('id', itemId)
-        const res = await DjangoApiClient.get(`/directions`, { // FIXME: should be get endpoint
-            mode: mode,
+        const url = '/directions/'
+        const res = await DjangoApiClient.get(url, {
             user_lat: currLocation.latitude,
             user_long: currLocation.longitude,
-            item_id: itemId
-        }, true)
+            item_id: itemId,
+            mode: mode
+        })
 
         // parse the response, TODO: check if it works on all modes
-        console.log(res.data)
         const steps = res.data[0].legs[0].steps
         const instructions = steps.map(step => step.html_instructions.replace(/<[^>]*>?/gm, ''))
+        console.log('instructions', instructions)
         return instructions
     }catch(error){
         if(error.response){

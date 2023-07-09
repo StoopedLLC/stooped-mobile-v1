@@ -16,19 +16,23 @@ import STYLE from '@styles/Styles.js';
 import HomeScreen from '@screens/HomeStack/HomeScreen'; // home page
 import DetailScreen from '@screens/HomeStack/DetailScreen'; // page diplaying item details
 import PickupScreen from '@screens/HomeStack/PickupScreen.js'; // page for picking up items
-import CameraScreen from '@screens/CameraStack/CameraScreen.js'; // camera page for scanning items
-import PreUploadScreen from '@screens/CameraStack/PreUploadScreen.js'; // page for previewing and uploading items
 import SuccessScreen from '@screens/HomeStack/SuccessScreen.js'; // page for successful pickup
+
+import CameraScreen from '@screens/CameraStack/CameraScreen.js'; // camera page for scanning items
+import ConfirmUploadScreen from '@screens/CameraStack/ConfirmUploadScreen';
+import PreUploadScreen from '@screens/CameraStack/PreUploadScreen.js'; // page for previewing and uploading items
 
 import LandingScreen from '@screens/AuthStack/LandingScreen.js'; // landing page
 import RegisterScreen from '@screens/AuthStack/RegisterScreen'; // page for signing up
 import ConfirmEmailScreen from '@screens/AuthStack/ConfirmEmailScreen'; // page for confirming email
 import SignupSuccessScreen from '@screens/AuthStack/SignupSuccessScreen'; // page for successful signup
 import LoginScreen from '@screens/AuthStack/LoginScreen'; // sign in page
+import ForgetPasswordScreen from '@screens/AuthStack/ForgetPasswordScreen'; // forget password screen
+import ResetPasswordScreen from '@screens/AuthStack/ResetPasswordScreen'; // reset password screen
+
 
 import ProfileScreen from '@screens/ProfileStack/ProfileScreen';
-import ConfirmUploadScreen from '@screens/CameraStack/ConfirmUploadScreen';
-import EditProfileScreen from './screens/ProfileStack/EditProfile';
+import EditProfileScreen from '@screens/ProfileStack/EditProfileScreen';
 
 
 // stacks
@@ -250,6 +254,8 @@ const AuthContainer = ({route}) => {
             <AuthStack.Screen name="Register" component={RegisterScreen} />
             <AuthStack.Screen name="EmailConfirmation" component={ConfirmEmailScreen} />
             <AuthStack.Screen name="SignupSuccess" component={SignupSuccessScreen} options={{gestureEnabled: false}} />
+            <AuthStack.Screen name="ForgetPassword" component={ForgetPasswordScreen} />
+            <AuthStack.Screen name="ResetPassword" component={ResetPasswordScreen} options={{gestureEnabled: false}}/>
         </AuthStack.Navigator>
     )
 }

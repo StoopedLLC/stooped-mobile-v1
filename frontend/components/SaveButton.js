@@ -22,17 +22,6 @@ export default function SaveButton(props){
 
     const [saved, setSaved] = useState(props.isSaved || false);
 
-    useEffect(()=>{
-        if(saved){
-            notificationAsync(NotificationFeedbackType.Success);
-            const success = addToSavedItem({id: 'b92c36a8-b55b-431b-b14a-1c237ef0e0b9'}, props.item);
-            // add item to user's saved items list
-        }else{
-            // notificationAsync(NotificationFeedbackType.Warning);
-            const success = removeFromSavedItem({id: 'b92c36a8-b55b-431b-b14a-1c237ef0e0b9'}, props.item);
-            // TODO: remove item from user's saved items list
-        }
-    }, [saved]);
 
 
 
@@ -40,11 +29,14 @@ export default function SaveButton(props){
         // NOTE: has to be TouchableWithoutFeedback because TouchableNativeFeedback doesn't work with parent component
         <TouchableWithoutFeedback 
             onPress={()=>{
-                if(saved){
-                    setSaved(false);
+                if(!saved){
+                    notificationAsync(NotificationFeedbackType.Success);
+                    const success = addToSavedItem({id: 'b92c36a8-b55b-431b-b14a-1c237ef0e0b9'}, props.item);
+                    setSaved(true);
 
                 }else{
-                    setSaved(true);
+                    const success = removeFromSavedItem({id: 'b92c36a8-b55b-431b-b14a-1c237ef0e0b9'}, props.item);
+                    setSaved(false);
                 }
                 console.log('save button pressed');
             }}

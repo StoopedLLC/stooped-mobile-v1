@@ -8,6 +8,7 @@ export default function SignupSuccessScreen({navigation, route}){
 
 
     const onButtonPress = () => {
+        
         navigation.navigate('Home');
     }
 

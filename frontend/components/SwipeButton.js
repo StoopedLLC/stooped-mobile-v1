@@ -23,13 +23,13 @@ export default function SwipeButton(props){
     const [toggle, setToggle] = useState(false);
 
     const handleComplete = (isToggled) => {
-        if (isToggled !== toggle) {
-            setToggle(isToggled);
-        }
+        // if (isToggled !== toggle) {
+        //     setToggle(isToggled);
+        // }
         if(props.hasOwnProperty('onSwipeComplete')){
             props.onSwipeComplete();
         }
-        // X.value = withSpring(0);
+        X.value = withSpring(0);
     }
 
     const handleGestureEvent = useAnimatedGestureHandler(
@@ -51,7 +51,6 @@ export default function SwipeButton(props){
                 }
             },
 
-            // TODO: implement where it goes to the next page...
             onEnd: () => {
                 if (X.value < (STYLE.sizes.screenWidth * .6)/2) {
                     X.value = withSpring(0);

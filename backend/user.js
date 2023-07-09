@@ -14,17 +14,19 @@ const getUserData = async (userId) => {
 
     @params:
         userId: the id of the user
-        
+
     @returns:
-        an object containing the user's data
+        the user's data
     */
-    const url = '/users/' + userId 
+
     try{
-        const response = await DjangoApiClient.get(url)
-        return response.data
+        const url = `/users/${userId}/`
+        const res = await DjangoApiClient.get(url)
+        console.log('user data', res.data)
+        return res.data
     }catch(error){
-        console.log(error.response.data);
-        console.log(error)
+        console.log(error.response.data)
+        return null
     }
 }
 
@@ -134,6 +136,22 @@ const getUserId = async () => {
         return ''
     }
 }
+
+const updateUserProfile = async (userId, data) => {
+    /*
+    this method attempts to update the user's profile
+
+    @params:
+        userId: the id of the user
+        data: the data to update the user's profile with
+
+    @returns:
+        the updated user's data
+    */
+    
+    // FIXME: is there a way to update username as well?
+}
+
 
 export {
     getPastUserPosts,

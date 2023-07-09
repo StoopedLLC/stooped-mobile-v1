@@ -91,12 +91,12 @@ export const ProfileBody = ({
             width: STYLE.sizes.screenWidth,
           }}>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{post}</Text>
-              <Text style={{color: "white"}}>Posts</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{post}</Text>
+                <Text style={{color: "white"}}>Posts</Text>
               </View>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{pickedUp}</Text>
-              <Text style={{color: "white"}}>Picked Up</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{pickedUp}</Text>
+                <Text style={{color: "white"}}>Picked Up</Text>
               </View>
           </View>
 
@@ -107,16 +107,16 @@ export const ProfileBody = ({
             width: STYLE.sizes.screenWidth,
           }}>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white'}}>{followers}</Text>
-              <Text style={{color: "white"}}>Followers</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white'}}>{followers}</Text>
+                <Text style={{color: "white"}}>Followers</Text>
               </View>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>${moneySaved}</Text>
-              <Text style={{color: "white"}}>Money Saved</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>${moneySaved}</Text>
+                <Text style={{color: "white"}}>Money Saved</Text>
               </View>
               <View style={{alignItems: 'center'}}>
-              <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{following}</Text>
-              <Text style={{color: "white"}}>Following</Text>
+                <Text style={{fontWeight: 'bold', fontSize: 18, color: 'white',}}>{following}</Text>
+                <Text style={{color: "white"}}>Following</Text>
               </View>
           </View>
         </ScrollView>
@@ -124,7 +124,7 @@ export const ProfileBody = ({
   );
 };
 
-export const ProfileButtons = ({id, name, accountName, profileImage}) => {
+export const ProfileButtons = ({user, id, name, accountName, profileImage}) => {
   const navigation = useNavigation();
   const [follow, setFollow] = useState(follow);
   return (
@@ -141,9 +141,9 @@ export const ProfileButtons = ({id, name, accountName, profileImage}) => {
           <TouchableOpacity
             onPress={() =>
               navigation.push('EditProfile', {
+                user,
                 name: name,
                 accountName: accountName,
-                profileImage: profileImage,
               })
             }
             style={{

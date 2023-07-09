@@ -15,21 +15,19 @@ import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 import STYLE from '@styles/Styles';
 
 export default function TabSelect(props) {
-    const [selectedIndex, setSelectedIndex] = useState(0); 
 
     const handleTabChange = (tabIndex) => {
         if (props.selectedValue !== props.tabs[tabIndex].value) {
             props.onTabChange(props.tabs[tabIndex].value);
-            setSelectedIndex(tabIndex);
         }
     };
 
-    useEffect(() => {
-        const index = props.tabs.findIndex((tab) => {return tab.value === props.selectedValue});
-        if(index !== -1){
-            handleTabChange(index);
-        }
-    }, [props.selectedValue]);
+    // useEffect(() => {
+    //     const index = props.tabs.findIndex((tab) => {return tab.value === props.selectedValue});
+    //     if(index !== -1){
+    //         handleTabChange(index);
+    //     }
+    // }, [props.selectedValue]);
   
 
 
@@ -41,12 +39,12 @@ export default function TabSelect(props) {
             key={tabIndex}
             style={[
             styles.tab,
-            { backgroundColor: selectedIndex === tabIndex ? props.themeColor : 'transparent' },
+            { backgroundColor: props.selectedValue === tab.value ? props.themeColor : 'transparent' },
             { borderColor: props.themeColor}
             ]}
             onPress={() => handleTabChange(tabIndex)}
         >
-            <Text style={[styles.tabText, { color: selectedIndex === tabIndex ? STYLE.colors.font : props.themeColor }]}>
+            <Text style={[styles.tabText, { color: props.selectedValue === tab.value ? STYLE.colors.font : props.themeColor}]}>
             {tab.name}
             </Text>
         </TouchableOpacity>

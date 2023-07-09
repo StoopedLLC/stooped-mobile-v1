@@ -27,7 +27,7 @@ export default function PickupScreen({navigation, route}) {
     const mapRef = React.useRef(null);
     const [liveLocation, setLiveLocation] = useState();
     const [canPickup, setCanPickup] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisible, setModalVisible] = useState(route.params.showModal || false);
     const [checkInNotification, setCheckInNotification] = useState('');
 
     const [navInstructions, setNavInstructions] = useState([
@@ -36,20 +36,20 @@ export default function PickupScreen({navigation, route}) {
         "Turn right on 6th Ave",
     ]);
 
-    // TODO: load navigation related data
-    useEffect(() => {
-        const dataLoad = async () => {
-            const currentLocation = await getCurrentLocation();
-            setstartLocation(currentLocation);
+    // load navigation related data
+    const dataLoad = async () => {
+        const currentLocation = await getCurrentLocation();
+        setstartLocation(currentLocation);
 
-            // populate navigation
-            const newNavInstructions = [];
-            const nav = await getNavigation(currentLocation, id);
-            nav.forEach((step) => {
-                newNavInstructions.push(step.instructions);
-            });
-            setNavInstructions(newNavInstructions);
-        }
+        // populate navigation
+        const newNavInstructions = [];
+        const nav = await getNavigation(currentLocation, id);
+        nav.forEach((step) => {
+            newNavInstructions.push(step);
+        });
+        setNavInstructions(newNavInstructions);
+    }
+    useEffect(() => {
         dataLoad();
     }, []);
 
@@ -121,12 +121,17 @@ export default function PickupScreen({navigation, route}) {
         // vibrate
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
         // send notification
-        scheduleNotification("Look around you!", "Your item is near! Click here to pick up", {seconds: 1});
-        const notificationId = await scheduleNotification("How did the stoop go?", "Don't forget to confirm your pick up!", {minutes: 5}, {
-            event: 'RETURN_TO_PICKUP',
-            item: route.params.item,
-        });
-        setCheckInNotification(notificationId);
+        if(route.params.triggerNotification && route.params.triggerNotification === true){
+            scheduleNotification("Look around you!", "Your item is near! Click here to pick up", {seconds: 1},{
+                event: 'RETURN_TO_PICKUP',
+                item: route.params.item,
+            });
+            const notificationId = await scheduleNotification("How did the stoop go?", "Don't forget to confirm your pick up!", {minutes: 5}, {
+                event: 'RETURN_TO_PICKUP',
+                item: route.params.item,
+            });
+            setCheckInNotification(notificationId);
+        }
         // show pick up modal
         setModalVisible(true);
     }
@@ -203,9 +208,7 @@ export default function PickupScreen({navigation, route}) {
     }
 
     const onRefresh = () => {
-        (async () =>{
-        setstartLocation(await getCurrentLocation());
-        })()
+        dataLoad();
     }
 
     return (

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, Ima
 import { useNavigation } from "@react-navigation/native";
 import STYLE from "@styles/Styles";
 import { SearchBar } from 'react-native-elements';
-import { List } from 'react-native-feather'
+import { List, Map } from 'react-native-feather'
 import CarouselList from "@components/CarouselList";
 import StoopMap from "@components/StoopMap";
 import { addToSavedItem, removeFromSavedItem, getFeed } from "@backend/item"; 
@@ -23,11 +23,13 @@ export default function HomeScreen({navigation, route}) {
     const [toggle, setToggle] = useState(false); // toggle between list and map view
     const [showFilter, setShowFilter] = useState(false);
 
-    const [radius, setRadius] = useState(1600);
-    const [time_posted, setTimePosted] = useState(72);
-    const [sortBy, setSortBy] = useState('distance');
-    const [filterReady, setFilterReady] = useState(false);
     const [filter, setFilter] = useState({
+        radius: 1600,
+        time_posted: 72,
+        sortBy: 'distance',
+    })
+    const [sortBy, setSortBy] = useState('distance');
+    const [initialFilter, setInitialFilter] = useState({
         radius: 1600,
         time_posted: 72,
         sortBy: 'distance',
@@ -39,26 +41,38 @@ export default function HomeScreen({navigation, route}) {
         console.log("toggle view");
     }
 
-    const activateFilter = (filters) => {
+    const activateFilter = (newFilter) => {
         let changed = false;
-        if(filters.radius!==radius){
+        if(newFilter.radius!==filter.radius){
             changed = true;
         }
-        if(filters.time_posted!==time_posted){
+        if(newFilter.time_posted!==filter.time_posted){
             changed = true;
         }
-        if(filters.sortBy!==sortBy){
-            // TODO: figure out sorting
-            setSortBy(filters.sortBy);
+        if(newFilter.sortBy!==filter.sortBy){
+            // FIXME: look into sorting
+            const newFeed = [...contentFeed]
+            newFeed.sort((a,b)=>{
+                if(newFilter.sortBy==='distance'){
+                    return a.distance-b.distance;
+                }else if(newFilter.sortBy==='savedCount'){
+                    return b.savedCount-a.savedCount;
+                }else if(newFilter.sortBy==='posted_date'){
+                    return b.posted_date-a.posted_date;
+                }else{
+                    return 0;
+                }
+            })
+            setSortBy(newFilter.sortBy);
+            setContentFeed(newFeed);
         }
         if(changed){
-            setRadius(filters.radius);
-            setTimePosted(filters.time_posted);
             setFilter({
-                radius: filters.radius,
-                time_posted: filters.time_posted,
-                ...filters
+                radius: newFilter.radius,
+                time_posted: newFilter.time_posted,
+                ...newFilter
             })
+            dataLoad(true, {}, newFilter.radius);
         }
     }
 
@@ -82,26 +96,31 @@ export default function HomeScreen({navigation, route}) {
     )
 
 
-    const dataLoad = async () => {
+    const dataLoad = async (init = false, useUser = true, loc = {}, rad=0) => {
+        setIsRefreshing(true);
         try{
             // obtain location first
-            const location = await getCurrentLocation();
-            if(!location){
+            const userLocation = await getCurrentLocation();
+            if(!userLocation){
+                setIsRefreshing(false);
                 return; // add further effect on failed load
             }
+            const location = !useUser ? loc : userLocation;
 
             const userId = await getUserId();
 
+            const filterUsed = init ? initialFilter : filter;
+
             const f = await getFeed({id:userId},location, { 
-                radius: radius,
+                radius: rad? Math.min(Math.max(rad, filterUsed.radius), 160000) : filterUsed.radius,
                 time_units: 'hours',
-                time_posted: time_posted,
+                time_posted: filterUsed.time_posted,
             });
             if(f){
                 for(let i = 0; i < f.length; i++){
                     f[i].distance = getDistanceInMiles({
-                        latitude: location.latitude, 
-                        longitude: location.longitude
+                        latitude: userLocation.latitude, 
+                        longitude: userLocation.longitude
                     }, {
                         latitude: f[i].location.latitude, 
                         longitude: f[i].location.longitude
@@ -109,6 +128,24 @@ export default function HomeScreen({navigation, route}) {
                 }
             }
             // console.log('feed', f)
+            // update filter
+            console.log('rad', rad, 'filter', filter.radius)
+            if(rad !=0 && rad!= filter.radius){
+                setFilter({
+                    ...filter,
+                    radius: rad
+                })
+            }
+
+            // sorting:
+            if(sortBy==='distance'){
+                f.sort((a,b) => a.distance - b.distance);
+            }else if(sortBy==='savedCount'){
+                f.sort((a,b) => b.savedCount - a.savedCount);
+            }else if(sortBy==='posted_date'){
+                f.sort((a,b) => b.posted_date - a.posted_date);
+            }
+
 
             if(f){
                 setContentFeed(f);
@@ -119,19 +156,14 @@ export default function HomeScreen({navigation, route}) {
             alert('something went wrong! Please restart the app.')
             console.log(error);
         }
+        setIsRefreshing(false);
     }
 
     // obtain location and load data
-    // useEffect(() => {
-    //     if(radius && time_posted && sortBy){
-    //         dataLoad();
-    //     }
-    // }, [])
-
     useEffect(() => {
-        console.log('filter', filter)
-        dataLoad();
-    }, [filter])
+        dataLoad(true);
+    }, [initialFilter])
+
 
     // rerender if refresh is in param
     if(route.params && route.params.refresh){
@@ -159,7 +191,14 @@ export default function HomeScreen({navigation, route}) {
                     <TouchableOpacity
                         onPress={toggleView}
                     >
-                        <List width={STYLE.sizes.screenWidth * 0.1} height={STYLE.sizes.screenWidth * 0.09} stroke={STYLE.color.font}/>
+                        {
+                            toggle ?
+                            <List width={STYLE.sizes.screenWidth * 0.1} height={STYLE.sizes.screenWidth * 0.09} stroke={STYLE.color.font}/>
+                            :
+                            <Map width={STYLE.sizes.screenWidth * 0.1} height={STYLE.sizes.screenWidth * 0.09} stroke={STYLE.color.font}/>
+
+                        }
+                        
                     </TouchableOpacity>
 
                     <TouchableNativeFeedback
@@ -236,15 +275,18 @@ export default function HomeScreen({navigation, route}) {
                         </View>
                         
                     ): (
-                        <StoopMap data={contentFeed} onSearchTriggered={dataLoad}/>
+                        <StoopMap data={contentFeed} onSearchTriggered={(loc, zoom)=>dataLoad(true, false, loc, zoom)}/>
                     )
                 }
+                <TouchableOpacity onPress={()=>{nav.navigate('ConfirmUpload')}}>
+                    <Text> press to go to confirm upload</Text>
+                </TouchableOpacity>
             </ScrollView>
             <FilterModal 
                 onConfirm={activateFilter} 
                 isVisible={showFilter} 
                 setIsVisible={(v)=> setShowFilter(v)} 
-                initialValues={{distance: radius, postedWithin: time_posted, sortBy: sortBy}} 
+                initialValues={{distance: filter.radius, postedWithin: filter.time_posted, sortBy: sortBy}} 
             />
         </SafeAreaView>
     );

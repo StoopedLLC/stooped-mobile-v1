@@ -43,7 +43,9 @@ export default function FilterModal(props) {
             isVisible={props.isVisible}
             onBackdropPress={() => {
                 props.setIsVisible(false)
-                props.onConfirm({distance, sortBy, postedWithin})
+                setDistance(props.initialValues.distance)
+                setSortBy(props.initialValues.sortBy)
+                setPostedWithin(props.initialValues.postedWithin)
             }}
             onBackButtonPress={() => props.setIsVisible(false)}
             style={styles.modal}
@@ -56,7 +58,6 @@ export default function FilterModal(props) {
                         <Text style={[styles.headerText, {fontSize: STYLE.sizes.h3}]} adjustsFontSizeToFit >Filter and Sort</Text>
                         <TouchableOpacity onPress={()=>{
                             setDistance(props.initialValues.distance)
-                            // FIXME: reset doesn't work for the following two
                             setSortBy(props.initialValues.sortBy) 
                             setPostedWithin(props.initialValues.postedWithin)
                         }} style={styles.resetButton}>

@@ -12,7 +12,14 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
 
   const SquareFeed = (data, count, type) => {
     let squares = [];
+    let image_url = '';
     for (let index = 0; index < count; index++) {
+      if(data[index].image_links){
+        image_url = data[index].image_links[0];
+      }else{
+        image_url = 'https://cdn.shopify.com/s/files/1/0522/6912/1736/products/wyc8ptqiqkjjvj9wjsom.jpg?v=1614635808';
+      }
+
       squares.push(
         <TouchableOpacity key={index} onPress={()=>{onItemPressed(type, data[index])}}>
           <View
@@ -28,7 +35,7 @@ const BottomTabView = ({posts, claimed, saved, onItemPressed}) => {
               marginHorizontal: STYLE.sizes.screenWidth * 0.0015,  
             }}>
               <Image
-                source={{uri: 'https://cdn.shopify.com/s/files/1/0522/6912/1736/products/wyc8ptqiqkjjvj9wjsom.jpg?v=1614635808'}}
+                source={{uri: image_url}}
                 style={{
                   width: '100%',
                   height: '100%',

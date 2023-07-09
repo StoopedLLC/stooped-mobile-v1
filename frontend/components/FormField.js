@@ -11,6 +11,8 @@
         - password: boolean value indicating whether the text input field should be a password field
         - passwordRules: string containing the password rules to be displayed below the text input field
         - containerStyle: style for the container of the text input field
+        - defaultValue: default value of the text input field
+        - placeholder: placeholder text for the text input field
 */
 
 import React from "react";
@@ -19,7 +21,7 @@ import STYLE from '@styles/Styles';
 
 export default function FormField(props){
     
-    const [text, setText] = React.useState('');
+    const [text, setText] = React.useState(props.defaultValue ? props.defaultValue :'');
 
     const handleTextChange = (text) => {
         setText(text);
@@ -45,13 +47,15 @@ export default function FormField(props){
 
 const styles = StyleSheet.create({
     label: {
-        fontSize: 16,
+        fontSize: 14,
         color: STYLE.color.font,
         fontFamily: STYLE.font.poppins,
-        marginBottom: 5,
+        // marginBottom: 5,
+        marginLeft: 3
+
     },
     input: {
-        height: 40,
+        height: 30,
         borderBottomWidth: 2,
         borderRadius: 5,
         paddingHorizontal: 3,

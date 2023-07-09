@@ -9,6 +9,7 @@ import FormField from "@components/FormField";
 import SwipeButton from "@components/SwipeButton";
 import {uploadItem} from "@backend/item";
 import Loading from "@components/Loading";
+import { getUserId } from "@backend/user";
 
 
 export default function PreUploadScreen ({route, navigation}) {
@@ -96,8 +97,13 @@ export default function PreUploadScreen ({route, navigation}) {
                     innerButtonColor={'white'} 
                     message={"SWIPE TO UPLOAD!"}
                     onSwipeComplete={async () => {
+                        if(!itemName){
+                            alert('Please enter an item name');
+                            return;
+                        }
                         setLoading(true);
-                        const item = await uploadItem('35325253-c96c-41b9-9384-3c129a69833f', itemName, location, image); //FIXME: change user id
+                        const userId = getUserId();
+                        const item = await uploadItem(userId, itemName, location, image);
                         if(item) {
                             navigation.navigate('ConfirmUpload');
                         }else{

@@ -17,8 +17,10 @@ const ConfirmUploadScreen = () => {
     const scale = useRef(new Animated.Value(0)).current;
 
     const handleShare = () => {
-        // Code to prompt user for sharing on social media
-        // Add your implementation here
+        // Code to prompt user for sharing on stooped social media
+        // TODO: Add your implementation here
+
+        // navigation.dispatch(CommonActions.navigate('Camera')); 
     };
 
     const handleGoHome = () => {
@@ -32,9 +34,23 @@ const ConfirmUploadScreen = () => {
                 <View style={styles.checkmark}>
                     <Feather name="check-circle" size={100} color={'green'}/>
                 </View>
-                <Text style={styles.title}>Upload Complete</Text>
-                <Text style={styles.subTitle}>Your item was uploaded successfully!</Text>
-                <GenericButton style={{width: STYLE.sizes.screenWidth * 0.5}} label={'back to home'} onPress={handleGoHome}/>
+                <View style={{marginHorizontal: STYLE.sizes.screenWidth * 0.1 }}>
+                    <Text style={styles.title}>Upload Complete</Text>
+                    <Text style={styles.subTitle}>Your item was uploaded successfully!</Text>
+                </View>
+                <View style={{alignItems:'center'}}>
+                    <Text style={{
+                        fontFamily: STYLE.font.dmsans, fontSize: STYLE.sizes.screenHeight * 0.02,
+                        marginHorizontal: STYLE.sizes.screenWidth * 0.1, color: STYLE.colors.font,
+                        marginVertical: STYLE.sizes.screenHeight * 0.02,
+                    }}>{`Help people to know more about your stoop by adding a caption`} </Text>
+                    <View style={{marginTop: STYLE.sizes.screenHeight * 0.01, alignItems:'center'}}>
+
+                        <GenericButton labelStyle={styles.buttonText} style={{width: STYLE.sizes.screenWidth * 0.5, backgroundColor: STYLE.colors.accent.blue}} label={'Add a Caption'} onPress={handleShare}/>
+                        <Text style={{marginVertical: STYLE.sizes.screenHeight * 0.01, color: STYLE.colors.font}}> OR </Text>
+                        <GenericButton labelStyle={styles.buttonText} style={{width: STYLE.sizes.screenWidth * 0.5}} label={'back to home'} onPress={handleGoHome}/>
+                    </View>
+                </View>
             </View>
         </View>
     );
@@ -48,6 +64,7 @@ const styles = {
     },
     content: {
         alignItems: 'center',
+        width: STYLE.sizes.screenWidth * 0.9,
     },
     title: {
         fontSize: 24,
@@ -57,7 +74,7 @@ const styles = {
     },
     subTitle: {
         fontSize: 18,
-        marginBottom: 20,
+        marginBottom: 15,
         fontFamily: STYLE.font.poppins,
         color: STYLE.colors.font,
     },
@@ -69,6 +86,9 @@ const styles = {
     button: {
         marginTop: 10,
     },
+    buttonText: {
+        fontSize: STYLE.sizes.screenHeight * 0.018,
+    }
 };
 
 export default ConfirmUploadScreen;

@@ -12,7 +12,7 @@ import { formatIsoDate, getNumDays, getNumHours } from "@backend/util";
 
 
 export default function DetailScreen({navigation, route}) {
-    const {id, name, location, address, posted_date, saved_count,distance, image} = route.params.item;
+    const {id, name, location, address, posted_date, saved_count,distance, image, image_links} = route.params.item;
 
     // const [distance, getDistance] = useEffect('0');
 
@@ -68,7 +68,7 @@ export default function DetailScreen({navigation, route}) {
         <SafeAreaView style={styles.container}>
             <ScrollView style={{height: STYLE.sizes.screenHeight, flex: 1}}>
                 <View style={{height: STYLE.sizes.screenHeight * .35 }}>
-                    <ImageBackground style={styles.image}  resizeMode='stretch' source={{uri: image}}>
+                    <ImageBackground style={styles.image}  resizeMode='stretch' source={{uri: (image_links && image_links[0])||image}}>
 
                         <View style={{display: "flex", flexDirection: "row"}}>
 
@@ -175,7 +175,7 @@ export default function DetailScreen({navigation, route}) {
                     message={"SWIPE TO PICK UP"} 
                     exteriorButtonColor={"#ECBC8C"} 
                     innerButtonColor={"white"} 
-                    onSwipeComplete={() => navigation.navigate('Pickup', {item: route.params.item})}
+                    onSwipeComplete={() => navigation.navigate('Pickup', {item: route.params.item, triggerNotification: true})}
                 />
             </View>
         </SafeAreaView>

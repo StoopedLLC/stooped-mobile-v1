@@ -9,6 +9,7 @@ import { completeSignUp } from '@backend/auth';
 export default function ConfirmEmailScreen({navigation, route}){
 
     const nav = useNavigation();
+    const option = route.params.option;
 
     const [code, setCode] = useState('');
 
@@ -16,17 +17,20 @@ export default function ConfirmEmailScreen({navigation, route}){
         const _completeSignUp = async () => {
             if(code.length === 7){
                 // check if code is correct
-
-                const status = await completeSignUp(code, route.params.data);
-
-
-                // if correct, navigate to welcome screen
-                if(status===201){
-                    nav.navigate('SignupSuccess', {data: route.params.data}); 
+                if(route.params.option && route.params.option==='resetPassword'){
+                    // TODO: reset password
                 }else{
-                    // if incorrect, show error message
-                    if(status===400){
-                        alert("Incorrect code! Please try again.");
+                    const status = await completeSignUp(code, route.params.data);
+    
+    
+                    // if correct, navigate to welcome screen
+                    if(status===201){
+                        nav.navigate('SignupSuccess', {data: route.params.data}); 
+                    }else{
+                        // if incorrect, show error message
+                        if(status===400){
+                            alert("Incorrect code! Please try again.");
+                        }
                     }
                 }
             }

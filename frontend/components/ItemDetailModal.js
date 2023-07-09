@@ -17,9 +17,11 @@ import GenericButton from './GenericButton';
 import { formatIsoDate } from '@backend/util';
 import { useNavigation } from '@react-navigation/native';
 import { getDistanceInMiles, getCurrentLocation } from '@backend/location';
+import { getItem } from '@backend/item';
 
 export default function ItemDetailModal({isVisible, setIsVisible, item}) {
     const nav = useNavigation();
+
 
     return (
         <Modal
@@ -35,7 +37,7 @@ export default function ItemDetailModal({isVisible, setIsVisible, item}) {
             <View style={styles.modalContentContainer}>
                 <View style={{flex: 1, justifyContent:'center'}}>
                     <Image 
-                        source={{uri: 'https://cdn.shopify.com/s/files/1/0522/6912/1736/products/wyc8ptqiqkjjvj9wjsom.jpg?v=1614635808'}} 
+                        source={{uri: item.image_links[0]}} 
                         style={{
                             width: STYLE.sizes.screenWidth * 0.5, 
                             height: STYLE.sizes.screenWidth * 0.5,
@@ -47,17 +49,21 @@ export default function ItemDetailModal({isVisible, setIsVisible, item}) {
                             }}/>
                     <View style={{paddingTop: STYLE.sizes.screenHeight * 0.01, alignSelf:'center'}}>
                         <Text style={styles.text}>{item && (item.name || 'undefined')}</Text>
-                        <Text style={[styles.text,{fontSize: 16, fontFamily: STYLE.font.poppins}]}>{formatIsoDate(item.picked_up_date)}</Text>
+                        <Text style={[styles.text,{fontSize: 16, fontFamily: STYLE.font.poppins}]}>
+                            {item.type==='claimed'?`Picked up: ${formatIsoDate(item.picked_up_date)}`:`Posted: ${formatIsoDate(item.posted_date)}`}
+                        </Text>
                     </View>
                     {
                         item.type ==='saved' &&
                         <GenericButton
                             label='Go to detatil'
                             onPress={async () => {
-                                console.log(item)
+                                // console.log(item)
+                                const itemLoaded = await getItem(item.id);
                                 const currLocation = await getCurrentLocation();
-                                item.distance = getDistanceInMiles(currLocation, item.location );
-                                nav.navigate('Detail', {item: item, isSaved: true}) // FIXME: we need a /item endpoint with all data, particuarly address
+                                itemLoaded.distance = getDistanceInMiles(currLocation, itemLoaded.location );
+                                itemLoaded.image_links = item.image_links;
+                                nav.navigate('Detail', {item: itemLoaded, isSaved: true}) // FIXME: we need a /item endpoint with all data, particuarly address
                                 setIsVisible(false)
                             }}
                             style={{marginTop: STYLE.sizes.screenHeight * 0.01}}

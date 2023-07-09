@@ -13,6 +13,7 @@ import FormField from "@components/FormField";
 import SwipeButton from "@components/SwipeButton";
 import {uploadItem} from "@backend/item";
 import Loading from "@components/Loading";
+import { getUserId } from "@backend/user";
 
 
 
@@ -263,7 +264,9 @@ const ConfirmUpload = (props) => {
             <View
                 style={styles.modalContainer}
             >
-                <Loading />
+                {
+                    loading && <Loading />
+                }
                 <View style={{
                     paddingBottom: STYLE.sizes.screenHeight * 0.01,
                 }}>
@@ -275,7 +278,7 @@ const ConfirmUpload = (props) => {
                     containerStyle={mapContainerStyle}
                 />
                 <Text adjustsFontSizeToFit style={styles.description}>Press and hold on the map to pick a location</Text>
-                <View style={{flex: 0.5}}>
+                <View style={{flex: 0.4}}>
                     <FormField onTextChange={setItemName} placeholder="Item Name" />
                 </View>
                 <View style={{
@@ -286,10 +289,15 @@ const ConfirmUpload = (props) => {
                         innerButtonColor={'white'} 
                         message={"SWIPE TO UPLOAD!"}
                         onSwipeComplete={async () => {
+                            if(!itemName){
+                                alert('Please enter an item name');
+                                return;
+                            }
                             setLoading(true);
-                            const item = await uploadItem('35325253-c96c-41b9-9384-3c129a69833f', itemName, location, props.image);
+                            const userId = await getUserId();
+                            const item = await uploadItem(userId, itemName, location, props.image);
                             if(item){
-                                nav.navigate('Home', {image: props.image, location: location, itemName: itemName});
+                                nav.navigate('ConfirmUpload', {item: item});
                             }
                             setLoading(false);
                             props.onClose();
@@ -356,7 +364,7 @@ const styles = StyleSheet.create({
         color: STYLE.color.font
     },
     description:{
-        fontSize: STYLE.sizes.p,
+        fontSize: 16,
         fontFamily: STYLE.font.dmsans,
         color: STYLE.color.font,
         alignSelf: 'center',

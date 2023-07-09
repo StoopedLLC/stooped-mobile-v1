@@ -16,8 +16,8 @@ export const sendEmail = async (name, email, id) => {
         const response = await client.post(
             '',
             {
-                service_id: SERVICE_ID,
-                template_id: TEMPLATE_ID,
+                service_id: 'service_b907f5g',
+                template_id: 'template_t09q3hr',
                 user_id: PUBLIC_KEY,
                 template_params: {
                     to_name: name, 
@@ -29,6 +29,7 @@ export const sendEmail = async (name, email, id) => {
         console.log(response.data)
         return true
     }catch(error){
+        console.log('email failed with following error')
         console.log(error.response.data)
         return false
     }

@@ -5,7 +5,7 @@ import GenericButton from '@components/GenericButton';
 import IconFormField from '@components/IconFormField';
 import STYLE from '@styles/Styles';
 import { Feather, MaterialCommunityIcons, FontAwesome5, MaterialIcons } from '@expo/vector-icons';
-import { sendVerificationEmail } from '@backend/auth';  
+import { sendVerificationEmail } from '@backend/auth'; 
 
 
 export default function RegisterScreen({navigation, route}){
@@ -49,10 +49,11 @@ export default function RegisterScreen({navigation, route}){
 
         // send verification email
         const status = await sendVerificationEmail(email, name);
+        console.log('status', status)
         if(status !== 'success'){
             alert('Sign up failed: '+ status);
             setBtnDisabled(false);
-            // return;
+            return;
         }
 
 

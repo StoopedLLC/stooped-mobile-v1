@@ -19,10 +19,21 @@ const client = axios.create({
     baseURL: "http://django-api-env.eba-fys6emgc.us-east-1.elasticbeanstalk.com/api/",
     headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${"f4bd0b0c7d6c965789fdf147c75ee0ad926f1e40"}`
-    }
+        'Accept': '*/*',
+        'Authorization': `Bearer f4bd0b0c7d6c965789fdf147c75ee0ad926f1e40`
+    },
+    withCredentials: true,
 });
+
+
+client.interceptors.response.use(response => {
+    console.log(response.config.method, response.config.url, response.status)
+    return response
+}, error => {
+    console.log(error.response.config.method, error.response.config.url, error.response.status)
+    return Promise.reject(error)
+})
+
 
 
 
@@ -54,6 +65,8 @@ const DjangoApiClient = {
         return client.delete(url);
     }
 }
+
+
 
 export default DjangoApiClient;
 // module.exports = DjangoApiClient;

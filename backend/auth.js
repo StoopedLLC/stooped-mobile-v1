@@ -102,12 +102,15 @@ const sendVerificationEmail = async (email, name) => {
     */
 
     const url = '/verification/'
+    console.log('sending verification email')
     try{
         const res = await DjangoApiClient.post(url, {
             email
         })
-        const code = res.data.code
-        if(sendEmail(email, name, code)){
+        const codeReceived = res.data.code
+        // console.log('code', codeReceived)
+        const emailSent = await sendEmail(name, email, codeReceived)
+        if(emailSent){
             return 'success'
         }else{
             return 'fail to send email'
@@ -121,10 +124,40 @@ const sendVerificationEmail = async (email, name) => {
     }
 }
 
+const resetPassword = async (username, newPassword) => {
+    /*
+    this method allows user to reset a password
+
+    @params:
+        username: username of the user
+        newPassword: the new password that the user wants to set
+
+    @returns:
+        whether the password is reset successfully or not
+    */
+
+    try{
+        const url = '/reset-password/'
+        const res = await DjangoApiClient.post(url, {
+            username,
+            password: newPassword
+        })
+        if(res.status===200){
+            return true
+        }else{
+            return false
+        }
+    }catch(err){
+        return false
+    }
+}
+
+
 
 
 export {
     authenticateUser,
     completeSignUp,
     sendVerificationEmail,
+    resetPassword
 }

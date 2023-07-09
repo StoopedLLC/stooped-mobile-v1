@@ -61,12 +61,12 @@ const removeFromSavedItem = async (user, item) => {
         }
         return false;
     }catch(error){
-        console.log(error);
         return false;
     }
 }
 
 const getSavedItems = async (userId) => {
+    // FIXME: Upstream COMPLETED broken, no linkage is working
     /*
         This function gets the user's saved items.
         
@@ -89,8 +89,6 @@ const getSavedItems = async (userId) => {
         return [];
     }
 }
-
-
 
 
 const getFeed = async (user, location, filter) => {
@@ -122,11 +120,11 @@ const getFeed = async (user, location, filter) => {
             ...filter
         });
         if(res.status === 200){
-            return res.data.results; //FIXME: enable google billing
+            return res.data.results;
         }
         
     }catch(error){
-        console.log(error);
+        console.log(error.response.data);
         return false;
     }
 }
@@ -248,13 +246,41 @@ const reportMissingItem = async (itemId) => {
 
     */
     try{
-        const url = `/is-missing`;
+        const url = `/is-missing/`;
         const data = {
             item_id: itemId
         }
         const res = await DjangoApiClient.patch(url, data);
         if(res.status === 201 || res.status === 200){
             return true;
+        }
+        return false;
+    }catch(error){
+        if(error.response){
+            console.log(error.response.data);
+        }else{
+            console.log(error);
+        }
+        return false;
+    }
+}
+
+const getItem = async (itemId) => {
+    /*
+        This function gets the item object from the backend.
+
+        @params:
+            itemId: the id of the item
+        
+        @return:
+            the item object if the operation is successful, false otherwise
+    */
+    try{
+        const url = `/items/${itemId}/`;
+        const res = await DjangoApiClient.get(url);
+        if(res.status === 200){
+            console.log(res.data)
+            return res.data; // FIXME: item endpoint should have an address field
         }
         return false;
     }catch(error){
@@ -274,5 +300,6 @@ export {
     uploadItem,
     pickupItem,
     reportMissingItem,
-    getSavedItems
+    getSavedItems,
+    getItem
 }
